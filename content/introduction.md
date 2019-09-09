@@ -8,3 +8,9 @@ Make sure to [write your document effectively](http://www.treesmapsandtheorems.c
 Write proper introduction.
 More information on snippets like this can be found on the [ScholarMarkdown wiki](https://github.com/rubensworks/ScholarMarkdown/wiki/Snippets).
 {:.todo}
+
+* Problems with centralization
+* Decentralization (like Solid) as a solution
+* Challenge: how to query over private data in a decentralization environment (problem: many sources, aggregation)
+* This article: outline of a framework to solve this
+{:.todo}

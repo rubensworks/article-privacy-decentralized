@@ -16,6 +16,7 @@ Donec quis lectus eget sem tempor tristique pellentesque in dolor.
 
 <span id="keywords" rel="schema:about"><span class="title">Keywords</span>
 <a href="https://en.wikipedia.org/wiki/Decentralization" resource="http://dbpedia.org/resource/Decentralization">Decentralization</a>;
+<a href="https://en.wikipedia.org/wiki/Privacy" resource="http://dbpedia.org/resource/Privacy">Privacy</a>;
 <a href="https://en.wikipedia.org/wiki/Querying" resource="http://dbpedia.org/resource/Querying">Querying</a>;
 <a href="https://en.wikipedia.org/wiki/Linked_Data" resource="http://dbpedia.org/resource/Linked_Data">Linked Data</a>;
 <a href="https://en.wikipedia.org/wiki/Resource_Description_Framework" resource="http://dbpedia.org/resource/Resource_Description_Framework">RDF</a>
