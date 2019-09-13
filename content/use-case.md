@@ -34,9 +34,12 @@ Carol considers Alice an acquaintance (*R1<sub>C</sub>*, *R2<sub>C</sub>*).
 <figure id="figure-use-case">
 <img src="img/use-case.svg" alt="[Personal Address Book]">
 <figcaption markdown="block">
-Overview of the personalized address book use case where Alice, Bob and Carol have a data pod.
+Overview of the personalized address book use case where Alice, Bob and Carol have a data pod,
+and Alice and Dave aim to read certain data.
 Alice has an address book that contains links to the profiles of Bob and Carol.
-All triples in each profile is annotated with a group of users that can read that triple.
+All triples in each profile is annotated with a role for users that can read that triple.
+Full lines indicate data reading by people,
+and dashed lines indicate data links.
 </figcaption>
 </figure>
 
