@@ -29,6 +29,11 @@ as the LDN specification defines how messages can be sent between two agents as 
 Make a simple overview figure of the specs in Solid and how they work together?
 {:.todo}
 
+For this work, we assume a decentralized environment as provided by Solid and its used standards
+to illustrate our use case.
+Furthermore, we will introduce extensions of the used standards to improve query execution
+over multiple Solid data pods in a privacy-preserving manner.
+
 ### Querying a Decentralized Web
 
 The standard way for querying RDF on the Web is through [SPARQL endpoints](cite:cites spec:sparqlprot).
@@ -52,3 +57,6 @@ and maintain _[data summaries](cite:cites summaries)_.
 Query engines could then make use of such summaries as an index structure to identify
 which sources are relevant for specific queries,
 which reduces the range of sources that the engines need to request.
+
+In the context of this work, we will tackle the federation over many Solid data pods.
+We extend the data summary approach by introducing a privacy-preserving aggregation approach.
