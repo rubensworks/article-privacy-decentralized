@@ -11,25 +11,25 @@ so that everyone is able to see everyone she knows,
 without necessarily having access the everyone's private contact details.
 We also consider Dave as a fourth person that has no relationship with anyone else.
 
-For the sake of simplicity, we consider three privacy level groups per pod,
-where the members of each group can be configured for each pod:
+For the sake of simplicity, we consider three authorization roles per pod,
+where the members of each role can be configured for each pod:
 
-* *G1*: Everyone (without authentication)
-* *G2*: Acquaintances (inherits from *G1*)
-* *G3*: Friends (inherits from *G2*)
+* *R1*: Everyone (without authentication)
+* *R2*: Acquaintances (inherits from *R1*)
+* *R3*: Friends (inherits from *R2*)
 
 [](#figure-use-case) shows a detailed overview of this use case.
 Alice uses the `/contacts` file in her pod to list everyone that she knows using their WebID,
 which point to the profiles of the respective people.
 The profiles of Bob and Carol both contain their name, email and telephone number,
 which are readable for select people.
-Bob is quite liberal, and allows everyone (*G1<sub>B</sub>*) to read both his name and email.
-His telephone number is however only readable for friends (*G3<sub>B</sub>*).
-Bob considers Alice a friend (*G1<sub>B</sub>*, *G2<sub>B</sub>*, *G3<sub>B</sub>*).
-Carol only allows her name to be read by the public (*G1<sub>C</sub>*),
-her email is only readable by acquaintances (*G2<sub>C</sub>*),
-and her telephone number by friends (*G3<sub>C</sub>*).
-Carol considers Alice an acquaintance (*G1<sub>C</sub>*, *G2<sub>C</sub>*).
+Bob is quite liberal, and allows everyone (*R1<sub>B</sub>*) to read both his name and email.
+His telephone number is however only readable for friends (*R3<sub>B</sub>*).
+Bob considers Alice a friend (*R1<sub>B</sub>*, *R2<sub>B</sub>*, *R3<sub>B</sub>*).
+Carol only allows her name to be read by the public (*R1<sub>C</sub>*),
+her email is only readable by acquaintances (*R2<sub>C</sub>*),
+and her telephone number by friends (*R3<sub>C</sub>*).
+Carol considers Alice an acquaintance (*R1<sub>C</sub>*, *R2<sub>C</sub>*).
 
 <figure id="figure-use-case">
 <img src="img/use-case.svg" alt="[Personal Address Book]">
@@ -45,20 +45,20 @@ For this use case, we consider the following example queries:
 1. **Alice wants to send an email to everyone she knows.**
     <br />
     Alice is able to read the email of both Bob and Carol.
-    Because Bob's email is readable for everyone (*Alice ∈ G1<sub>B</sub>*),
-    and Carol's email is readable for acquaintances (*Alice ∈ G2<sub>C</sub>*).
+    Because Bob's email is readable for everyone (*Alice ∈ R1<sub>B</sub>*),
+    and Carol's email is readable for acquaintances (*Alice ∈ R2<sub>C</sub>*).
 2. **Alice wants to call everyone she knows.**
     <br />
     Alice is able to read the telephone number of Bob, but not Carol.
-    Because Bob's telephone number is readable for friends (*Alice ∈ G3<sub>B</sub>*),
-    but Carol's telephone number is only readable for her friends (*Alice ∉ G2<sub>C</sub>*).
+    Because Bob's telephone number is readable for friends (*Alice ∈ R3<sub>B</sub>*),
+    but Carol's telephone number is only readable for her friends (*Alice ∉ R2<sub>C</sub>*).
 3. **Dave wants to send an email to everyone Alice knows.**
     <br />
     Dave is able to read the email of Bob, but not Carol.
-    Because Bob's email is readable for everyone (*Dave ∈ G1<sub>B</sub>*),
-    and Carol's email is only readable for acquaintances (*Dave ∉ G2<sub>C</sub>*).
+    Because Bob's email is readable for everyone (*Dave ∈ R1<sub>B</sub>*),
+    and Carol's email is only readable for acquaintances (*Dave ∉ R2<sub>C</sub>*).
 4. **Dave wants to call everyone Alice knows.**
     <br />
     Dave is not able to read the telephone number of Bob or Carol.
-    Because Bob's telephone number is readable for friends (*Dave ∉ G3<sub>B</sub>*),
-    but Carol's telephone number is only readable for her friends (*Dave ∉ G2<sub>C</sub>*).
+    Because Bob's telephone number is readable for friends (*Dave ∉ R3<sub>B</sub>*),
+    but Carol's telephone number is only readable for her friends (*Dave ∉ R2<sub>C</sub>*).
