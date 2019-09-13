@@ -1,7 +1,7 @@
 ## Related Work
 {:#related-work}
 
-Linked Data, (federated) querying, Solid (WebID/WAC) extensions
+LDN (for pod communication), shapes (SHACL/ShEx) and [using shapes for Web APIs](cite:cites hypermedia_shapes), Solid (WebID/WAC) extensions, AMF
 {:.todo}
 
 ### Solid
@@ -25,3 +25,27 @@ With WAC, people can be _authorized_ using their WebID to read, write, append, o
 
 Make a simple overview figure of the specs in Solid and how they work together?
 {:.todo}
+
+### Querying a Decentralized Web
+
+The standard way for querying RDF on the Web is through [SPARQL endpoints](cite:cites spec:sparqlprot).
+Due to the unbounded complexity of [SPARQL queries](cite:cites spec:sparqllang),
+and the unlimited number of clients that can send queries,
+[SPARQL endpoints are costly to host publicly on the Web](cite:cites sparql_costly).
+For this reason, there is increasing interest in
+[investigating alternative Web APIs for accessing interfaces, and measuring trade-offs between server and client effort for query evaluation](cite:cites ldf,comunica).
+
+In a truly decentralized Web, data is spread over multiple sources,
+which means that there is no single SPARQL endpoint through which all data can be retrieved.
+For this, _[federated query processing](cite:cites sparqlfederation)_ is an active area of research
+in which techniques are investigated to intelligently delegate the execution of parts of SPARQL queries to specific sources.
+Current federation engines support around the order of 10 sources,
+which is insufficient for environments that will be produced by decentralization efforts such as Solid.
+As Solid gives everyone their own data pod, federated queries over 100 to 1000 sources will become possible,
+for example when decentralized social networking applications are being built.
+To make such federations scale better, aggregation techniques could be used,
+where one or more independent _aggregators_ would continously _crawl_ sources,
+and maintain _[data summaries](cite:cites summaries)_.
+Query engines could then make use of such summaries as an index structure to identify
+which sources are relevant for specific queries,
+which reduces the range of sources that the engines need to request.

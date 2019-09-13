@@ -1,6 +1,10 @@
 ## Framework
 {:#framework}
 
+* Explain high-level
+* Emphasize that engine is client-side, including federation, but aggregators can be separate.
+{:.todo}
+
 ### Access Control Policies
 
 * Data owners are responsible for enforcing access control (as opposed to other approaches where federation engine takes care of that). We assume that access control is already taken care of at the (client-side) federation engine.

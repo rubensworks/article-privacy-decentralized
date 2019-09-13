@@ -13,4 +13,5 @@ More information on snippets like this can be found on the [ScholarMarkdown wiki
 * Decentralization (like Solid) as a solution
 * Challenge: how to query over private data in a decentralization environment (problem: many sources, aggregation)
 * This article: outline of a framework to solve this
+* Something about [governments doing stuff with Solid to empower citizens](cite:cites solid_gov)
 {:.todo}
