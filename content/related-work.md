@@ -1,7 +1,7 @@
 ## Related Work
 {:#related-work}
 
-shapes (SHACL/ShEx) and [using shapes for Web APIs](cite:cites hypermedia_shapes), Solid (WebID/WAC) extensions, AMF
+shapes (SHACL/ShEx) and [using shapes for Web APIs](cite:cites hypermedia_shapes), Solid (WebID/WAC) extensions
 {:.todo}
 
 ### Solid
@@ -60,3 +60,35 @@ which reduces the range of sources that the engines need to request.
 
 In the context of this work, we will tackle the federation over many Solid data pods.
 We extend the data summary approach by introducing a privacy-preserving aggregation approach.
+
+### Approximate Membership Functions
+
+Approximate Membership Functions (AMFs) are probabilistic data structures
+that are used to efficiently determine whether or not elements are part of a collection.
+Due to AMFs being probabilistic, they may produce false positives, but they always produce true negatives.
+Since AMFs are typically much smaller than a full dataset,
+they are a valuable method for pre-filtering when querying.
+
+Different AMF techniques exist, such as [_Bloom filters_](cite:cites bloomfilter) and [_Golomb-coded sets_ (GCS)](cite:cites gcsfilter).
+A Bloom filter is a bitmap, and a predetermined set of hash functions.
+To construct a Bloom filter, each element is run through these hash functions to produce a bit vector,
+and all of these vectors are `OR`-ed into the bitmap.
+To test the membership of an element, the same hash functions are applied, and their binary membership is tested.
+Since Bloom filters are bitmaps, multiple Bloom filters can be merged together efficiently by `OR`-ing them.
+GCS are an improvement to Bloom filters where only a single hash function is used,
+and the range is a uniformly distributed list instead of a bitmap to enable more efficient compression.
+Compared to Bloom filters, GCS achieve better compression rates, but are slower to decompress.
+
+Is a figure needed to illustrate how Bloom filters work?
+{:.todo}
+
+AMFs have been used in various parts related to RDF querying,
+such as [reducing the number of expensive I/O operations](cite:cites bloomIO) during triple pattern query evaluation,
+[improving the performance of join operations](cite:cites bloomjoinslarge),
+and [reducing the number of HTTP requests for Triple Pattern Fragments](cite:cites tpf_amf).
+In the context of federated querying, the [SPARQL ASK response has been enhanced with Bloom filters to share a summary of the matching results](cite:cites bloomsparqlask), which allows overlaps between different sources to be identified.
+
+In this work, we use Bloom filters to encode encrypted triple components that are available within each source,
+and we let aggregators combine them, similar to the [SPARQL ASK approach](cite:cites bloomsparqlask).
+Just like with the [Triple Pattern Fragments approach](cite:cites tpf_amf),
+clients can then use these Bloom filters to reduce the number of sources they need to fetch.
