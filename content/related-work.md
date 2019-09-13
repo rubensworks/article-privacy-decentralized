@@ -1,7 +1,7 @@
 ## Related Work
 {:#related-work}
 
-shapes (SHACL/ShEx) and [using shapes for Web APIs](cite:cites hypermedia_shapes), Solid (WebID/WAC) extensions
+Introduce this section
 {:.todo}
 
 ### Solid
@@ -29,10 +29,22 @@ as the LDN specification defines how messages can be sent between two agents as 
 Make a simple overview figure of the specs in Solid and how they work together?
 {:.todo}
 
+Solid currently uses [Web Access Control (WAC)](cite:cites spec:wac),
+which provides access control over _documents_.
+For some use cases, where documents are large, and access is only granted to specific parts of the document,
+WAC does not offer a sufficient granularity.
+For this, [vocabulary extensions of WAC were introduced](cite:cites wac_ppo,wac_ext),
+where more fine-grained access can be granted to specific RDF resources or named graphs.
+
 For this work, we assume a decentralized environment as provided by Solid and its used standards
 to illustrate our use case.
 Furthermore, we will introduce extensions of the used standards to improve query execution
 over multiple Solid data pods in a privacy-preserving manner.
+
+### Shapes
+
+shapes (SHACL/ShEx) and [using shapes for Web APIs](cite:cites hypermedia_shapes)
+{:.todo}
 
 ### Querying a Decentralized Web
 
