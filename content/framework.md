@@ -3,6 +3,7 @@
 
 * Explain high-level
 * Emphasize that engine is client-side, including federation, but aggregators can be separate.
+* For protocol: LDN can be used
 {:.todo}
 
 ### Access Control Policies

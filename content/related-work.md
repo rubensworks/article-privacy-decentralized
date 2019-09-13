@@ -1,7 +1,7 @@
 ## Related Work
 {:#related-work}
 
-LDN (for pod communication), shapes (SHACL/ShEx) and [using shapes for Web APIs](cite:cites hypermedia_shapes), Solid (WebID/WAC) extensions, AMF
+shapes (SHACL/ShEx) and [using shapes for Web APIs](cite:cites hypermedia_shapes), Solid (WebID/WAC) extensions, AMF
 {:.todo}
 
 ### Solid
@@ -14,7 +14,8 @@ With this, Solid enables true data ownership for users.
 
 Solid is not an application or tool, but rather a collection of open standards and conventions.
 Concretely, Solid builds upon existing Web standards, including the [Linked Data stack](cite:cites linkeddata),
-[Linked Data Platform (LDP)](cite:cites spec:ldp), [WebID](cite:cites spec:webid), and [Web Access Control (WAC)](cite:cites spec:wac).
+[Linked Data Platform (LDP)](cite:cites spec:ldp), [WebID](cite:cites spec:webid), [Web Access Control (WAC)](cite:cites spec:wac),
+and [Linked Data Notifications (LDN)](cite:cites spec:ldn).
 Linked Data (and [RDF](cite:cites spec:rdf)) is used to give data a universal meaning through URIs,
 and to allow data to be linked across multiple data pods.
 Solid data pods are assumed to implement the LDP specification to allow read-write RDF through a RESTful Web API.
@@ -22,6 +23,8 @@ Solid also allows non-RDF data, such as plain text or images, to be stored in da
 but these can only be managed through the usual HTTP methods such as GET and PUT.
 Using WebID, everyone has a personal online identifier using which they can _authenticate_ at any data pod.
 With WAC, people can be _authorized_ using their WebID to read, write, append, or control data in files.
+Finally, LDN is used to enable pods to communicate with each other,
+as the LDN specification defines how messages can be sent between two agents as Linked Data.
 
 Make a simple overview figure of the specs in Solid and how they work together?
 {:.todo}
