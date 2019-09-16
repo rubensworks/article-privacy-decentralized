@@ -70,6 +70,13 @@ Query engines could then make use of such summaries as an index structure to ide
 which sources are relevant for specific queries,
 which reduces the range of sources that the engines need to request.
 
+While index-based query execution such as querying over SPARQL endpoints is an active research domain,
+alternative querying methods exist, such as _[link traversal-based query execution (LTBQE)](cite:cites linktraversal)_.
+LTBQE is based on the follow-your-nose principle, as it exploits the linked nature of Linked Data,
+by incorporating crawling into the query execution process.
+Due to the scale and the open nature of the Web, LTBQE can lead to infinitely long query execution
+and does not guarantee result completeness.
+
 In the context of this work, we will tackle the federation over many Solid data pods.
 We extend the data summary approach by introducing a privacy-preserving aggregation approach.
 
