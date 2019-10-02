@@ -43,6 +43,40 @@ Third, the query engine needs to *federate* over the traversed sources to evalua
 
 ### Privacy-Preserving Federated Querying
 
+In this section, we introduce a general decentralized architecture federated querying over privacy-constrained data,
+for which an overview can be seen in [](#figure-privacy-federation-architecture).
+We first introduce a high-level overview of the architecture,
+after which we introduce the technical requirements for such an architecture,
+and a client-side algorithm to query over such an an architecture.
+
+#### Architecture Overview
+
+Just like our use case from [](#use-case), we assume that multiple data pods exist,
+which each can contain multiple privacy-constrained files.
+If clients want to read the contents of these files,
+they have to authenticate themselves to the data pod server,
+after which they may be authorized to read the full contents or parts of it.
+
+Since realistic decentralized environments could easily contain hundreds or thousands of files,
+it is unfeasible for the client to query over them directly.
+For this reason, our architecture assumes that data pods expose _[data summaries](cite:cites summaries)_ for each separate file.
+Since files may contain private data, these data summaries must be *privacy-preserving*,
+i.e., they must not allow the presence of contents to be leaked without the proper authentication.
+
+Using the summaries of these files, third-party aggregators can create _combined summaries_.
+Since the separate summaries are privacy-preserving, the combined summaries will also be privacy-preserving,
+which means that third-party aggregators will not be able to know the actual contents of the data,
+and they should therefore not necessarily be trusted parties.
+Next to exposing the combined summary,
+and aggregator should also maintain and expose the list of sources it aggregates over.
+In our example we consider one aggregator, but in practise multiple aggregators can exist with different ranges.
+
+Finally, a client-side query engine that is aware of such an aggregator
+can make use of the combined summary to perform source selection before query execution,
+i.e., reduce the number of sources it has to request.
+For each source, it should do this by testing the summary for its query using its authentication key.
+If the test is true, then the client should consider this source as valid target it can query.
+
 <figure id="figure-privacy-federation-architecture">
 <img src="img/privacy-federation-architecture.svg" alt="[Privacy-Preserving Federated Querying Architecture]">
 <figcaption markdown="block">
@@ -53,6 +87,24 @@ together with a list of all sources it summarizes.
 Client-side query engines can use this combined summary to derive which sources are relevant for any given query.
 </figcaption>
 </figure>
+
+#### Architecture Requirements
+
+TODO
+
+Summary
+
+* (Probabilistic?) Testing for contents using authentication
+* No data leaking without authentication
+* Combining
+
+-> AMFs meet all of these requirements
+
+#### Client-side Querying Algorithm
+
+TODO
+
+
 
 * Explain aggregation use case (aggregator for family, colleagues, personal, ...)
 * Important to mention: client-side query evaluation, i.e., quad patterns are joined client-side.
