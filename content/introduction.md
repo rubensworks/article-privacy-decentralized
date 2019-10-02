@@ -29,7 +29,7 @@ In order to improve the performance of query execution,
 [data aggregators](cite:cites summaries) can be used
 as a way to reduce the range of sources to query over.
 
-Current aggregation techniques currently assume that all data is public.
+Current aggregation techniques assume that all data is public.
 However, in decentralized environments such as Solid,
 not all data is necessarily public,
 as data can be configured to only be visible to some people.
@@ -48,7 +48,7 @@ We discuss the state of the art,
 identify the open challenges to enable privacy-preserving querying,
 and we propose a high-level framework for tackling these challenges.
 Our goal is *not* to introduce a complete solution to these problems,
-instead, we our contribution is a framework in which future research can be positioned.
+instead, our contribution is a framework into which future research can be positioned.
 Concretely, our framework focuses on three aspects:
 
 Is the goal really what we (will) do?
@@ -56,7 +56,7 @@ We have to make sure that we don't try to do too much.
 Focus on either: a framework, an idea for a solution, or a concrete method.
 {:.todo}
 
-1. Enhancing *access control* for Solid through key exchange
+1. Enhancing decentralized *access control* through key exchange
 2. Protocols for key management
 3. Optimizing federated querying through privacy-preserving aggregation
 
