@@ -11,7 +11,7 @@ so that everyone is able to see everyone she knows,
 without necessarily having access the everyone's private contact details.
 We also consider Dave as a fourth person that has no relationship with anyone else.
 
-For the sake of simplicity, we consider three authorization roles per pod,
+For the sake of simplicity, we consider three hierarchical authorization roles per pod,
 where the members of each role can be configured for each pod:
 
 * *R1*: Everyone (without authentication)
@@ -37,7 +37,7 @@ Carol considers Alice an acquaintance (*R1<sub>C</sub>*, *R2<sub>C</sub>*).
 Overview of the personalized address book use case where Alice, Bob and Carol have a data pod,
 and Alice and Dave aim to read certain data.
 Alice has an address book that contains links to the profiles of Bob and Carol.
-All triples in each profile is annotated with a role for users that can read that triple.
+All triples in each profile are annotated with a role for users that can read that triple.
 Full lines indicate data reading by people,
 and dashed lines indicate data links.
 </figcaption>
