@@ -43,6 +43,17 @@ Third, the query engine needs to *federate* over the traversed sources to evalua
 
 ### Privacy-Preserving Federated Querying
 
+<figure id="figure-privacy-federation-architecture">
+<img src="img/privacy-federation-architecture.svg" alt="[Privacy-Preserving Federated Querying Architecture]">
+<figcaption markdown="block">
+Overview of a privacy-preserving federation architecture
+with six sources with access control and privacy-preserving summaries,
+and a third-party aggregator that combines these summaries in a privacy-preserving manner,
+together with a list of all sources it summarizes.
+Client-side query engines can use this combined summary to derive which sources are relevant for any given query.
+</figcaption>
+</figure>
+
 * Explain aggregation use case (aggregator for family, colleagues, personal, ...)
 * Important to mention: client-side query evaluation, i.e., quad patterns are joined client-side.
 * Important to mention: multiple aggregators can exist; aggregators are not necessarily trusted; each client could also have a personal aggregators.
