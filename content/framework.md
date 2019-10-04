@@ -15,39 +15,19 @@ Third, the query engine needs to *federate* over the traversed sources to evalua
 * For protocol: LDN can be used
 {:.todo}
 
-### Access Control Policies
-
-* Data owners are responsible for enforcing access control (as opposed to other approaches where federation engine takes care of that). We assume that access control is already taken care of at the (client-side) federation engine.
-* Build on Solid's WebID-OIDC for auth, and WAC for access control.
-* Allow shape-based/quadpattern-based (SHACL/SHEX) access modes in .acl files. (advantage of shapes is that fewer keys may be needed, which reduces the complexity of key mgmt) (motivation for keys is that Solid is going to use it for data validation: https://github.com/solid/data-interoperability-panel/blob/b2591bf2f8808972e5459db2aa4ac8d9854f5b5e/data-validation/use-cases.md)
-* Right now, we do it role-based, but it could be attribute-based as well.
-{:.todo}
-
-```
-    <#authorization1>
-        a             acl:Authorization;
-        acl:agent     <https://alice.databox.me/profile/card#me>;  # Alice's WebID
-        acl:accessTo  <https://alice.databox.me/docs/file1>;
-        acl:mode      acl:Read, 
-                      acl:Write, 
-                      acl:Control,
-                      [ a acl:FilteredRead;
-                        sh:select """CONSTRUCT WHERE { ?subject a ?object } """ ].
-```
-
-### Policy Enforcement Policies
-
-* Each user has a list of keys, keys are shared among users for same parts of data
-* Explain key management (creation and where it's stored) and revocation
-{:.todo}
-
 ### Privacy-Preserving Federated Querying
+
+{:.todo}
+Ruben
 
 In this section, we introduce a general decentralized architecture federated querying over privacy-constrained data,
 for which an overview can be seen in [](#figure-privacy-federation-architecture).
 We first introduce a high-level overview of the architecture,
 after which we introduce the technical requirements for such an architecture,
 and a client-side algorithm to query over such an an architecture.
+
+{:.todo}
+Introduce aggregators here
 
 #### Architecture Overview
 
@@ -66,7 +46,7 @@ i.e., they must not allow the presence of contents to be leaked without the prop
 Using the summaries of these files, third-party aggregators can create _combined summaries_.
 Since the separate summaries are privacy-preserving, the combined summaries will also be privacy-preserving,
 which means that third-party aggregators will not be able to know the actual contents of the data,
-and they should therefore not necessarily be trusted parties.
+and they need not necessarily be trusted parties.
 Next to exposing the combined summary,
 and aggregator should also maintain and expose the list of sources it aggregates over.
 In our example we consider one aggregator, but in practise multiple aggregators can exist with different ranges.
@@ -88,6 +68,9 @@ Client-side query engines can use this combined summary to derive which sources 
 </figcaption>
 </figure>
 
+{:.todo}
+LDN
+
 #### Architecture Requirements
 
 TODO
@@ -97,8 +80,6 @@ Summary
 * (Probabilistic?) Testing for contents using authentication
 * No data leaking without authentication
 * Combining
-
--> AMFs meet all of these requirements
 
 #### Client-side Querying Algorithm
 
@@ -123,3 +104,48 @@ TODO
         Do a federated query over valid_sources
 * Mention that multiple AMF sizes are needed to limit error rates when aggregator aggregates over different numbers of sources. We could for example standardize some AMF params for _small_, _medium_ and _large_ aggregations.
 {:.todo}
+
+#### Architecture Requirements
+
+TODO
+
+### Extension of Access Control
+
+{:.todo}
+Simon
+
+* Data owners are responsible for enforcing access control (as opposed to other approaches where federation engine takes care of that). We assume that access control is already taken care of at the (client-side) federation engine.
+* Build on Solid's WebID-OIDC for auth, and WAC for access control.
+* Allow shape-based/quadpattern-based (SHACL/SHEX) access modes in .acl files. (advantage of shapes is that fewer keys may be needed, which reduces the complexity of key mgmt) (motivation for keys is that Solid is going to use it for data validation: https://github.com/solid/data-interoperability-panel/blob/b2591bf2f8808972e5459db2aa4ac8d9854f5b5e/data-validation/use-cases.md)
+* Right now, we do it role-based, but it could be attribute-based as well.
+{:.todo}
+
+```
+    <#authorization1>
+        a             acl:Authorization;
+        acl:agent     <https://alice.databox.me/profile/card#me>;  # Alice's WebID
+        acl:accessTo  <https://alice.databox.me/docs/file1>;
+        acl:mode      acl:Read, 
+                      acl:Write, 
+                      acl:Control,
+                      [ a acl:FilteredRead;
+                        sh:select """CONSTRUCT WHERE { ?subject a ?object } """ ].
+```
+
+two options:
+* (shacl-spec): validation-based (~filter)
+* (shacl note): filter/rule-based
+
+### Extension of Identity Management
+
+{:.todo}
+Sabrina
+
+* Each user has a list of keys, keys are shared among users for same parts of data
+* Explain key management (creation and where it's stored) and revocation
+* Mention self-sovereign identity?
+{:.todo}
+
+#### Architecture Requirements
+
+TODO

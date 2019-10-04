@@ -1,6 +1,9 @@
 ## Introduction
 {:#introduction}
 
+{:.todo}
+Aggregation is privacy-preserving, not querying.
+
 The Web, as it was envisioned originally, is a free, *decentralized* platform.
 However, in recent years, this vision of a decentralized Web has become less and less emphasized,
 and the Web has been growing increasingly more *centralized*.
@@ -43,22 +46,18 @@ Furthermore, since aggregators may be untrusted third-parties,
 so that malicious aggregators are not able to read this data.
 
 In this article, we share our vision on querying in decentralized environments
-while taking into account private data.
+in privacy-preserving manner.
 We discuss the state of the art,
 identify the open challenges to enable privacy-preserving querying,
-and we propose a high-level framework for tackling these challenges.
+and we propose a high-level framework for tackling these challenges,
+including a theoretical evaluation about its feasibility.
 Our goal is *not* to introduce a complete solution to these problems,
 instead, our contribution is a framework into which future research can be positioned.
 Concretely, our framework focuses on three aspects:
 
-Is the goal really what we (will) do?
-We have to make sure that we don't try to do too much.
-Focus on either: a framework, an idea for a solution, or a concrete method.
-{:.todo}
-
-1. Enhancing decentralized *access control* through key exchange
-2. Protocols for key management
-3. Optimizing federated querying through privacy-preserving aggregation
+1. Optimizing federated querying through privacy-preserving aggregation (introduce aggregators here)
+2. Extension of access control
+3. Extension of identity management (to allow encoding of AMFs)
 
 We may want to improve these three points
 {:.todo}
