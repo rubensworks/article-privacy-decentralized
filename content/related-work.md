@@ -70,7 +70,7 @@ As Solid gives everyone their own data pod, federated queries over 100 to 1000 s
 for example when decentralized social networking applications are being built.
 To make such federations scale better, aggregation techniques could be used,
 where one or more independent _aggregators_ would continously _crawl_ sources,
-and maintain _[data summaries](cite:cites summaries)_.
+and maintain _[data summaries](cite:cites summaries,summaries_heritage)_.
 Query engines could then make use of such summaries as an index structure to identify
 which sources are relevant for specific queries,
 which reduces the range of sources that the engines need to request.

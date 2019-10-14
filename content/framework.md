@@ -26,12 +26,9 @@ We first introduce a high-level overview of the architecture,
 after which we introduce the technical requirements for such an architecture,
 and a client-side algorithm to query over such an an architecture.
 
-{:.todo}
-Introduce aggregators here
-
 #### Architecture Overview
 
-Just like our use case from [](#use-case), we assume that multiple data pods exist,
+Based on our use case from [](#use-case), we assume that multiple data pods exist,
 which each can contain multiple privacy-constrained files.
 If clients want to read the contents of these files,
 they have to authenticate themselves to the data pod server,
@@ -39,23 +36,32 @@ after which they may be authorized to read the full contents or parts of it.
 
 Since realistic decentralized environments could easily contain hundreds or thousands of files,
 it is unfeasible for the client to query over them directly.
-For this reason, our architecture assumes that data pods expose _[data summaries](cite:cites summaries)_ for each separate file.
+For this reason, we make make use of the concept of _[data summaries](cite:cites summaries)_
+to allow clients to reduce the number of sources to query over.
+For this, we assume that each data pod exposes a data summary for each separate file,
+and third-party aggregators that can aggregate these summaries.
 Since files may contain private data, these data summaries must be *privacy-preserving*,
 i.e., they must not allow the presence of contents to be leaked without the proper authentication.
+Pods can either generate these summaries lazily on demand,
+or they can be generated periodically or upon file changes.
+An overview of this architecture can be seen in [](#figure-privacy-federation-architecture).
 
 Using the summaries of these files, third-party aggregators can create _combined summaries_.
 Since the separate summaries are privacy-preserving, the combined summaries will also be privacy-preserving,
 which means that third-party aggregators will not be able to know the actual contents of the data,
 and they need not necessarily be trusted parties.
 Next to exposing the combined summary,
-and aggregator should also maintain and expose the list of sources it aggregates over.
+an aggregator should also maintain and expose the list of sources it aggregates over,
+so that clients can derive the range of sources a summary is applied over.
 In our example we consider one aggregator, but in practise multiple aggregators can exist with different ranges.
+This aggregation process will be explained in more detail in [](#framework-aggregation).
 
 Finally, a client-side query engine that is aware of such an aggregator
 can make use of the combined summary to perform source selection before query execution,
 i.e., reduce the number of sources it has to request.
 For each source, it should do this by testing the summary for its query using its authentication key.
 If the test is true, then the client should consider this source as valid target it can query.
+This client-side process will be explained in more detail in [](#framework-client).
 
 <figure id="figure-privacy-federation-architecture">
 <img src="img/privacy-federation-architecture.svg" alt="[Privacy-Preserving Federated Querying Architecture]">
@@ -68,23 +74,21 @@ Client-side query engines can use this combined summary to derive which sources 
 </figcaption>
 </figure>
 
+#### Aggregation Algorithm
+{:#framework-aggregation}
+
+{:.todo}
+Introduce aggregators here
+
 {:.todo}
 LDN
 
-#### Architecture Requirements
-
-TODO
-
-Summary
-
-* (Probabilistic?) Testing for contents using authentication
-* No data leaking without authentication
-* Combining
-
 #### Client-side Querying Algorithm
+{:#framework-client}
+
+TODO: also aggregation algo
 
 TODO
-
 
 
 * Explain aggregation use case (aggregator for family, colleagues, personal, ...)
@@ -108,6 +112,12 @@ TODO
 #### Architecture Requirements
 
 TODO
+
+Summary
+
+* (Probabilistic?) Testing for contents using authentication
+* No data leaking without authentication
+* Combining
 
 ### Extension of Access Control
 
