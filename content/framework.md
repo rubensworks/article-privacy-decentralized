@@ -77,47 +77,119 @@ Client-side query engines can use this combined summary to derive which sources 
 #### Aggregation Algorithm
 {:#framework-aggregation}
 
-{:.todo}
-Introduce aggregators here
+The main purpose of an aggregator is to enable clients to optimize federated querying
+by reducing the range of source to query over through summaries.
+Since we are considering private data, these summaries are privacy-preserving,
+which means that only people with the proper credentials must be able to determine the presence of data.
 
-{:.todo}
-LDN
+In practise, multiple aggregators can exist,
+which are not necessarily trusted,
+and each one should not necessarily aggregate over *all* sources.
+For example, an aggregator could be setup within a family to aggregate over all family events that may be hosted by several people,
+or a company-wide aggregator can be setup to keep track of the birthdays of all employees.
+
+In this framework, we assume that each data pod exposes a separate summary over each file,
+an that aggregator creates a combined summary over these separate summaries
+and maintains a list of all source URIs it is aggregating over.
+We assume that pods expose summaries that are created according to the algorithm from [](#summarization-algorithm).
+In this algorithm, a file summary is created for each quad component,
+where we iterate over all the file's quads,
+and the keys that are applicable for each quad.
+For each of these combinations, we add the quad component masked by the key to the summary, 
+`OR`-ed by the URI of the file source.
+Based on the resulting file summaries,
+the aggregator can create a combined summary using the algorithm from [](#aggregation-algorithm).
+It does this by iterating over each source, and `OR`-ing its summaries for each quad component.
+
+<figure id="summarization-algorithm" class="listing">
+````/code/summarization-algorithm.txt````
+<figcaption markdown="block">
+Algorithm for creating a summary over a file within a data pod.
+</figcaption>
+</figure>
+
+<figure id="aggregation-algorithm" class="listing">
+````/code/aggregation-algorithm.txt````
+<figcaption markdown="block">
+Algorithm for creating a combined summary over a set of sources.
+</figcaption>
+</figure>
+
+In practise, these summaries and combined summaries require some bookkeeping.
+Each file summary must remain up-to-date with respect to the file's contents.
+This could be done by either immediately invalidating the summary upon file changes,
+or by periodically regenerating the summary.
+The combined summary requires similar actions to avoid going stale.
+This can be achieved through immediate notifications from the pod to the aggregator upon file changes,
+or the aggregator can periodically scan the files or its summaries for changes.
 
 #### Client-side Querying Algorithm
 {:#framework-client}
 
-TODO: also aggregation algo
+Since file-based APIs are the basis for data retrieval on the Web as prescribed by the HTTP protocol,
+we assume this as a starting point for federated querying in decentralized environments.
+Intelligent clients could however detect more expressive interfaces such as
+[SPARQL endpoints](cite:cites spec:sparqlprot) and [Triple Pattern Fragments](cite:cites ldf) interfaces,
+and make use of them during query execution, but we consider this out-of-scope for this work.
 
-TODO
+Furthermore, we consider quad pattern-based access to file sources instead of more complex [SPARQL queries](cite:cites spec:sparqllang).
+This is because triple patterns or quad patterns are the fundamental elements of SPARQL queries,
+and any SPARQL query can be decomposed into multiple smaller quad pattern queries.
+For examples, client-side query engines such as [Comunica](cite:cites comunica) decompose any SPARQL query
+into a sequence of quad pattern queries for evaluation against heterogeneous sources,
+where the results of these quad pattern queries are joined together locally.
+More complex SPARQL features such as `FILTER` and aggregates are fully handled client-side.
 
+Assuming we have an aggregator exposing a summary over a set of sources,
+we introduce the algorithm in [](#client-algorithm) where a client-side query engine can make use of an aggregator's summary
+to reduce the number of sources the client should query over.
+As input, this algorithms assumes a quad pattern query,
+the list of access control keys of the user,
+and the summary and list of sources it obtained from an aggregator.
+Based on these inputs, the client will iterate over all non-variable quad components
+and all available keys.
+For each combination, it will first do a pre-filtering step before locally iterating over all sources.
+It will check whether or not the component value, masked by the key,
+is present in the summary for the current component.
+If it is not present, then we return an empty array, as none of the sources will contain the given component value.
+If it is present, some of the sources *may* contain the component value,
+so we iterate over each source URI, and check its presence in the summary of the current component,
+combined with the component value and key.
+When a true negative is found for a source, this source is removed from the list of sources.
+Finally, the remaining list of sources is returned,
+which can be used by the query engine to execute the quad pattern query over.
 
-* Explain aggregation use case (aggregator for family, colleagues, personal, ...)
-* Important to mention: client-side query evaluation, i.e., quad patterns are joined client-side.
-* Important to mention: multiple aggregators can exist; aggregators are not necessarily trusted; each client could also have a personal aggregators.
-* Aggregation is used to optimize federated querying, but not possible anymore, since aggregators may not see private data.
-    A privacy-preserving aggregator may only see obfuscated data that 1) private data can not be read, 2) queries can only result in certain answers with appropriate keys
-* Each source exposes AMFs for each (typically small) file (explain encoding of AMF)
-* Aggregators combine AMFs, and keep list of source URIs
-* Clients retrieve from aggregator combined AMF and list of sources
-    Algo for each quad pattern:
-        Foreach non-variable quad component c
-            Check if AMF_c[c & key]
-            Foreach source in sources
-                If AMF_c[(c & key) | source]
-                    Add source to valid_sources
-        Do a federated query over valid_sources
-* Mention that multiple AMF sizes are needed to limit error rates when aggregator aggregates over different numbers of sources. We could for example standardize some AMF params for _small_, _medium_ and _large_ aggregations.
-{:.todo}
+<figure id="client-algorithm" class="listing">
+````/code/client-algorithm.txt````
+<figcaption markdown="block">
+Client-side algorithm for selecting query-relevant sources for a quad pattern query
+based on a given privacy-preserving summary.
+</figcaption>
+</figure>
+
+The presented algorithm should be seen as a basis for federated querying over decentralized environments with private data,
+where there is a single aggregator, and all sources we want to query over are considered by the aggregator.
+In practise, multiple aggregators can exist,
+they may apply to overlapping sources,
+and some sources may not be aggregated at all.
+For these cases, extensions to this algorithm will be needed,
+which we consider out-of-scope for this work.
 
 #### Architecture Requirements
 
-TODO
+{:.todo}
 
 Summary
 
 * (Probabilistic?) Testing for contents using authentication
 * No data leaking without authentication
 * Combining
+
+{:.todo}
+
+
+* Each source exposes AMFs for each (typically small) file (explain encoding of AMF)
+* Mention that multiple AMF sizes are needed to limit error rates when aggregator aggregates over different numbers of sources. We could for example standardize some AMF params for _small_, _medium_ and _large_ aggregations.
 
 ### Extension of Access Control
 

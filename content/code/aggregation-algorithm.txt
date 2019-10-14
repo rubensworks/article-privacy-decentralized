@@ -1,0 +1,13 @@
+FUNCTION Aggregate(U)
+  INPUT:
+    list of sources U
+  OUTPUT:
+    combined summaries S for each quad component
+      (S_subject, S_predicate, S_object, S_graph)
+initialize empty summaries S =
+  (S_subject, S_predicate, S_object, S_graph)
+FOREACH u in U
+  S' = get summaries from u
+  FOREACH C in (subject, predicate, object, graph)
+    S_C = S_C | S_C'
+RETURN S

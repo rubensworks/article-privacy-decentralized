@@ -1,0 +1,16 @@
+FUNCTION Summarize(F, u, K)
+  INPUT:
+    file F with list of quads
+    URI u of the file
+    all applicable keys K for quads in the file
+  OUTPUT:
+    summaries S for each quad component
+      (S_subject, S_predicate, S_object, S_graph)
+initialize empty summaries S =
+  (S_subject, S_predicate, S_object, S_graph)
+FOREACH q in F
+  FOREACH C in (subject, predicate, object, graph)
+    FOREACH k in K
+      if k applies to q
+        S_C = S_C | (q[C] & k) | u
+RETURN S

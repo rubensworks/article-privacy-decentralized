@@ -1,0 +1,19 @@
+FUNCTION SelectSources(Q, K, S, U)
+  INPUT:
+    quad pattern query Q
+    access keys K
+    summaries S for each quad component
+      (S_subject, S_predicate, S_object, S_graph)
+    list of sources U
+  OUTPUT:
+    list of selected sources
+FOREACH C in (subject, predicate, object, graph)
+  V = Q[C]
+  IF V not variable
+    FOREACH k in K
+      IF ! S_C[V & K]
+        RETURN []
+      FOREACH u in U
+        IF ! S_C[(V & K) | u]
+          remove u from U
+RETURN U
