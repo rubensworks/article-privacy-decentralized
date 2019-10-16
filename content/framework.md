@@ -1,19 +1,14 @@
 ## Framework
 {:#framework}
 
-In order to execute queries on top of our use case,
-a query engine needs to be able to perform several additional tasks compared to typical query execution scenarios.
-First, since our data is spread over multiple sources, and we do not know all of these sources beforehand,
-the query engine needs to be able to *traverse links* within each source, based on the given query.
-Second, as some sources contain private data, the query engine needs to *authenticate* itself to the sources.
-Third, the query engine needs to *federate* over the traversed sources to evaluate a given query.
-
-
-
-* Explain high-level
-* Emphasize that engine is client-side, including federation, but aggregators can be separate.
-* For protocol: LDN can be used
-{:.todo}
+In this section, we introduce a framework to enable querying
+over decentralized environments in a privacy-preserving manner,
+to enable use cases such as introduced in [](#use-case).
+For this, we focus on three aspects.
+First, we introduce a high-level architecture for enabling federated querying in a privacy-preserving manner.
+Second, we list the requirements for enabling fine-grained access control in decentralized environments.
+Third, we discuss required extensions to identity management within decentralized environments.
+In the subsections hereafter, we discuss these three aspects in more detail.
 
 ### Privacy-Preserving Federated Querying
 
