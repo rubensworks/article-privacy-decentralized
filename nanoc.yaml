@@ -10,7 +10,7 @@ enable_output_diff: false
 
 prune:
   auto_prune: true
-  exclude: [ '.git', '.hg', '.svn', 'CVS' ]
+  exclude: [ '.git', '.hg', '.svn', 'CVS', 'prism.css', 'prism.js' ]
 
 data_sources:
   -

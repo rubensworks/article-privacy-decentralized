@@ -202,19 +202,22 @@ Simon
 * Right now, we do it role-based, but it could be attribute-based as well.
 {:.todo}
 
-```
-    <#authorization1>
-        a             acl:Authorization;
-        acl:agent     <https://alice.databox.me/profile/card#me>;  # Alice's WebID
-        acl:accessTo  <https://alice.databox.me/docs/file1>;
-        acl:mode      acl:Read, 
-                      acl:Write, 
-                      acl:Control,
-                      [ a acl:FilteredRead;
-                        sh:select """CONSTRUCT WHERE { ?subject a ?object } """ ].
-```
+
+~~~turtle
+<#authorization1>
+    a             acl:Authorization;
+    acl:agent     <https://alice.databox.me/profile/card#me>;  # Alice's WebID
+    acl:accessTo  <https://alice.databox.me/docs/file1>;
+    acl:mode      acl:Read, 
+                  acl:Write, 
+                  acl:Control,
+                  [ a acl:FilteredRead;
+                    sh:select """CONSTRUCT WHERE { ?subject a ?object } """ ].
+~~~
+
 
 two options:
+
 * (shacl-spec): validation-based (~filter)
 * (shacl note): filter/rule-based
 

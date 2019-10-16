@@ -6,3 +6,5 @@ tmp
 output
 *.log
 *.diff
+Gemfile.lock
+Gemfile
