@@ -12,5 +12,5 @@ FOREACH q in F
   FOREACH C in (subject, predicate, object, graph)
     FOREACH k in K
       if k applies to q
-        S_C = S_C | (q[C] & k) | u
+        S_C = Summary_Add(S_C, q[C], k, u)
 RETURN S
