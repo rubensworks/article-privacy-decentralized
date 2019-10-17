@@ -12,9 +12,6 @@ In the subsections hereafter, we discuss these three aspects in more detail.
 
 ### Privacy-Preserving Federated Querying
 
-{:.todo}
-Ruben
-
 In this section, we introduce a general decentralized architecture federated querying over privacy-constrained data,
 for which an overview can be seen in [](#figure-privacy-federation-architecture).
 We first introduce a high-level overview of the architecture,
@@ -201,29 +198,6 @@ We consider the following requirements:
     False positives are allowed, but true negatives are required.
     We require that the file URI can be falsy, in case all file URIs must be tested.
     An implementation for `Summary_Contains(S_C, v, k, u)` is required.
-
-We consider Approximate Membership Functions (AMFs), such as Bloom filters
-one possible candidate for such summaries that meet all of these requirements:
-
-1. **No data leaking**:
-    Values in Bloom filters are hashed, which can not be reversed.
-2. **Value additions**:
-    Additions to Bloom filters are possible by inserting a bit string.
-    `Summary_Add(S_C, v, k, u) = S_C | (v & k) | u`
-3. **Summary combinations**
-    Bloom filters can be combined by `OR`-ing them.
-    `Summary_Combine(S_C, S_C') = S_C | S_C'`.
-4. **Authorized membership checking**
-    Membership in Bloom filters can be tested by hashing the value,
-    and checking its membership inside the filter.
-    `Summary_Contains(S_C, v, k, u) = S_C[(V & K) | u]`.
-
-{:.todo}
-
-Discuss consequences of using AMFs
-
-* Each source exposes AMFs for each (typically small) file (explain encoding of AMF)
-* Mention that multiple AMF sizes are needed to limit error rates when aggregator aggregates over different numbers of sources. We could for example standardize some AMF params for _small_, _medium_ and _large_ aggregations.
 
 ### Extension of Access Control
 
