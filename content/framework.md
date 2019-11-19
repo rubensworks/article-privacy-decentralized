@@ -1,30 +1,25 @@
 ## Framework
 {:#framework}
 
-In order to execute queries on top of our use case,
-a query engine needs to be able to perform several additional tasks compared to typical query execution scenarios.
-First, since our data is spread over multiple sources, and we do not know all of these sources beforehand,
-the query engine needs to be able to *traverse links* within each source, based on the given query.
-Second, as some sources contain private data, the query engine needs to *authenticate* itself to the sources.
-Third, the query engine needs to *federate* over the traversed sources to evaluate a given query.
-
-
-
-* Explain high-level
-* Emphasize that engine is client-side, including federation, but aggregators can be separate.
-* For protocol: LDN can be used
-{:.todo}
+In this section, we introduce a framework to enable querying
+over decentralized environments in a privacy-preserving manner,
+to enable use cases such as introduced in [](#use-case).
+For this, we focus on three aspects.
+First, we introduce a high-level architecture for enabling federated querying in a privacy-preserving manner.
+Second, we list the requirements for enabling fine-grained access control in decentralized environments.
+Third, we discuss required extensions to identity management within decentralized environments.
+In the subsections hereafter, we discuss these three aspects in more detail.
 
 ### Privacy-Preserving Federated Querying
-
-{:.todo}
-Ruben
 
 In this section, we introduce a general decentralized architecture federated querying over privacy-constrained data,
 for which an overview can be seen in [](#figure-privacy-federation-architecture).
 We first introduce a high-level overview of the architecture,
-after which we introduce the technical requirements for such an architecture,
-and a client-side algorithm to query over such an an architecture.
+after which we introduce an aggregation algorithm for creating privacy-preserving summaries,
+and a client-side algorithm to query over such summaries.
+In this overview, we do not focus on specific technologies,
+instead, we end the section with a list of requirements
+and offer examples of technologies that can be used to instantiate this architecture.
 
 #### Architecture Overview
 
@@ -95,23 +90,27 @@ We assume that pods expose summaries that are created according to the algorithm
 In this algorithm, a file summary is created for each quad component,
 where we iterate over all the file's quads,
 and the keys that are applicable for each quad.
-For each of these combinations, we add the quad component masked by the key to the summary, 
-`OR`-ed by the URI of the file source.
+For each of these combinations, we add the quad component to the summary, 
+for the given key and file source URI.
 Based on the resulting file summaries,
 the aggregator can create a combined summary using the algorithm from [](#aggregation-algorithm).
-It does this by iterating over each source, and `OR`-ing its summaries for each quad component.
+The `Summary_Add` and `Summary_Combine` functions that are used in these algorithms
+depend on the type of summary that is being used,
+for which we will list the requirements and give examples at the end of this section.
 
 <figure id="summarization-algorithm" class="listing">
 ````/code/summarization-algorithm.txt````
 <figcaption markdown="block">
-Algorithm for creating a summary over a file within a data pod.
+Algorithm for creating a summary over a file within a data pod,
+with `Summary_Add` a summary-type-dependent function for adding a quad component, key, and file URI to summary.
 </figcaption>
 </figure>
 
 <figure id="aggregation-algorithm" class="listing">
 ````/code/aggregation-algorithm.txt````
 <figcaption markdown="block">
-Algorithm for creating a combined summary over a set of sources.
+Algorithm for creating a combined summary over a set of sources,
+with `Summary_Combine` a summary-type-dependent function for combining two summaries.
 </figcaption>
 </figure>
 
@@ -149,21 +148,26 @@ and the summary and list of sources it obtained from an aggregator.
 Based on these inputs, the client will iterate over all non-variable quad components
 and all available keys.
 For each combination, it will first do a pre-filtering step before locally iterating over all sources.
-It will check whether or not the component value, masked by the key,
-is present in the summary for the current component.
+It will check whether or not the component value
+is present in the summary for the current key and component,
+with source URI set to `0` to match with all sources.
 If it is not present, then we return an empty array, as none of the sources will contain the given component value.
 If it is present, some of the sources *may* contain the component value,
-so we iterate over each source URI, and check its presence in the summary of the current component,
+because we consider summaries as being probabilistic.
+After that, we iterate over each source URI, and check its presence in the summary of the current component,
 combined with the component value and key.
 When a true negative is found for a source, this source is removed from the list of sources.
 Finally, the remaining list of sources is returned,
 which can be used by the query engine to execute the quad pattern query over.
+In this algorithm, the `Summary_Contains` also depends on the type of summary that is being used.
 
 <figure id="client-algorithm" class="listing">
 ````/code/client-algorithm.txt````
 <figcaption markdown="block">
 Client-side algorithm for selecting query-relevant sources for a quad pattern query
 based on a given privacy-preserving summary.
+`Summary_Contains` is a summary-type-dependent function for checking if a summary contains a given quad component
+for a given key and source URI.
 </figcaption>
 </figure>
 
@@ -177,19 +181,23 @@ which we consider out-of-scope for this work.
 
 #### Architecture Requirements
 
-{:.todo}
+The privacy-preserving summaries drive the main technical requirements within our architecture.
+We consider the following requirements:
 
-Summary
-
-* (Probabilistic?) Testing for contents using authentication
-* No data leaking without authentication
-* Combining
-
-{:.todo}
-
-
-* Each source exposes AMFs for each (typically small) file (explain encoding of AMF)
-* Mention that multiple AMF sizes are needed to limit error rates when aggregator aggregates over different numbers of sources. We could for example standardize some AMF params for _small_, _medium_ and _large_ aggregations.
+1. **No data leaking**:
+    Data within summaries must not be readable without the proper authentication keys.
+2. **Value additions**:
+    It must be possible to add values to summaries by key and file URI.
+    An implementation for `Summary_Add(S_C, v, k, u)` is required.
+3. **Summary combinations**
+    It must be possible to combine two summaries,
+    where the combined summary is identical to a summary where all of the entries were added directly.
+    An implementation for `Summary_Combine(S_C, S_C')` is required.
+4. **Authorized membership checking**
+    Probabilistic membership checking must be possible for a given value, key and file URI.
+    False positives are allowed, but true negatives are required.
+    We require that the file URI can be falsy, in case all file URIs must be tested.
+    An implementation for `Summary_Contains(S_C, v, k, u)` is required.
 
 ### Extension of Access Control
 

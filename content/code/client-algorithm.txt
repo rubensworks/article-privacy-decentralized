@@ -8,12 +8,12 @@ FUNCTION SelectSources(Q, K, S, U)
   OUTPUT:
     list of selected sources
 FOREACH C in (subject, predicate, object, graph)
-  V = Q[C]
-  IF V not variable
+  v = Q[C]
+  IF v not variable
     FOREACH k in K
-      IF ! S_C[V & K]
+      IF ! Summary_Contains(S_C, v, k, 0)
         RETURN []
       FOREACH u in U
-        IF ! S_C[(V & K) | u]
+        IF ! Summary_Contains(S_C, v, k, u)
           remove u from U
 RETURN U

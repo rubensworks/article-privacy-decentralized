@@ -9,5 +9,5 @@ initialize empty summaries S =
 FOREACH u in U
   S' = get summaries from u
   FOREACH C in (subject, predicate, object, graph)
-    S_C = S_C | S_C'
+    S_C = Summary_Combine(S_C, S_C')
 RETURN S

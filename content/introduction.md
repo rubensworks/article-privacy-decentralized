@@ -55,12 +55,9 @@ Our goal is *not* to introduce a complete solution to these problems,
 instead, our contribution is a framework into which future research can be positioned.
 Concretely, our framework focuses on three aspects:
 
-1. Optimizing federated querying through privacy-preserving aggregation (introduce aggregators here)
-2. Extension of access control
-3. Extension of identity management (to allow encoding of AMFs)
-
-We may want to improve these three points
-{:.todo}
+1. Optimizing federated querying through privacy-preserving aggregation
+2. Fine-grained access control
+3. Decentralized identity management (to allow encoding of AMFs)
 
 This article is structured as follows.
 In the next section, we present the related work.
