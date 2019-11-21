@@ -229,7 +229,16 @@ two options:
 ### Extension of Identity Management
 
 {:.todo}
-Sabrina
+Sabrina 
+
+{:.todo}
+Fix footnotes
+
+OpenID Connect \footnote{OpenID Connect Core 1.0, \url{https://openid.net/specs/openid-connect-core-1_0.html}} is an industry standard authentication protocol, which enables applications to delegate responsibility for authentication to third party identity providers. One of the primary benefits being the ability to connect to multiple sites using the same login credentials. A comprehensive security analysis of the protocol is provided by (cite:cites fett2017web).
+
+Web Identity and Discovery (WebID)\footnote{WebID, \url{http://www.w3.org/wiki/WebID}} is a HTTP URI used to uniquely identify and authenticate a person, company, organisation, or other entity (cite:cites Sambra2014). A description of the agent is provided in an RDF document, known as a WebID profile, which can be dereferenced using 303 or Hash URI's. The agent places URI for their WebID profile document in the Subject Alternative Names field of their certificate and the public key details to their WebID profile document (cite:cites Inkster2014). The WebID Transport Layer Security (TLS) protocol specifies how together the WebID profile and public key certificates can be used to authenticate users (cite:cites Inkster2014). A service wishing to  authenticate the user, needs to verify that the public key of the certificate it receives matches the public key specified in the WebID profile (cite:cites Hollenbach2009). 
+
+Self-sovereign identity (SSI) is a paradigm shift in terms of identity management, whereby individuals manage their own identity credential as opposed to relying on centralised identity providers, such as private or public sector organisations. (cite:cites muhle2018survey) provides a high level overview of the various components that are necessary to support SSI. Key supporting technology includes, verifiable claims which as claims that can be verified via a digital signature, and blockchain technology which plays the role of the third party identity provider. 
 
 * Each user has a list of keys, keys are shared among users for same parts of data
 * Explain key management (creation and where it's stored) and revocation
