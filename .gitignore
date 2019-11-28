@@ -8,3 +8,6 @@ output
 *.diff
 Gemfile.lock
 Gemfile
+content/img/*.aux
+content/img/*.dvi
+.vscode
