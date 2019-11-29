@@ -210,9 +210,9 @@ Simon
 * Right now, we do it role-based, but it could be attribute-based as well.
 {:.todo}
 
-
 ~~~ turtle
-<#authorization1>
+
+ <#authorization1>
     a             acl:Authorization;
     acl:agent     <https://alice.databox.me/profile/card#me>;  # Alice's WebID
     acl:accessTo  <https://alice.databox.me/docs/file1>;
@@ -221,6 +221,7 @@ Simon
                   acl:Control,
                   [ a acl:FilteredRead;
                     sh:select """CONSTRUCT WHERE { ?subject a ?object } """ ].
+
 ~~~
 
 

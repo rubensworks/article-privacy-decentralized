@@ -7,6 +7,7 @@ gem 'scholarmarkdown', path: '../ScholarMarkdown-master'
 # text processing
 gem 'kramdown'
 gem 'rubypants'
+gem 'rouge'
 
 # stylesheets
 gem 'sass'
