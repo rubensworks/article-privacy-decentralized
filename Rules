@@ -17,6 +17,7 @@ compile '/index.*' do
   filter :scholar_citation, bibfile: items['/references.bib'],
                             style: 'lncs-custom'
   filter :kramdown
+  filter :colorize_syntax, default_colorizer: :rouge
   filter :scholar_hyphenate_iri
   filter :scholar_include_code
   filter :scholar_labelify
