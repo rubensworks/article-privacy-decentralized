@@ -204,6 +204,13 @@ We consider the following requirements:
 {:.todo}
 Simon
 
+<figure id="figure-general-process">
+<img src="img/general_process.svg" alt="Process of obtaining data">
+<figcaption markdown="block">
+TBD
+</figcaption>
+</figure>
+
 * Data owners are responsible for enforcing access control (as opposed to other approaches where federation engine takes care of that). We assume that access control is already taken care of at the (client-side) federation engine.
 * Build on Solid's WebID-OIDC for auth, and WAC for access control.
 * Allow shape-based/quadpattern-based (SHACL/SHEX) access modes in .acl files. (advantage of shapes is that fewer keys may be needed, which reduces the complexity of key mgmt) (motivation for keys is that Solid is going to use it for data validation: https://github.com/solid/data-interoperability-panel/blob/b2591bf2f8808972e5459db2aa4ac8d9854f5b5e/data-validation/use-cases.md)
@@ -220,7 +227,7 @@ Simon
                       acl:Control,
                       [ a acl:FilteredRead;
                         sh:select """CONSTRUCT WHERE { ?subject a ?object } """ ].
-                        
+
 ~~~
 
 two options:
