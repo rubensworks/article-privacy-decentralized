@@ -8,8 +8,6 @@ output
 *.diff
 .vscode
 bundle
-Gemfile.lock
-Gemfile
 
 # File created using '.gitignore Generator' for Visual Studio Code: https://bit.ly/vscode-gig
 

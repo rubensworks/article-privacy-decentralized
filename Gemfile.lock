@@ -8,7 +8,7 @@ GEM
     bibmarkdown (2.0.0)
       citeproc-ruby
       csl-styles
-    bibtex-ruby (5.0.0)
+    bibtex-ruby (5.0.1)
       latex-decode (~> 0.0)
     citeproc (1.0.9)
       namae (~> 1.0)
@@ -127,6 +127,7 @@ GEM
       ffi (~> 1.0)
     rb-readline (0.5.5)
     ref (2.0.0)
+    rouge (3.13.0)
     ruby_dep (1.5.0)
     rubypants (0.7.0)
     sass (3.7.4)
@@ -134,7 +135,7 @@ GEM
     sass-listen (4.0.0)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
-    scholarmarkdown (2.6.0)
+    scholarmarkdown (2.7.0)
       bibmarkdown (~> 2.0.0)
       bibtex-ruby
       citeproc-ruby (>= 1.1.6)
@@ -197,9 +198,10 @@ DEPENDENCIES
   nanoc (~> 4.7)
   rack-livereload
   rb-readline
+  rouge
   rubypants
   sass
-  scholarmarkdown
+  scholarmarkdown (~> 2.7.0)
   serve
   thin
   unicode_utils
