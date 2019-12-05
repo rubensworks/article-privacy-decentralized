@@ -1,8 +1,9 @@
-FUNCTION Summarize(Q, u, K)
+FUNCTION Summarize(Q, u, K, pk)
   INPUT:
     list of quads Q
     URI u of the file
     all applicable keys K for quads in the file
+    predicate pk(k, q) for checking whether or not a key applies to a quad
   OUTPUT:
     summaries S for each quad component
       (S_subject, S_predicate, S_object, S_graph)
@@ -11,6 +12,6 @@ initialize empty summaries S =
 FOREACH q in Q
   FOREACH c in (subject, predicate, object, graph)
     FOREACH k in K
-      if k applies to q
+      IF pk(k, q)
         S_c = Summary_Add(S_c, q[c], k, u)
 RETURN S
