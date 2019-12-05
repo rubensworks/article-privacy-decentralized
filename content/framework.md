@@ -102,7 +102,8 @@ for which we will list the requirements and give examples at the end of this sec
 ````/code/summarization-algorithm.txt````
 <figcaption markdown="block">
 Algorithm for creating a summary over a file within a data pod,
-with `Summary_Add` a summary-type-dependent function for adding a quad component, key, and file URI to summary.
+with `Summary_Add` a summary-type-dependent function for adding a quad component, key, and file URI to summary,
+and `Summary_Initialize` a summary-type-dependent function for initializing a new summary.
 </figcaption>
 </figure>
 
@@ -110,7 +111,8 @@ with `Summary_Add` a summary-type-dependent function for adding a quad component
 ````/code/aggregation-algorithm.txt````
 <figcaption markdown="block">
 Algorithm for creating a combined summary over a set of sources,
-with `Summary_Combine` a summary-type-dependent function for combining two summaries.
+with `Summary_Combine` a summary-type-dependent function for combining two summaries,
+and `Summary_Initialize` a summary-type-dependent function for initializing a new summary.
 </figcaption>
 </figure>
 
@@ -188,16 +190,17 @@ We consider the following requirements:
     Data within summaries must not be readable without the proper authentication keys.
 2. **Value additions**:
     It must be possible to add values to summaries by key and file URI.
-    An implementation for `Summary_Add(S_C, v, k, u)` is required.
+    An implementation for `Summary_Add(S.c, v, k, u)` is required,
+    based on an initialized summary as implemented by `Summary_Initialize()`.
 3. **Summary combinations**
     It must be possible to combine two summaries,
     where the combined summary is identical to a summary where all of the entries were added directly.
-    An implementation for `Summary_Combine(S_C, S_C')` is required.
+    An implementation for `Summary_Combine(S.c, S.c')` is required.
 4. **Authorized membership checking**
     Probabilistic membership checking must be possible for a given value, key and file URI.
     False positives are allowed, but true negatives are required.
     We require that the file URI can be falsy, in case all file URIs must be tested.
-    An implementation for `Summary_Contains(S_C, v, k, u)` is required.
+    An implementation for `Summary_Contains(S.c, v, k, u)` is required.
 
 ### Extension of Access Control
 
