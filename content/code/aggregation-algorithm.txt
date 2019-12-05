@@ -1,4 +1,4 @@
-FUNCTION Aggregate(U)
+FUNCTION CreateAggregateSummary(U)
   INPUT:
     list of sources U
   OUTPUT:

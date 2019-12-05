@@ -1,4 +1,4 @@
-FUNCTION Summarize(Q, u, K, pk)
+FUNCTION CreateSummary(Q, u, K, pk)
   INPUT:
     list of quads Q
     URI u of the file
