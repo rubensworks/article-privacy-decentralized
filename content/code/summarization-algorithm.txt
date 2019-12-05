@@ -1,6 +1,6 @@
-FUNCTION Summarize(F, u, K)
+FUNCTION Summarize(Q, u, K)
   INPUT:
-    file F with list of quads
+    list of quads Q
     URI u of the file
     all applicable keys K for quads in the file
   OUTPUT:
@@ -8,9 +8,9 @@ FUNCTION Summarize(F, u, K)
       (S_subject, S_predicate, S_object, S_graph)
 initialize empty summaries S =
   (S_subject, S_predicate, S_object, S_graph)
-FOREACH q in F
-  FOREACH C in (subject, predicate, object, graph)
+FOREACH q in Q
+  FOREACH c in (subject, predicate, object, graph)
     FOREACH k in K
       if k applies to q
-        S_C = Summary_Add(S_C, q[C], k, u)
+        S_c = Summary_Add(S_c, q[c], k, u)
 RETURN S
