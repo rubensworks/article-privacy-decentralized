@@ -124,7 +124,7 @@
     \matrix{
       \node[process] (ALICE) {Alice}; \& \node[sink] (AW) {Authentication \\ WebID}; \& \node[sink] (ACP) {AC Policy $\langle S,A,R\rangle$\\\\}; \& \node[db,cylinder,shape border rotate=90,shape aspect=.25] (DS) {Datastore};\\
     };
-    \node[draw,fill=orange!30] at ([yshift=0.75cm]ACP.south){CONSTRUCT Query};
+    \node[draw,fill=orange!30] at ([yshift=0.75cm]ACP.south){SHACL Shape};
     % Draw the arrows between the nodes and label them.
     \draw[to] (ALICE) -- node[midway,above] {Query, ID} (AW);
     \draw[to] (AW) -- node[midway,above] {Query, ID} (ACP);
