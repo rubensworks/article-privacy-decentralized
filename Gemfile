@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 gem 'nanoc', '~> 4.7'
 
-gem 'scholarmarkdown'
+gem 'scholarmarkdown', '~> 2.7.0'
 
 # text processing
 gem 'kramdown'
@@ -10,6 +10,7 @@ gem 'rubypants'
 
 # stylesheets
 gem 'sass'
+gem 'rouge'
 
 # references
 gem 'i18n', '< 1.1'
