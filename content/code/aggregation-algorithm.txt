@@ -8,5 +8,5 @@ FOREACH c in [subject, predicate, object, graph]
 FOREACH u in U
   S' = get summaries from u
   FOREACH c in [subject, predicate, object, graph]
-    S.c = Summary_Combine(S.c, S.c')
+    S.c = Summary_Combine(S.c, S'.c)
 RETURN S
