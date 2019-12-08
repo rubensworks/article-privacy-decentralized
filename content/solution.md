@@ -24,7 +24,7 @@ Concretely, they meet the requirements in the following manner:
     `Summary_Add(S.c, v, k, u) = S.c | (v & k) | u`
 3. **Summary combinations**
     Bloom filters can be combined by `OR`-ing them.
-    `Summary_Combine(S.c, S.c') = S.c | S.c'`.
+    `Summary_Combine(S.c, S'.c) = S.c | S'.c`.
 4. **Authorized membership checking**
     Membership in Bloom filters can be tested by hashing the value,
     and checking its membership inside the filter.
