@@ -21,8 +21,9 @@ Ensuring data ownership is also one of the goals of the European General Data Pr
 where Solid can be an answer to this new regulation,
 as has been [exemplified in governmental processes](cite:cites solid_gov).
 
-While decentralization may solve many of the *social* problems we are currently experiencing,
-it introduces several *technological* problems,
+*[social problems]: such as..? add reference
+
+While decentralization may solve many of the _social problems_{:.rephrase} we are currently experiencing, it introduces several *technological* problems,
 since applications now need to be able to query data that is spread over the Web,
 instead of having it available via a centralized endpoint.
 Due to the massive size of the Web, the number of documents that need to be queried

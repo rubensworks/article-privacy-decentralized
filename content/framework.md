@@ -144,7 +144,7 @@ More complex SPARQL features such as `FILTER` and aggregates are fully handled c
 Assuming we have an aggregator exposing a summary over a set of sources,
 we introduce the algorithm in [](#client-algorithm) where a client-side query engine can make use of an aggregator's summary
 to reduce the number of sources the client should query over.
-As input, this algorithms assumes a quad pattern query,
+As input, this algorithm assumes a quad pattern query,
 the list of access control keys of the user,
 and the summary and list of sources it obtained from an aggregator.
 Based on these inputs, the client will iterate over all non-variable quad components
@@ -209,6 +209,12 @@ Simon
 
 <figure id="figure-general-process">
 <img src="img/general_process.svg" alt="Process of obtaining data">
+<figcaption markdown="block">
+TBD
+</figcaption>
+</figure>
+<figure id="figure-overall-architecture">
+<img src="img/overall-architecture.svg" alt="Process of obtaining data">
 <figcaption markdown="block">
 TBD
 </figcaption>

@@ -11,8 +11,8 @@
 \let\familydefault\sfdefault
 
 
-\usepackage{tikz,pgfplots}
-\usetikzlibrary{positioning,arrows,intersections,calc,fit,shapes}
+\usepackage{tikz,pgfplots,tikz-layers,tikzpeople}
+\usetikzlibrary{positioning,arrows,intersections,calc,fit,backgrounds,shapes,matrix}
 
 \definecolor{colorwhite}    {RGB}{255,255,255}
 \definecolor{colorpod}      {RGB}{199,212,104}
@@ -107,11 +107,24 @@
     person/.style={text=colorwhite,font={\Large\bfseries}},
     code/.style={text=colortext,font={}},
     key/.style={text=colorkey,font={\tiny\itshape}},
-    every matrix/.style={ampersand replacement=\&,column sep=2cm,row sep=2cm},
+    every matrix/.style={ampersand replacement=\&,column sep=2cm,row sep=2cm ,
+    nodes in empty cells},
+    matrixstyle/.style={
+      matrix of nodes,
+      nodes in empty cells,
+      column sep      = -\pgflinewidth,
+      row sep         = -\pgflinewidth,
+      nodes={%
+        inner sep=0mm,outer sep=0pt,
+        minimum size=5mm,
+        text height=\ht\strutbox,text depth=\dp\strutbox,
+        draw
+      }},
     source/.style={draw,thick,rounded corners,fill=yellow!20,inner sep=.3cm},
     db/.style={draw,thick,fill=yellow!20},
     process/.style={draw,thick,circle,fill=blue!20},
     sink/.style={source,fill=green!20,inner sep=.5cm, minimum height=2cm},
+    pod/.style={draw,thick,rectangle,fill=colorpod,inner sep=.5cm, minimum height=2cm},
     datastore/.style={draw,very thick,shape=datastore,inner sep=.3cm},
     dots/.style={gray,scale=2},
     to/.style={->,>=stealth',shorten >=1pt,semithick,font=\sffamily\footnotesize},
@@ -119,18 +132,43 @@
   
     % % Position the nodes using a matrix layout
     % \& \node[datastore] (buffer) {buffer};  \& \\
-  
+
     % \node[datastore] (storage) {storage};     \& \node[process] (monitor) {monitor};  \& \node[sink] (datastore) {datastore}; \\
-    \matrix{
-      \node[process] (ALICE) {Alice}; \& \node[sink] (FE) {Federation \\ Engine}; \& \node[sink] (ACP) {AC Policy $\langle S,A,R\rangle$\\\\}; \& \node[db,cylinder,shape border rotate=90,shape aspect=.25] (DS) {Datastore};\\
-      \node[process] (POD1) {Pods}; \& \node[sink] (POD2) {Pods}; \& \node[sink] (POD3) {Pods}; \&\\
-    };
-    \node[draw,fill=orange!30] at ([yshift=0.75cm]ACP.south){SHACL Shape};
+   \node[alice,minimum size=2em,label={[label distance=0.1em]below:Alice}] (ALICE){};
+  %  \node[person,process,fill=colorperson] (ALICE) {Alice};
+   \node[sink, right=of ALICE] (FE) {Federation \\ Engine}; 
+   \node[sink, right = of FE] (IAM) [align=left] {Aggregator}; 
+   \node[pod, below = of FE] (POD2) {Pods};
+   \node[pod, left = of POD2] (POD1) {Pods}; 
+  \node[pod, right = of POD2] (POD3) {Pods};
+  \node[title, below=1em of POD1] (KPOD1) {$K_1^S\dots K_n^S$};
+  \node[title, below=1em of POD2] (KPOD2) {$K_1^R\dots K_n^R$};
+  \node[title, below=1em of POD3] (KPOD2) {};
+  
+    % \matrix (TOP)  {
+    %  \& \node[person,process,fill=colorperson] (ALICE) {Alice}; \& \node[sink] (FE) {Federation \\ Engine}; \& \node[sink] (IAM) {\*Init\\Aggregate\\\* Maintenance}; \\
+    % };
+    % \matrix [below of=TOP]{
+    %   \node[pod] (POD1) {Pods}; \& \node[pod] (POD2) {Pods}; \& \node[pod] (POD3) {Pods};\\
+    % };
+    % \node[draw,fill=orange!30] at ([yshift=0.75cm]ACP.south){SHACL Shape};
     % Draw the arrows between the nodes and label them.
-    \draw[to] (ALICE) -- node[midway,above] {Query, ID} (FE);
-    \draw[to] (FE) -- node[midway,above] {Query, ID} (ACP);
-    \draw[to] (ACP) -- node[midway,above] {Query} (DS);
-    \draw[to] (DS) to[bend left=25] node[midway,below] {Results} (ALICE);
+    \draw[to] (ALICE) -- node[midway,above] {$Q,K$} (FE);
+    \draw[to] (IAM) -- node[midway,above] {Summaries} (FE);
+    \draw[-,>=stealth',shorten >=1pt,semithick,font=\sffamily\footnotesize] (POD1.north) -- node[midway,sloped] {$Q, K{\& \atop |}Cred$} (FE);
+    \draw[-,>=stealth',shorten >=1pt,semithick,font=\sffamily\footnotesize] (POD2.north) -- node[midway,sloped] {$Q, K{\& \atop |}Cred$} (FE);
+    \draw[-,>=stealth',shorten >=1pt,semithick,font=\sffamily\footnotesize] (POD3.north) -- node[midway,sloped] {\phantom{$Q, K{\& \atop |}Cred$}} (FE);
+
+    \begin{scope}[on above layer]
+      \node[fill=blue!20, draw, semithick,below left=0.5em and -1em of POD1.west, rectangle,minimum width=2em,minimum height=1em] (blue1) {};
+      \node[fill=green!20, draw, semithick,rectangle,below= 0.5em of blue1, minimum width=2em, minimum height=1em] (green1) {};
+      \node[fill=blue!20, draw, semithick,below left=0.5em and -1em of POD2.west, rectangle,minimum width=2em,minimum height=1em] (blue2) {};
+      \node[fill=green!20, draw, semithick,rectangle,below= 0.5em of blue2, minimum width=2em, minimum height=1em] (green2) {};
+      \node[fill=blue!20, draw, semithick,below left=0.5em and -1em of POD3.west, rectangle,minimum width=2em,minimum height=1em] (blue3) {};
+      \node[fill=green!20, draw, semithick,rectangle,below= 0.5em of blue3, minimum width=2em, minimum height=1em] (green3) {};
+      \end{scope}
+    % \draw[to] (ACP) -- node[midway,above] {Query} (DS);
+    % \draw[to] (DS) to[bend left=25] node[midway,below] {Results} (ALICE);
 
     % \draw[to] (AW) -- node[midway,right] {raw event data\\level 1} (buffer);
     % \draw[to] (buffer) --
