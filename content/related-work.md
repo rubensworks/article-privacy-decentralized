@@ -64,7 +64,7 @@ In a truly decentralized Web, data is spread over multiple sources,
 which means that there is no single SPARQL endpoint through which all data can be retrieved.
 For this, _[federated query processing](cite:cites sparqlfederation)_ is an active area of research
 in which techniques are investigated to intelligently delegate the execution of parts of SPARQL queries to specific sources.
-Current federation engines support around the order of 10 sources,
+Current federation engines _support around the order of 10 sources_{:.rephrase},
 which is insufficient for environments that will be produced by decentralization efforts such as Solid.
 As Solid gives everyone their own data pod, federated queries over 100 to 1000 sources will become possible,
 for example when decentralized social networking applications are being built.
@@ -120,3 +120,4 @@ clients can then use these Bloom filters to reduce the number of sources they ne
 
 *[Solid builds upon existing Web standards,]: WebID and WAC aren't really standards though (if standard==W3C Rec)..
 *[using which]: with which?
+*[support around the order of 10 sources]: 

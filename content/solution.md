@@ -21,14 +21,14 @@ Concretely, they meet the requirements in the following manner:
 2. **Value additions**:
     Additions to Bloom filters are possible by inserting a bit string.
     `Summary_Initialize() = 0` and
-    `Summary_Add(S.c, v, k, u) = S.c | (v & k) | u`
+    `Summary_Add(Σ.c, v, k, u) = Σ.c | (v & k) | u`
 3. **Summary combinations**
     Bloom filters can be combined by `OR`-ing them.
-    `Summary_Combine(S.c, S'.c) = S.c | S'.c`.
+    `Summary_Combine(Σ.c, S'.c) = Σ.c | Σ'.c`.
 4. **Authorized membership checking**
     Membership in Bloom filters can be tested by hashing the value,
     and checking its membership inside the filter.
-    `Summary_Contains(S.c, v, k, u) = S.c[(v & k) | u]`.
+    `Summary_Contains(Σ.c, v, k, u) = Σ.c[(v & k) | u]`.
 
 The main advantage of using AMFs such as Bloom filters
 is that all of the performance-critical operations on summaries

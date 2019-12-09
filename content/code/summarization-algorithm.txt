@@ -5,12 +5,12 @@ FUNCTION CreateSummary(Q, u, K, pk)
     all applicable keys K for quads in the file
     predicate pk(k, q) for checking whether or not a key applies to a quad
   OUTPUT:
-    summary for each quad component: S.subject, S.predicate, S.object S.graph
+    summary for each quad component: Σ.subject, Σ.predicate, Σ.object, Σ.graph
 FOREACH c in [subject, predicate, object, graph]
-  S.c = Summary_Initialize()
+  Σ.c = Summary_Initialize()
 FOREACH q in Q
   FOREACH c in [subject, predicate, object, graph]
     FOREACH k in K
       IF pk(k, q)
-        S.c = Summary_Add(S.c, q.c, k, u)
-RETURN S
+        Σ.c = Summary_Add(Σ.c, q.c, k, u)
+RETURN Σ

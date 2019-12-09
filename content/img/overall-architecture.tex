@@ -1,11 +1,14 @@
 \documentclass{article}
 \usepackage[utf8]{inputenc}
+% \usepackage{l3backend}
+% \usepackage{fontspec}
 \usepackage[usenames,svgnames]{xcolor}
+% \usepackage{xunicode}
 
 % Page setup
 \usepackage[a4paper,landscape,margin=2cm]{geometry}
 \usepackage{amsmath}
-
+% \newfontfamily\ubuntumono{Ubuntu Mono}
 % Typography
 \usepackage[scaled]{helvet}
 \let\familydefault\sfdefault
@@ -52,54 +55,6 @@
 \pagestyle{empty}
 
 % ======================================= V
-\newcommand{\stickman}[4]{% \stickman ==== V
-    \def\x{#1} % center x
-    \def\y{#2} % center y
-    \def\r{#3} % radius
-    \def\name{#4} % name
-    \def\xl{\x-\r} % x left 
-    \def\xr{\x + \r} % x right
-    \def\ya{\y-\r} % body upper
-    \def\yb{\ya-\r} % arms
-    \def\yc{\yb-\r} % legs
-    \def\ybd{\yb-0.5*\r} % arms lower
-    \def\ycd{\yc-0.5*\r} % legs lower
-
-    \draw[
-        thick, orange
-    ]
-    (\x, \y) circle (\r) % head
-    (\x, \y) node {\name}
-    (\x, \ya) -- (\x,\yc) % body
-    (\xl, \ybd) -- (\x, \yb) -- (\xr, \ybd) %arms
-    (\xl, \ycd) -- (\x, \yc) -- (\xr, \ycd) %arms
-    ; %
-} % \stickman ==== A
-% ======================================= A
-
-% ======================================= V
-% \begin{tikzpicture}
-
-% %   % no name
-% %   \stickman{3}{3}{1} {}
-
-%     % generation
-%     \stickman{1}{3}{0.4} {a}
-%     \stickman{1.8}{4.3}{0.4} {b}
-%     \stickman{3}{4.8}{0.3} {$c_{i}$}
-%     \stickman{3.1}{2}{0.4} {}
-%     \stickman{4}{3}{0.5} {}
-
-%     % i, j
-%     \stickman{6}{3}{0.2} {i}
-%     \stickman{9}{3}{1} {j}
-
-%     %
-% %   \stickman{6}{3}{1}{}
-% %   \stickman{9}{4}{1}{}
-% %   \stickman{4.5}{4}{1}{}
-% \end{tikzpicture}
-% ===
 
 \begin{tikzpicture}[
     node distance = 10em, auto, thick,
@@ -136,13 +91,13 @@
     % \node[datastore] (storage) {storage};     \& \node[process] (monitor) {monitor};  \& \node[sink] (datastore) {datastore}; \\
    \node[alice,minimum size=2em,label={[label distance=0.1em]below:Alice}] (ALICE){};
   %  \node[person,process,fill=colorperson] (ALICE) {Alice};
-   \node[sink, right=of ALICE] (FE) {Federation \\ Engine}; 
+   \node[sink, right=of ALICE] (FE) {Query \\ Engine}; 
    \node[sink, right = of FE] (IAM) [align=left] {Aggregator}; 
    \node[pod, below = of FE] (POD2) {Pods};
    \node[pod, left = of POD2] (POD1) {Pods}; 
   \node[pod, right = of POD2] (POD3) {Pods};
-  \node[title, below=1em of POD1] (KPOD1) {$K_1^S\dots K_n^S$};
-  \node[title, below=1em of POD2] (KPOD2) {$K_1^R\dots K_n^R$};
+  \node[title,font=\sffamily\footnotesize, below=1em of POD1] (KPOD1) {$K_1^{Bob}\dots K_n^{Bob}$};
+  \node[title,font=\sffamily\footnotesize, below=1em of POD2] (KPOD2) {$K_1^{Carol}\dots K_n^{Carol}$};
   \node[title, below=1em of POD3] (KPOD2) {};
   
     % \matrix (TOP)  {
@@ -153,11 +108,15 @@
     % };
     % \node[draw,fill=orange!30] at ([yshift=0.75cm]ACP.south){SHACL Shape};
     % Draw the arrows between the nodes and label them.
-    \draw[to] (ALICE) -- node[midway,above] {$Q,K$} (FE);
-    \draw[to] (IAM) -- node[midway,above] {Summaries} (FE);
-    \draw[-,>=stealth',shorten >=1pt,semithick,font=\sffamily\footnotesize] (POD1.north) -- node[midway,sloped] {$Q, K{\& \atop |}Cred$} (FE);
-    \draw[-,>=stealth',shorten >=1pt,semithick,font=\sffamily\footnotesize] (POD2.north) -- node[midway,sloped] {$Q, K{\& \atop |}Cred$} (FE);
-    \draw[-,>=stealth',shorten >=1pt,semithick,font=\sffamily\footnotesize] (POD3.north) -- node[midway,sloped] {\phantom{$Q, K{\& \atop |}Cred$}} (FE);
+    \draw[to] (ALICE) -- node[midway,above] {$q,K$} node[midway,below] {Query, Keys} (FE);
+    \draw[to] (IAM) -- node[midway,above] {Request Summaries} (FE);
+    \draw[to] (FE) -- node[midway,below] {Summaries $\Sigma$ } (IAM); 
+    \draw[-,>=stealth',shorten >=1pt,semithick,font=\sffamily\footnotesize] (POD1.north) -- node[midway,sloped] {$q, K{\& \atop |}Cred$} (FE);
+    \draw[-,>=stealth',shorten >=1pt,semithick,font=\sffamily\footnotesize] (POD2.north) -- node[midway,sloped] {$q, K{\& \atop |}Cred$} (FE);
+    \draw[-,>=stealth',shorten >=1pt,semithick,font=\sffamily\footnotesize] (POD3.north) -- node[midway,sloped] {\phantom{$q, K{\& \atop |}Cred$}} (FE);
+    \draw[-,>=stealth',shorten >=1pt,semithick,dashed,font=\sffamily\footnotesize] (POD1.north) -- node[midway,sloped] {} (IAM);
+    \draw[-,>=stealth',shorten >=1pt,semithick,dashed,font=\sffamily\footnotesize] (POD2.north) -- node[midway,sloped] {} (IAM);
+    \draw[-,>=stealth',shorten >=1pt,semithick,dashed,font=\sffamily\footnotesize] (POD3.north) -- node[midway,sloped] {} (IAM);
 
     \begin{scope}[on above layer]
       \node[fill=blue!20, draw, semithick,below left=0.5em and -1em of POD1.west, rectangle,minimum width=2em,minimum height=1em] (blue1) {};

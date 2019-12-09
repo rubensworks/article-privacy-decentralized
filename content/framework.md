@@ -152,7 +152,7 @@ and all available keys.
 For each combination, it will first do a pre-filtering step before locally iterating over all sources.
 It will check whether or not the component value
 is present in the summary for the current key and component,
-with source URI set to `0` to match with all sources.
+with source URI set to `ε` to match with all sources.
 If it is not present, then we return an empty array, as none of the sources will contain the given component value.
 If it is present, some of the sources *may* contain the component value,
 because we consider summaries as being probabilistic.
@@ -190,17 +190,17 @@ We consider the following requirements:
     Data within summaries must not be readable without the proper authentication keys.
 2. **Value additions**:
     It must be possible to add values to summaries by key and file URI.
-    An implementation for `Summary_Add(S.c, v, k, u)` is required,
+    An implementation for `Summary_Add(Σ.c, v, k, u)` is required,
     based on an initialized summary as implemented by `Summary_Initialize()`.
 3. **Summary combinations**
     It must be possible to combine two summaries,
     where the combined summary is identical to a summary where all of the entries were added directly.
-    An implementation for `Summary_Combine(S.c, S'.c)` is required.
+    An implementation for `Summary_Combine(Σ.c, Σ'.c)` is required.
 4. **Authorized membership checking**
     Probabilistic membership checking must be possible for a given value, key and file URI.
     False positives are allowed, but true negatives are required.
     We require that the file URI can be falsy, in case all file URIs must be tested.
-    An implementation for `Summary_Contains(S.c, v, k, u)` is required.
+    An implementation for `Summary_Contains(Σ.c, v, k, u)` is required.
 
 ### Extension of Access Control
 
