@@ -7,7 +7,7 @@ Aggregation is privacy-preserving, not querying.
 The Web, as it was envisioned originally, is a free, *decentralized* platform.
 However, in recent years, this vision of a decentralized Web has become less and less emphasized,
 and the Web has been growing increasingly more *centralized*.
-This has brought various problems,
+_This has brought various problems,_{:.rephrase}
 such as the misuse of personal information for advertisement purposes,
 and the manipulation of information to influence political elections.
 
@@ -16,12 +16,10 @@ to give people back the ownership of their data.
 One of the leading efforts for decentralization is [Solid](cite:cites solid),
 which is a decentralized Web-based ecosystem that is lead by the Web's inventor, Tim Berners-Lee.
 Solid enables true data ownership by allowing everyone to have a personal *data pod* to store their data.
-Applications are detached from this data, and need to ask for permission to access their data.
+Applications are detached from this data, _and need to ask for permission to access their data._{:.rephrase}
 Ensuring data ownership is also one of the goals of the European General Data Protection Regulation (GDPR),
 where Solid can be an answer to this new regulation,
 as has been [exemplified in governmental processes](cite:cites solid_gov).
-
-*[social problems]: such as..? add reference
 
 While decentralization may solve many of the _social problems_{:.rephrase} we are currently experiencing, it introduces several *technological* problems,
 since applications now need to be able to query data that is spread over the Web,
@@ -58,7 +56,7 @@ Concretely, our framework focuses on three aspects:
 
 1. Optimizing federated querying through privacy-preserving aggregation
 2. Fine-grained access control
-3. Decentralized identity management (to allow encoding of AMFs)
+3. Decentralized identity management (_to allow encoding of AMFs_{:.rephrase})
 
 This article is structured as follows.
 In the next section, we present the related work.
@@ -66,3 +64,8 @@ In [](#use-case), we introduce a guiding use case,
 followed by the introduction of our framework in [](#framework).
 Next, we evaluate our framework using an attacker model in [](#evaluation),
 and we conclude in [](#conclusions).
+
+*[social problems]: such as..? add reference
+*[This has brought various problems,]: This gave rise to..?
+*[to allow encoding of AMFs]: AMFs aren't introduced/defined yet
+*[and need to ask for permission to access their data.]: whose data? the application's or people's data?

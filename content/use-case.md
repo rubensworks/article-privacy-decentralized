@@ -8,7 +8,7 @@ To keep this use case simple, we assume an address book of Alice that contains t
 In practise, such an address book could contain much more contacts.
 Alice has chosen to make this address book public,
 so that everyone is able to see everyone she knows,
-without necessarily having access the everyone's private contact details.
+without necessarily having access to everyone's private contact details.
 We also consider Dave as a fourth person that has no relationship with anyone else.
 
 For the sake of simplicity, we consider three hierarchical authorization roles per pod,
