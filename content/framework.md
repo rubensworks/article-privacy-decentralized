@@ -62,12 +62,15 @@ For each source, it should do this by testing the summary for its query using it
 If the test is true, then the client should consider this source as valid target it can query.
 This client-side process will be explained in more detail in [](#framework-client).
 
+{:.todo}
+Should we show pseudocode of (existing) `CreateSummary(Q)`?
+
 <figure id="figure-summary-components">
 <img src="img/summary-components.svg" alt="[Summarization of a file]" height="150px">
 <figcaption markdown="block">
 Summarization of all RDF quads within a file.
 The summary contains 4 parts, corresponding to all subjects, predicates, objects and graphs in the file.
-The `SummarizeFile` implementation depends on the type of summary,
+The `CreateSummary` implementation depends on the type of summary,
 for which [Vander Sande et al.](cite:cites tpf_amf) provide different implementations.
 </figcaption>
 </figure>
