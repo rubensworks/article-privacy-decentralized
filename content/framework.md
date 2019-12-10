@@ -86,8 +86,8 @@ Client-side query engines can use this combined summary to derive which sources 
 </figcaption>
 </figure>
 
-#### Aggregation Algorithm
-{:#framework-aggregation}
+#### Summary Creation Algorithm
+{:#framework-summary-creation}
 
 The main purpose of an aggregator is to enable clients to optimize federated querying
 by reducing the range of source to query over through summaries.
@@ -127,6 +127,9 @@ Privacy-preserving summarization of all RDF quads (`Q`) within a file (`u`),
 based on a set of quad-dependent keys that are derived using a mapping function `qk`.
 </figcaption>
 </figure>
+
+#### Summary Aggregation Algorithm
+{:#framework-summary-aggregation}
 
 Based on the resulting file summaries,
 the aggregator can create a combined summary using the algorithm from [](#aggregation-algorithm).
