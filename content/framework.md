@@ -140,6 +140,7 @@ the aggregator can create a combined summary using the algorithm from [](#aggreg
 The `Summary_Add` and `Summary_Combine` functions that are used in these algorithms
 depend on the type of summary that is being used,
 for which we will list the requirements and give examples at the end of this section.
+[](#figure-summary-components-privacy-aggregated) shows a high-level example of how this aggregation can happen in practise.
 
 <figure id="aggregation-algorithm" class="listing">
 ````/code/aggregation-algorithm.txt````
@@ -147,6 +148,15 @@ for which we will list the requirements and give examples at the end of this sec
 Algorithm for creating a combined summary over a set of sources,
 with `Summary_Combine` a summary-type-dependent function for combining two summaries,
 and `Summary_Initialize` a summary-type-dependent function for initializing a new summary.
+</figcaption>
+</figure>
+
+<figure id="figure-summary-components-privacy-aggregated">
+<img src="img/summary-components-privacy-aggregated.svg" alt="[Privacy-preserving aggregated summarization]">
+<figcaption markdown="block">
+Privacy-preserving aggregation of multiple summaries.
+*Note: The summary values are not necessarily an exact representation of the way the summary is stored,
+these values are merely an indication of what information is used to construct the summary.*
 </figcaption>
 </figure>
 
