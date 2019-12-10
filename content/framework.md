@@ -109,11 +109,7 @@ where we iterate over all the file's quads,
 and the keys that are applicable for each quad.
 For each of these combinations, we add the quad component to the summary, 
 for the given key and file source URI.
-Based on the resulting file summaries,
-the aggregator can create a combined summary using the algorithm from [](#aggregation-algorithm).
-The `Summary_Add` and `Summary_Combine` functions that are used in these algorithms
-depend on the type of summary that is being used,
-for which we will list the requirements and give examples at the end of this section.
+An high-level example of this summarization algorithm can be seen in [](#figure-summary-components-privacy).
 
 <figure id="summarization-algorithm" class="listing">
 ````/code/summarization-algorithm.txt````
@@ -123,6 +119,20 @@ with `Summary_Add` a summary-type-dependent function for adding a quad component
 and `Summary_Initialize` a summary-type-dependent function for initializing a new summary.
 </figcaption>
 </figure>
+
+<figure id="figure-summary-components-privacy">
+<img src="img/summary-components-privacy.svg" alt="[Privacy-preserving summarization of a file]">
+<figcaption markdown="block">
+Privacy-preserving summarization of all RDF quads (`Q`) within a file (`u`),
+based on a set of quad-dependent keys that are derived using a mapping function `qk`.
+</figcaption>
+</figure>
+
+Based on the resulting file summaries,
+the aggregator can create a combined summary using the algorithm from [](#aggregation-algorithm).
+The `Summary_Add` and `Summary_Combine` functions that are used in these algorithms
+depend on the type of summary that is being used,
+for which we will list the requirements and give examples at the end of this section.
 
 <figure id="aggregation-algorithm" class="listing">
 ````/code/aggregation-algorithm.txt````

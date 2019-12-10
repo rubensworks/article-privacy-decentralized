@@ -1,16 +1,14 @@
-FUNCTION CreateSummaryPrivacyPreserving(Q, u, K, pk)
+FUNCTION CreateSummaryPrivacyPreserving(Q, u, qk)
   INPUT:
     list of quads Q
     URI u of the file
-    all applicable keys K for quads in the file
-    predicate pk(k, q) for checking whether or not a key applies to a quad
+    qk(q) a mapping function from quad to a list of applicable keys
   OUTPUT:
     summary for each quad component: S.subject, S.predicate, S.object S.graph
 FOREACH c in [subject, predicate, object, graph]
   S.c = Summary_Initialize()
 FOREACH q in Q
   FOREACH c in [subject, predicate, object, graph]
-    FOREACH k in K
-      IF pk(k, q)
-        S.c = Summary_Add(S.c, q.c, k, u)
+    FOREACH k in qk(q)
+      S.c = Summary_Add(S.c, q.c, k, u)
 RETURN S
