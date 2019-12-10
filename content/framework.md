@@ -72,6 +72,8 @@ Summarization of all RDF quads within a file.
 The summary contains 4 parts, corresponding to all subjects, predicates, objects and graphs in the file.
 The `CreateSummary` implementation depends on the type of summary,
 for which [Vander Sande et al.](cite:cites tpf_amf) provide different implementations.
+*Note: The summary values are not necessarily an exact representation of the way the summary is stored,
+these values are merely an indication of what information is used to construct the summary.*
 </figcaption>
 </figure>
 
@@ -125,6 +127,8 @@ and `Summary_Initialize` a summary-type-dependent function for initializing a ne
 <figcaption markdown="block">
 Privacy-preserving summarization of all RDF quads (`Q`) within a file (`u`),
 based on a set of quad-dependent keys that are derived using a mapping function `qk`.
+*Note: The summary values are not necessarily an exact representation of the way the summary is stored,
+these values are merely an indication of what information is used to construct the summary.*
 </figcaption>
 </figure>
 
