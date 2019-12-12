@@ -206,6 +206,7 @@ When a true negative is found for a source, this source is removed from the list
 Finally, the remaining list of sources is returned,
 which can be used by the query engine to execute the quad pattern query over.
 In this algorithm, the `Summary_Contains` also depends on the type of summary that is being used.
+[](#figure-query-execution) shows an example of how this source selection algorithm can be used in client-side query engines.
 
 <figure id="client-algorithm" class="listing">
 ````/code/client-algorithm.txt````
@@ -214,6 +215,15 @@ Client-side algorithm for selecting query-relevant sources for a quad pattern qu
 based on a given privacy-preserving summary.
 `Summary_Contains` is a summary-type-dependent function for checking if a summary contains a given quad component
 for a given key and source URI.
+</figcaption>
+</figure>
+
+<figure id="figure-query-execution">
+<img src="img/query-execution.svg" alt="[Query execution over privacy-preserving summaries]">
+<figcaption markdown="block">
+Federated query execution using a privacy-preserving summary.
+*Note: The summary values are not necessarily an exact representation of the way the summary is stored,
+these values are merely an indication of what information is used to construct the summary.*
 </figcaption>
 </figure>
 
