@@ -35,6 +35,8 @@ is that all of the performance-critical operations on summaries
 (adding, combining, membership checking)
 can happen very efficiently, as these are essentially just bitwise operations.
 
+#### AMF Parameter Handling
+
 When using AMFs, it is important to take account that these have certain parameters,
 and that all operations must be known before any operation can be done with them.
 For example, for Bloom filters the parameters are the number of hashes and bits.

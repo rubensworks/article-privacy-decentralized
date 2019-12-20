@@ -33,6 +33,10 @@ Since realistic decentralized environments could easily contain hundreds or thou
 it is unfeasible for the client to query over them directly.
 For this reason, we make make use of the concept of _[data summaries](cite:cites summaries)_
 to allow clients to reduce the number of sources to query over.
+Following the approach from [Vander Sande et al.](cite:cites tpf_amf),
+each summary consists of 4 parts, corresponding to the 4 components in RDF quads,
+as illustrated in [](#figure-summary-components).
+
 For this, we assume that each data pod exposes a data summary for each separate file,
 and third-party aggregators that can aggregate these summaries.
 Since files may contain private data, these data summaries must be *privacy-preserving*,
@@ -58,6 +62,21 @@ For each source, it should do this by testing the summary for its query using it
 If the test is true, then the client should consider this source as valid target it can query.
 This client-side process will be explained in more detail in [](#framework-client).
 
+{:.todo}
+Should we show pseudocode of (existing) `CreateSummary(Q)`?
+
+<figure id="figure-summary-components">
+<img src="img/summary-components.svg" alt="[Summarization of a file]" height="150px">
+<figcaption markdown="block">
+Summarization of all RDF quads within a file.
+The summary contains 4 parts, corresponding to all subjects, predicates, objects and graphs in the file.
+The `CreateSummary` implementation depends on the type of summary,
+for which [Vander Sande et al.](cite:cites tpf_amf) provide different implementations.
+*Note: The summary values are not necessarily an exact representation of the way the summary is stored,
+these values are merely an indication of what information is used to construct the summary.*
+</figcaption>
+</figure>
+
 <figure id="figure-privacy-federation-architecture">
 <img src="img/privacy-federation-architecture.svg" alt="[Privacy-Preserving Federated Querying Architecture]">
 <figcaption markdown="block">
@@ -69,8 +88,8 @@ Client-side query engines can use this combined summary to derive which sources 
 </figcaption>
 </figure>
 
-#### Aggregation Algorithm
-{:#framework-aggregation}
+#### Summary Creation Algorithm
+{:#framework-summary-creation}
 
 The main purpose of an aggregator is to enable clients to optimize federated querying
 by reducing the range of source to query over through summaries.
@@ -92,11 +111,7 @@ where we iterate over all the file's quads,
 and the keys that are applicable for each quad.
 For each of these combinations, we add the quad component to the summary, 
 for the given key and file source URI.
-Based on the resulting file summaries,
-the aggregator can create a combined summary using the algorithm from [](#aggregation-algorithm).
-The `Summary_Add` and `Summary_Combine` functions that are used in these algorithms
-depend on the type of summary that is being used,
-for which we will list the requirements and give examples at the end of this section.
+An high-level example of this summarization algorithm can be seen in [](#figure-summary-components-privacy).
 
 <figure id="summarization-algorithm" class="listing">
 ````/code/summarization-algorithm.txt````
@@ -107,12 +122,41 @@ and `Summary_Initialize` a summary-type-dependent function for initializing a ne
 </figcaption>
 </figure>
 
+<figure id="figure-summary-components-privacy">
+<img src="img/summary-components-privacy.svg" alt="[Privacy-preserving summarization of a file]">
+<figcaption markdown="block">
+Privacy-preserving summarization of all RDF quads (`Q`) within a file (`u`),
+based on a set of quad-dependent keys that are derived using a mapping function `qk`.
+*Note: The summary values are not necessarily an exact representation of the way the summary is stored,
+these values are merely an indication of what information is used to construct the summary.*
+</figcaption>
+</figure>
+
+#### Summary Aggregation Algorithm
+{:#framework-summary-aggregation}
+
+Based on the resulting file summaries,
+the aggregator can create a combined summary using the algorithm from [](#aggregation-algorithm).
+The `Summary_Add` and `Summary_Combine` functions that are used in these algorithms
+depend on the type of summary that is being used,
+for which we will list the requirements and give examples at the end of this section.
+[](#figure-summary-components-privacy-aggregated) shows a high-level example of how this aggregation can happen in practise.
+
 <figure id="aggregation-algorithm" class="listing">
 ````/code/aggregation-algorithm.txt````
 <figcaption markdown="block">
 Algorithm for creating a combined summary over a set of sources,
 with `Summary_Combine` a summary-type-dependent function for combining two summaries,
 and `Summary_Initialize` a summary-type-dependent function for initializing a new summary.
+</figcaption>
+</figure>
+
+<figure id="figure-summary-components-privacy-aggregated">
+<img src="img/summary-components-privacy-aggregated.svg" alt="[Privacy-preserving aggregated summarization]">
+<figcaption markdown="block">
+Privacy-preserving aggregation of multiple summaries.
+*Note: The summary values are not necessarily an exact representation of the way the summary is stored,
+these values are merely an indication of what information is used to construct the summary.*
 </figcaption>
 </figure>
 
@@ -162,6 +206,7 @@ When a true negative is found for a source, this source is removed from the list
 Finally, the remaining list of sources is returned,
 which can be used by the query engine to execute the quad pattern query over.
 In this algorithm, the `Summary_Contains` also depends on the type of summary that is being used.
+[](#figure-query-execution) shows an example of how this source selection algorithm can be used in client-side query engines.
 
 <figure id="client-algorithm" class="listing">
 ````/code/client-algorithm.txt````
@@ -170,6 +215,15 @@ Client-side algorithm for selecting query-relevant sources for a quad pattern qu
 based on a given privacy-preserving summary.
 `Summary_Contains` is a summary-type-dependent function for checking if a summary contains a given quad component
 for a given key and source URI.
+</figcaption>
+</figure>
+
+<figure id="figure-query-execution">
+<img src="img/query-execution.svg" alt="[Query execution over privacy-preserving summaries]">
+<figcaption markdown="block">
+Federated query execution using a privacy-preserving summary.
+*Note: The summary values are not necessarily an exact representation of the way the summary is stored,
+these values are merely an indication of what information is used to construct the summary.*
 </figcaption>
 </figure>
 
