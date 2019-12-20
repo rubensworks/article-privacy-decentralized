@@ -88,6 +88,15 @@ Client-side query engines can use this combined summary to derive which sources 
 </figcaption>
 </figure>
 
+
+<figure id="figure-overall-architecture">
+<img src="img/overall-architecture.svg" alt="Process of obtaining data">
+<figcaption markdown="block">
+redundant as we have [](#figure-query-execution) and  [](#figure-privacy-federation-architecture) right?
+</figcaption>
+</figure>
+
+
 #### Summary Creation Algorithm
 {:#framework-summary-creation}
 
@@ -244,7 +253,7 @@ We consider the following requirements:
     Data within summaries must not be readable without the proper authentication keys.
 2. **Value additions**:
     It must be possible to add values to summaries by key and file URI.
-    An implementation for `Summary_Add(Σ.c, v, k, u)` is required,
+    An implementation for `Summary_Add(Σ.c, q.c, k, u)` is required,
     based on an initialized summary as implemented by `Summary_Initialize()`.
 3. **Summary combinations**
     It must be possible to combine two summaries,
@@ -254,7 +263,7 @@ We consider the following requirements:
     Probabilistic membership checking must be possible for a given value, key and file URI.
     False positives are allowed, but true negatives are required.
     We require that the file URI can be falsy, in case all file URIs must be tested.
-    An implementation for `Summary_Contains(Σ.c, v, k, u)` is required.
+    An implementation for `Summary_Contains(Σ.c, q.c, k, u)` is required.
 
 ### Extension of Access Control
 
@@ -267,13 +276,6 @@ Simon
 TBD
 </figcaption>
 </figure>
-<figure id="figure-overall-architecture">
-<img src="img/overall-architecture.svg" alt="Process of obtaining data">
-<figcaption markdown="block">
-TBD
-</figcaption>
-</figure>
-
 * Data owners are responsible for enforcing access control (as opposed to other approaches where federation engine takes care of that). We assume that access control is already taken care of at the (client-side) federation engine.
 * Build on Solid's WebID-OIDC for auth, and WAC for access control.
 * Allow shape-based/quadpattern-based (SHACL/SHEX) access modes in .acl files. (advantage of shapes is that fewer keys may be needed, which reduces the complexity of key mgmt) (motivation for keys is that Solid is going to use it for data validation: https://github.com/solid/data-interoperability-panel/blob/b2591bf2f8808972e5459db2aa4ac8d9854f5b5e/data-validation/use-cases.md)
