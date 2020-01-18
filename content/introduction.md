@@ -1,71 +1,13 @@
 ## Introduction
 {:#introduction}
 
-{:.todo}
-Aggregation is privacy-preserving, not querying.
+The Web was designed as a free, non-discriminatory, decentralized platform.  Although the Web brings major benefits as an economic, educational, and collaborative space, it also serves as a means for personal information harvesting, disinformation, and political manipulation. Additionally, in recent years, the Web has been dominated by a handful of centralized service providers commonly known as Google, Amazon, Facebook, Apple, or simply the GAFA. 
 
-The Web, as it was envisioned originally, is a free, *decentralized* platform.
-However, in recent years, this vision of a decentralized Web has become less and less emphasized,
-and the Web has been growing increasingly more *centralized*.
-_This has brought various problems,_{:.rephrase}
-such as the misuse of personal information for advertisement purposes,
-and the manipulation of information to influence political elections.
+One potential solution to the existing problems is to enable individuals to take more control over their data and to provide infrastructure that supports decentralised query processing. One of the leading efforts in this space is [Solid](cite:cites solid), which is a decentralized Web-based ecosystem that enables true data ownership by enabling everyone to have a personal *data pod* to store their data. By decoupling data from applications individuals are afforded more control over how their personal data are processed. However, the number of data sources that need to be queried could potentially become very large, for instance in the case of a large social network. Thus giving rise to research into [data aggregators](cite:cites summaries) that can be used to improve query performance by reducing the number of sources that need to be queried.
 
-For these reasons, there is a push for *re-decentralizing the Web*,
-to give people back the ownership of their data.
-One of the leading efforts for decentralization is [Solid](cite:cites solid),
-which is a decentralized Web-based ecosystem that is lead by the Web's inventor, Tim Berners-Lee.
-Solid enables true data ownership by allowing everyone to have a personal *data pod* to store their data.
-Applications are detached from this data, _and need to ask for permission to access their data._{:.rephrase}
-Ensuring data ownership is also one of the goals of the European General Data Protection Regulation (GDPR),
-where Solid can be an answer to this new regulation,
-as has been [exemplified in governmental processes](cite:cites solid_gov).
+One of the major limitations of current aggregation techniques, is the fact that they assume that all data is public, which is not realistic in many scenarios (e.g., in a social network context individuals may only wish to share their telephone number with friends). As such, query execution and aggregation techniques need to be extended to enable them to work with private data. Concretely, query engines need to be able to authenticate themselves to sources, such that only authorised data is returned. Furthermore, since aggregators may be untrusted third-parties, there is a need for privacy-preserving aggregation techniques, such that malicious aggregators are not able to access unauthorised data.
 
-While decentralization may solve many of the _social problems_{:.rephrase} we are currently experiencing, it introduces several *technological* problems,
-since applications now need to be able to query data that is spread over the Web,
-instead of having it available via a centralized endpoint.
-Due to the massive size of the Web, the number of documents that need to be queried
-can become very large.
-For example, visualizing a social network feed may require hundreds or thousands of sources.
-In order to improve the performance of query execution,
-[data aggregators](cite:cites summaries) can be used
-as a way to reduce the range of sources to query over.
+In this position paper, we propose a high-level framework that can be use to: (i) optimize federated querying through privacy-preserving aggregation and; (ii) enable fine-grained access control. Our goal is *not* to introduce a complete solution to these problems, instead, our contribution is a framework that can be used to position future research.
 
-Current aggregation techniques assume that all data is public.
-However, in decentralized environments such as Solid,
-not all data is necessarily public,
-as data can be configured to only be visible to some people.
-For example, the name of someone may be visible for everyone,
-but the telephone number may only be visible to friends.
-As such, query execution and aggregation techniques need to be extended to enable them to work with private data.
-Concretely, query engines need to be able to *authenticate* themselves to sources,
-so that they can be *authorized* to see specific parts of the data.
-Furthermore, since aggregators may be untrusted third-parties,
-*privacy-preserving* aggregation techniques need to be introduced,
-so that malicious aggregators are not able to read this data.
-
-In this article, we share our vision on querying in decentralized environments
-in privacy-preserving manner.
-We discuss the state of the art,
-identify the open challenges to enable privacy-preserving querying,
-and we propose a high-level framework for tackling these challenges,
-including a theoretical evaluation about its feasibility.
-Our goal is *not* to introduce a complete solution to these problems,
-instead, our contribution is a framework into which future research can be positioned.
-Concretely, our framework focuses on three aspects:
-
-1. Optimizing federated querying through privacy-preserving aggregation
-2. Fine-grained access control
-3. Decentralized identity management (_to allow encoding of AMFs_{:.rephrase})
-
-This article is structured as follows.
-In the next section, we present the related work.
-In [](#use-case), we introduce a guiding use case,
-followed by the introduction of our framework in [](#framework).
-Next, we evaluate our framework using an attacker model in [](#evaluation),
-and we conclude in [](#conclusions).
-
-*[social problems]: such as..? add reference
-*[This has brought various problems,]: This gave rise to..?
-*[to allow encoding of AMFs]: AMFs aren't introduced/defined yet
-*[and need to ask for permission to access their data.]: whose data? the application's or people's data?
+The remainder of this article is structured as follows: In [](#related-work) we present relevant related work in terms of querying and indexing.
+In [](#use-case) we introduce the motivating use case that is used to guide our work.  Following on from this our framework is introduced in [](#framework) and a possible instantiation is presented in [](#solution). Finally we conclude the article and discuss future work in [](#conclusions).

@@ -1,18 +1,13 @@
 ## Abstract
 <!-- Context      -->
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 <!-- Need         -->
-Vestibulum finibus dignissim augue, id pellentesque est facilisis non.
 <!-- Task         -->
-Donec fringilla dolor non neque iaculis blandit.
 <!-- Object       -->
-Praesent aliquet eleifend iaculis.
 <!-- Findings     -->
-Quisque pellentesque at odio ac bibendum.
 <!-- Conclusion   -->
-Pellentesque imperdiet felis urna, quis facilisis lacus gravida non.
 <!-- Perspectives -->
-Donec quis lectus eget sem tempor tristique pellentesque in dolor.
+
+The Web as we know it has demonstrated its potential as an economic, educational, and collaborative space, however it also serves as a haven for personal information harvesting, disinformation, and political manipulation. Although existing decentralized Web-based ecosystems, such as solid, aim to give individuals more control over their data, effective privacy-preserving indexing and access control techniques are needed in order to make such platforms practically vitiable. Towards this end, in this position paper we present a framework that can be used to assess the effectiveness of alternative authentication, access control, and  privacy-preserving indexing strategies. In addition, we present an instantiation of the proposed framework and identify open research challenges/opportunities.
 
 <span id="keywords" rel="schema:about"><span class="title">Keywords</span>
 <a href="https://en.wikipedia.org/wiki/Decentralization" resource="http://dbpedia.org/resource/Decentralization">Decentralization</a>;
