@@ -89,7 +89,7 @@ and we let aggregators combine them, similar to the [SPARQL ASK approach](cite:c
 Just like with the [Triple Pattern Fragments approach](cite:cites tpf_amf),
 clients can then use these Bloom filters to reduce the number of sources they need to fetch.
 
-### Shapes
+<!-- ### Shapes -->
 
-SIMON shapes (SHACL/ShEx) and [using shapes for Web APIs](cite:cites hypermedia_shapes)
-{:.todo}
+<!--SIMON shapes (SHACL/ShEx) and [using shapes for Web APIs](cite:cites hypermedia_shapes)
+{:.todo} -->
