@@ -122,7 +122,7 @@ and `Summary_Initialize` a summary-type-dependent function for initializing a ne
 </figcaption>
 </figure>
 
-RUBEN any idea why the labels say fig. instead of listing 
+RUBEN any idea why the label says fig. instead of listing 
 {:.todo}
 
 <figure id="figure-summary-components-privacy">
