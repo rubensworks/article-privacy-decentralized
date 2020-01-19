@@ -5,7 +5,7 @@ In the scope of this work, we consider the use case of a personalized address bo
 where the address book is merely a list of WebIDs,
 and the actual details of each contact is stored in their own respective pod.
 To keep this use case simple, we assume an address book of Alice that contains two contacts: Bob and Carol.
-In practise, such an address book could contain much more contacts.
+In practise, such an address book could contain many more contacts.
 Alice has chosen to make this address book public,
 so that everyone is able to see everyone she knows,
 without necessarily having access to everyone's private contact details.
@@ -65,3 +65,6 @@ For this use case, we consider the following example queries:
     Dave is not able to read the telephone number of Bob or Carol.
     Because Bob's telephone number is readable for friends (*Dave ∉ R3<sub>B</sub>*),
     but Carol's telephone number is only readable for her friends (*Dave ∉ R2<sub>C</sub>*).
+
+SABRINA rework the use case so that it aligns with the examples presented later
+{:.todo}

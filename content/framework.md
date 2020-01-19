@@ -3,67 +3,51 @@
 
 In this section, we introduce a framework to enable querying
 over decentralized environments in a privacy-preserving manner,
-to enable use cases such as introduced in [](#use-case).
-For this, we focus on three aspects.
-First, we introduce a high-level architecture for enabling federated querying in a privacy-preserving manner.
-Second, we list the requirements for enabling fine-grained access control in decentralized environments.
-Third, we discuss required extensions to identity management within decentralized environments.
-In the subsections hereafter, we discuss these three aspects in more detail.
+which provides support for use cases such as the one introduced in [](#use-case).
+We put a particular emphasis on three core aspects of the framework: 
+(i) we introduce a high-level architecture for enabling federated querying in a privacy-preserving manner;
+(ii) we list the requirements for enabling fine-grained access control in decentralized environments; and
+(iii) we discuss required extensions to identity management within decentralized environments.
 
 ### Privacy-Preserving Federated Querying
 
-In this section, we introduce a general decentralized architecture federated querying over privacy-constrained data,
-for which an overview can be seen in [](#figure-privacy-federation-architecture).
-We first introduce a high-level overview of the architecture,
-after which we introduce an aggregation algorithm for creating privacy-preserving summaries,
-and a client-side algorithm to query over such summaries.
+The proposed privacy-preserving federation architecture is depicted in [](#figure-privacy-federation-architecture).
+We first provide a high-level overview of the architecture,
+after which we introduce our aggregation algorithm, which is used to create privacy-preserving summaries,
+and a client-side algorithm, which is used to execute queries over such summaries.
 In this overview, we do not focus on specific technologies,
-instead, we end the section with a list of requirements
-and offer examples of technologies that can be used to instantiate this architecture.
+instead, we provide a list of requirements and offer examples of technologies that can be used to instantiate this architecture.
+
+<figure id="figure-privacy-federation-architecture">
+<img src="img/privacy-federation-architecture.svg" alt="[Privacy-Preserving Federated Querying Architecture]">
+<figcaption markdown="block">
+Overview of a privacy-preserving federation architecture
+with six access restricted sources and privacy-preserving summaries,
+and a third-party aggregator that combines these summaries in a privacy-preserving manner,
+together with a list of all sources it summarizes.
+Client-side query engines can use this combined summary to derive which sources are relevant for any given query.
+</figcaption>
+</figure>
 
 #### Architecture Overview
 
-Based on our use case from [](#use-case), we assume that multiple data pods exist,
-which each can contain multiple privacy-constrained files.
+Based on our use case from [](#use-case), we assume that multiple data pods, each potentially containing multiple privacy-constrained files, exist.
 If clients want to read the contents of these files,
-they have to authenticate themselves to the data pod server,
-after which they may be authorized to read the full contents or parts of it.
+they have to authenticate themselves to the data pod server. Depending on the pods access control policy the client may be authorized to read the full contents or parts of it.
 
 Since realistic decentralized environments could easily contain hundreds or thousands of files,
-it is unfeasible for the client to query over them directly.
-For this reason, we make make use of the concept of _[data summaries](cite:cites summaries)_
-to allow clients to reduce the number of sources to query over.
+it is unfeasible for the client to query each of them.
+For this reason, we make make use of the _[data summaries](cite:cites summaries)_ concept
+in order to reduce the number of sources that need to be queried by the client.
+For this, we assume that each data pod exposes a data summary for each separate file,
+which is subsequently aggregated by third-party aggregators.
+Since files may contain private data, these data summaries must be *privacy-preserving*,
+i.e., they must not allow access restricted data to be leaked to unauthorised individuals.
+Pods can generate these summaries lazily on demand, either periodically or upon file changes.
+An overview of this architecture can be seen in [](#figure-privacy-federation-architecture).
 Following the approach from [Vander Sande et al.](cite:cites tpf_amf),
 each summary consists of 4 parts, corresponding to the 4 components in RDF quads,
 as illustrated in [](#figure-summary-components).
-
-For this, we assume that each data pod exposes a data summary for each separate file,
-and third-party aggregators that can aggregate these summaries.
-Since files may contain private data, these data summaries must be *privacy-preserving*,
-i.e., they must not allow the presence of contents to be leaked without the proper authentication.
-Pods can either generate these summaries lazily on demand,
-or they can be generated periodically or upon file changes.
-An overview of this architecture can be seen in [](#figure-privacy-federation-architecture).
-
-Using the summaries of these files, third-party aggregators can create _combined summaries_.
-Since the separate summaries are privacy-preserving, the combined summaries will also be privacy-preserving,
-which means that third-party aggregators will not be able to know the actual contents of the data,
-and they need not necessarily be trusted parties.
-Next to exposing the combined summary,
-an aggregator should also maintain and expose the list of sources it aggregates over,
-so that clients can derive the range of sources a summary is applied over.
-In our example we consider one aggregator, but in practise multiple aggregators can exist with different ranges.
-This aggregation process will be explained in more detail in [](#framework-aggregation).
-
-Finally, a client-side query engine that is aware of such an aggregator
-can make use of the combined summary to perform source selection before query execution,
-i.e., reduce the number of sources it has to request.
-For each source, it should do this by testing the summary for its query using its authentication key.
-If the test is true, then the client should consider this source as valid target it can query.
-This client-side process will be explained in more detail in [](#framework-client).
-
-{:.todo}
-Should we show pseudocode of (existing) `CreateSummary(Q)`?
 
 <figure id="figure-summary-components">
 <img src="img/summary-components.svg" alt="[Summarization of a file]" height="150px">
@@ -77,17 +61,22 @@ these values are merely an indication of what information is used to construct t
 </figcaption>
 </figure>
 
-<figure id="figure-privacy-federation-architecture">
-<img src="img/privacy-federation-architecture.svg" alt="[Privacy-Preserving Federated Querying Architecture]">
-<figcaption markdown="block">
-Overview of a privacy-preserving federation architecture
-with six sources with access control and privacy-preserving summaries,
-and a third-party aggregator that combines these summaries in a privacy-preserving manner,
-together with a list of all sources it summarizes.
-Client-side query engines can use this combined summary to derive which sources are relevant for any given query.
-</figcaption>
-</figure>
+Using the summaries of these files, third-party aggregators can create _combined summaries_.
+Since the separate summaries are privacy-preserving, the combined summaries will also be privacy-preserving,
+which means that third-party aggregators will not be able to know the actual contents of the data,
+and they need not necessarily be trusted parties.
+Inaddition to exposing the combined summary,
+an aggregator also needs to maintain and expose the list of sources it aggregates over,
+such that clients can derive the range of sources a summary is applied over.
+In our example we consider one aggregator, but in practise multiple aggregators can exist with different ranges.
 
+<!-- This aggregation process will be explained in more detail in [](#framework-aggregation). -->
+
+Finally, a client-side query engine can make use of the combined summary provided by the aggregator to perform source selection before query execution, i.e., reduce the number of sources it has to request. Thus the combined summaries serve two purposes: (i) to determine which data sources the client is permitted to access; and (ii) to identify the authorised data sources 
+
+<!-- For each source, it should do this by testing the summary for its query using its authentication key.
+If the test is true, then the client should consider this source as valid target it can query.
+This client-side process will be explained in more detail in [](#framework-client). -->
 
 <!-- <figure id="figure-overall-architecture">
 <img src="img/overall-architecture.svg" alt="Process of obtaining data">
@@ -100,10 +89,10 @@ redundant as we have [](#figure-query-execution) and  [](#figure-privacy-federat
 #### Summary Creation Algorithm
 {:#framework-summary-creation}
 
-The main purpose of an aggregator is to enable clients to optimize federated querying
+<!-- The main purpose of an aggregator is to enable clients to optimize federated querying
 by reducing the range of source to query over through summaries.
 Since we are considering private data, these summaries are privacy-preserving,
-which means that only people with the proper credentials must be able to determine the presence of data.
+which means that only people with the proper credentials must be able to determine the presence of data. -->
 
 In practise, multiple aggregators can exist,
 which are not necessarily trusted,
@@ -111,15 +100,17 @@ and each one should not necessarily aggregate over *all* sources.
 For example, an aggregator could be setup within a family to aggregate over all family events that may be hosted by several people,
 or a company-wide aggregator can be setup to keep track of the birthdays of all employees.
 
-In this framework, we assume that each data pod exposes a separate summary over each file,
-an that aggregator creates a combined summary over these separate summaries
-and maintains a list of all source URIs it is aggregating over.
-We assume that pods expose summaries that are created according to the algorithm from [](#summarization-algorithm).
+In the proposed framework, data pods expose a separate summary for each file,
+and aggregators: (i) create combined summaries using these separate summaries
+and (ii) maintain a list of all source URIs that they aggregate over.
+We assume that pods expose summaries that are created according to the algorithm presented in [](#summarization-algorithm).
 In this algorithm, a file summary is created for each quad component,
 where we iterate over all the file's quads,
-and the keys that are applicable for each quad.
+and the access token (aka a key) that are applicable for each quad.
 For each of these combinations, we add the quad component to the summary,
 for the given key and file source URI.
+The `Summary_Initialize` and  `Summary_Add` functions that are used in the algorithm depend on the type of summary that is being used,
+for which we will list the requirements and give examples at the end of this section.
 An high-level example of this summarization algorithm can be seen in [](#figure-summary-components-privacy).
 
 <figure id="summarization-algorithm" class="listing">
@@ -130,6 +121,9 @@ with `Summary_Add` a summary-type-dependent function for adding a quad component
 and `Summary_Initialize` a summary-type-dependent function for initializing a new summary.
 </figcaption>
 </figure>
+
+RUBEN any idea why the labels say fig. instead of listing 
+{:.todo}
 
 <figure id="figure-summary-components-privacy">
 <img src="img/summary-components-privacy.svg" alt="[Privacy-preserving summarization of a file]">
@@ -146,9 +140,8 @@ these values are merely an indication of what information is used to construct t
 
 Based on the resulting file summaries,
 the aggregator can create a combined summary using the algorithm from [](#aggregation-algorithm).
-The `Summary_Add` and `Summary_Combine` functions that are used in these algorithms
-depend on the type of summary that is being used,
-for which we will list the requirements and give examples at the end of this section.
+As before, the `Summary_Initialize` and `Summary_Combine` functions that are used in these algorithms
+depend on the type of summary that is being used.
 [](#figure-summary-components-privacy-aggregated) shows a high-level example of how this aggregation can happen in practise.
 
 <figure id="aggregation-algorithm" class="listing">
@@ -169,7 +162,7 @@ these values are merely an indication of what information is used to construct t
 </figcaption>
 </figure>
 
-In practise, these summaries and combined summaries require some bookkeeping.
+In practise, summaries and combined summaries require some bookkeeping.
 Each file summary must remain up-to-date with respect to the file's contents.
 This could be done by either immediately invalidating the summary upon file changes,
 or by periodically regenerating the summary.
@@ -187,7 +180,7 @@ Intelligent clients could however detect more expressive interfaces such as
 and make use of them during query execution, but we consider this out-of-scope for this work.
 
 Furthermore, we consider quad pattern-based access to file sources instead of more complex [SPARQL queries](cite:cites spec:sparqllang).
-This is because triple patterns or quad patterns are the fundamental elements of SPARQL queries,
+This is because triple and quad patterns are the fundamental elements of SPARQL queries,
 and any SPARQL query can be decomposed into multiple smaller quad pattern queries.
 For examples, client-side query engines such as [Comunica](cite:cites comunica) decompose any SPARQL query
 into a sequence of quad pattern queries for evaluation against heterogeneous sources,
@@ -461,3 +454,7 @@ Self-sovereign identity (SSI) is a paradigm shift in terms of identity managemen
 #### Architecture Requirements
 
 TODO
+
+{:.todo}
+Should we show pseudocode of (existing) `CreateSummary(Q)`?
+
