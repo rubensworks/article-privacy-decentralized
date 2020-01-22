@@ -78,13 +78,6 @@ Finally, a client-side query engine can make use of the combined summary provide
 If the test is true, then the client should consider this source as valid target it can query.
 This client-side process will be explained in more detail in [](#framework-client). -->
 
-<!-- <figure id="figure-overall-architecture">
-<img src="img/overall-architecture.svg" alt="Process of obtaining data">
-<figcaption markdown="block">
-redundant as we have [](#figure-query-execution) and  [](#figure-privacy-federation-architecture) right?
-</figcaption>
-</figure> -->
-
 
 ### Summary Creation Algorithm
 {:#framework-summary-creation}
@@ -121,9 +114,6 @@ with `Summary_Add` a summary-type-dependent function for adding a quad component
 and `Summary_Initialize` a summary-type-dependent function for initializing a new summary.
 </figcaption>
 </figure>
-
-RUBEN any idea why the label says fig. instead of listing 
-{:.todo}
 
 <figure id="figure-summary-components-privacy">
 <img src="img/summary-components-privacy.svg" alt="[Privacy-preserving summarization of a file]">
