@@ -27,17 +27,7 @@ Summary of the section
 ### Shape Based Access Control
 
 
-two options:
-* (shacl-spec): validation-based (~filter)
-* (shacl note): filter/rule-based
-{:.todo}
 
-
-(related https://github.com/solid/data-interoperability-panel/issues/34)
-* Constrain the **resource** that can be accessed/is returned
-* Constrain the **action/mode** that can be performed on the data
-* Constrain the **agents/party** the policy applies to.
-{:.todo}
 
 <figure id="figure-acl-graph" markdown="block" style="background: #FFFFFF">
 

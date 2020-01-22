@@ -4,7 +4,7 @@
 <!-- In this section, we introduce a framework to enable querying
 over decentralized environments in a privacy-preserving manner,
 which provides support for use cases such as the one introduced in [](#use-case).
-We put a particular emphasis on three core aspects of the framework: 
+We put a particular emphasis on three core aspects of the framework:
 (i) we introduce a high-level architecture for enabling federated querying in a privacy-preserving manner;
 (ii) we list the requirements for enabling fine-grained access control in decentralized environments; and
 (iii) we discuss required extensions to identity management within decentralized environments. -->
@@ -65,19 +65,23 @@ Using the summaries of these files, third-party aggregators can create _combined
 Since the separate summaries are privacy-preserving, the combined summaries will also be privacy-preserving,
 which means that third-party aggregators will not be able to know the actual contents of the data,
 and they need not necessarily be trusted parties.
-Inaddition to exposing the combined summary,
+In addition to exposing the combined summary,
 an aggregator also needs to maintain and expose the list of sources it aggregates over,
 such that clients can derive the range of sources a summary is applied over.
 In our example we consider one aggregator, but in practise multiple aggregators can exist with different ranges.
 
 <!-- This aggregation process will be explained in more detail in [](#framework-aggregation). -->
 
-Finally, a client-side query engine can make use of the combined summary provided by the aggregator to perform source selection before query execution, i.e., reduce the number of sources it has to request. Thus the combined summaries serve two purposes: (i) to determine which data sources the client is permitted to access; and (ii) to identify the authorised data sources 
+Finally, a client-side query engine can make use of the combined summary provided by the aggregator to perform source selection before query execution, i.e., reduce the number of sources it has to request. Thus the combined summaries serve two purposes: (i) to determine which data sources <del class="comment" data-author="SS">the client is
+permitted to access
+</del> <strong>are available</strong> ; and (ii) to identify the authorised data sources
+
+{:.comment data-author="SS"}
+AC doesn't happen when data summaries are created, but happens as part of the client-side querying, right? _"the client is permitted to access"_ implies that combined summaries already know **which** client is permitted to access **what** parts of the data. They do know however, what data could potentially be requested.
 
 <!-- For each source, it should do this by testing the summary for its query using its authentication key.
 If the test is true, then the client should consider this source as valid target it can query.
 This client-side process will be explained in more detail in [](#framework-client). -->
-
 
 ### Summary Creation Algorithm
 {:#framework-summary-creation}
@@ -160,6 +164,24 @@ The combined summary requires similar actions to avoid going stale.
 This can be achieved through immediate notifications from the pod to the aggregator upon file changes,
 or the aggregator can periodically scan the files or its summaries for changes.
 
+### Shape-based Access Control Algorithm
+{:#framework-access-control}
+
+Simon outline Shape-based AC algo
+{:.todo}
+
+two options:
+
+* (shacl-spec): validation-based (~filter)
+* (shacl note): filter/rule-based
+
+(related https://github.com/solid/data-interoperability-panel/issues/34)
+
+* Constrain the **resource** that can be accessed/is returned
+* Constrain the **action/mode** that can be performed on the data
+* Constrain the **agents/party** the policy applies to.
+
+
 ### Client-side Querying Algorithm
 {:#framework-client}
 
@@ -226,6 +248,7 @@ they may apply to overlapping sources,
 and some sources may not be aggregated at all.
 For these cases, extensions to this algorithm will be needed,
 which we consider out-of-scope for this work.
+
 
 ### Architecture Requirements
 
