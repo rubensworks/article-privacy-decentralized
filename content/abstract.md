@@ -1,13 +1,23 @@
 ## Abstract
 <!-- Context      -->
+The Web as we know it is a ubiquitous economic, educational, and collaborative space.
+However, it also serves as a haven for personal information harvesting, disinformation, and political manipulation.
+Although existing decentralized Web-based ecosystems, such as Solid,
+aim to combat personal data exploitation on the Web by giving individuals full control over their data,
 <!-- Need         -->
+there is a need for new techniques that support efficient privacy-preserving query execution over personal data that is distributed across many sources.
 <!-- Task         -->
 <!-- Object       -->
+Towards this end, in this position paper we present a framework that can be used
+to assess the effectiveness of alternative authentication, access control, and privacy-preserving indexing strategies.
 <!-- Findings     -->
+In addition, we present a theoretical instantiation of the proposed framework, and discuss open research challenges and opportunities.
 <!-- Conclusion   -->
 <!-- Perspectives -->
+Our framework will provide a basis for positioning future research
+into privacy-preserving querying within decentralized environment.
 
-The Web as we know it is a ubiquitous economic, educational, and collaborative space, however it also serves as a haven for personal information harvesting, disinformation, and political manipulation. Although existing decentralized Web-based ecosystems, such as solid, aim to combat personal data exploitation on the web by giving individuals more control over their data, effective privacy-preserving indexing and access control techniques are needed in order to make such platforms practically viable. Towards this end, in this position paper we present a framework that can be used to assess the effectiveness of alternative authentication, access control, and  privacy-preserving indexing strategies. In addition, we present an instantiation of the proposed framework, and discuss open research challenges/opportunities.
+
 
 <span id="keywords" rel="schema:about"><span class="title">Keywords</span>
 <a href="https://en.wikipedia.org/wiki/Decentralization" resource="http://dbpedia.org/resource/Decentralization">Decentralization</a>;
