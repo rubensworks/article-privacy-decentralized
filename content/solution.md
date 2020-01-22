@@ -182,13 +182,6 @@ Data Graph
 </figcaption>
 </figure>
 
-<!-- <figure id="figure-general-process">
-<img src="img/general_process.svg" alt="Process of obtaining data">
-<figcaption markdown="block">
-TBD
-</figcaption>
-</figure> -->
-
 
 * Data owners are responsible for enforcing access control (as opposed to other approaches where federation engine takes care of that). We assume that access control is already taken care of at the (client-side) federation engine.
 * Build on Solid's WebID-OIDC for auth, and WAC for access control.
