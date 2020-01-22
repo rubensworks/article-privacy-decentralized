@@ -16,7 +16,7 @@ Concretely, Solid makes use of a collection of Web standards, including the [Lin
 the [Linked Data Platform (LDP)](cite:cites spec:ldp), [Linked Data Notifications (LDN)](cite:cites spec:ldn), [WebID](cite:cites spec:webid), [Web Access Control (WAC)](cite:cites spec:wac). The [Resource Description Framework (RDF) data model](cite:cites spec:rdf) together with the Linked Data principles are used to give data a universal meaning through URIs, and to allow data to be linked across multiple data pods.
 Solid data pods are assumed to implement the LDP specification to allow read-write RDF through a RESTful Web API.
 Solid also allows non-RDF data, such as plain text or images, to be stored in data pods,
-but these can only be managed through the usual HTTP methods such as GET and PUT. 
+but these can only be managed through the usual HTTP methods such as GET and PUT.
 The LDN specification, which defines how messages can be sent between two agents as Linked Data, is used to enable pods to communicate with each other.
 Finally using WebID, everyone has a personal online identifier which they can use to _authenticate_ against a data pod, while WAC, is used to specify if they are _authorized_ to read, write, append, or control RDF files.
 
@@ -90,6 +90,10 @@ Just like with the [Triple Pattern Fragments approach](cite:cites tpf_amf),
 clients can then use these Bloom filters to reduce the number of sources they need to fetch.
 
 ### Shapes
+
+{:.comment data-author="SS"}
+I guess it's sufficient to introduce shapes/Shape-based AC only once.. either here or in [](#framework-access-control) given that we say at some point that we assume AC already being dealt with..
+Or we introduce Shapes here, provide an algo for SAC in [](#framework-access-control), and give a (simple) example for such an AC policy using SHACL in [](#solution-sac).
 
 SIMON shapes (SHACL/ShEx) and [using shapes for Web APIs](cite:cites hypermedia_shapes)
 {:.todo}

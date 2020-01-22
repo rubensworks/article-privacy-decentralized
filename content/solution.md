@@ -25,7 +25,7 @@ Summary of the section
 [Self-sovereign identity (SSI)](cite:cites SSI) is a paradigm shift in terms of identity management, whereby individuals manage their own identity credential as opposed to relying on centralised identity providers, such as private or public sector organisations. [Mühle et al.](cite:cites muhle2018survey) provides a high level overview of the various components that are necessary to support SSI. Key supporting technology includes, verifiable claims which as claims that can be verified via a digital signature, and blockchain technology which plays the role of the third party identity provider.
 
 ### Shape Based Access Control
-
+{:#solution-sac}
 
 
 
