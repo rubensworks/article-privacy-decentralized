@@ -193,6 +193,12 @@ Data Graph
 
 ### Privacy-Preserving Federated Querying
 
+In this section, we discuss techniques for summarization,
+suggestions on how to handle their different parameters,
+and how communication between sources and aggregators could be handled.
+
+**Summarization techniques**
+
 The technical requirements for enabling federated querying in an efficient manner through privacy-preserving aggregators
 are mainly driven by the summarization technology.
 We consider Approximate Membership Functions (AMFs), such as Bloom filters or GCS
@@ -218,7 +224,7 @@ is that all of the performance-critical operations on summaries
 (adding, combining, membership checking)
 can happen very efficiently, as these are essentially just bitwise operations.
 
-<!-- #### AMF Parameter Handling -->
+**AMF Parameter Handling**
 
 When using AMFs, it is important to take account that these have certain parameters,
 and that all operations must be known before any operation can be done with them.
@@ -245,6 +251,18 @@ For this, some kind of parameter negotiation may be required between the aggrega
 Concretely, AMFs can be used to efficiently implement privacy-preserving,
 but it will require mechanisms to cope with their different parameters.
 
+**Source-Aggregator Communication**
 
+Different techniques are possible for triggering aggregated summary creation.
+These techniques can be categorized in *pull-based* and *push-based* techniques.
+Pull-based techniques require the aggregator to periodically poll the applicable sources.
+Once the aggregator detects a change in one of the sources, the aggregated summary creation could restart.
+Push-based techniques require the aggregators to *subscribe* to the sources,
+after which the sources could *notify* the aggregators upon any change,
+after which the aggregators could restart aggregated summary creation.
+[Linked Data Notifications](cite:cites spec:ldn) is one possible technique for sending such notifications.
+In practise, combinations of pull-based and push-based techniques may be valuable,
+for instance when only some sources support change subscriptions,
+which means that other sources will require polling.
 
 
