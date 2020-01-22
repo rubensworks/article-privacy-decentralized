@@ -22,6 +22,7 @@
 \definecolor{colorkey}      {RGB}{129, 29, 27}
 \definecolor{colorclient}   {RGB}{190, 22, 34}
 \definecolor{colorrepeat}   {RGB}{255,240,240}
+\definecolor{colorwhite}    {RGB}{255,255,255}
 
 \begin{document}
 \pagestyle{empty}
@@ -35,11 +36,11 @@
 
     % Client
     \draw[fill=colorclient] (0,0) rectangle (3.5,4);
-    \node[title,text width=10em] at (2,3.5) {Client};
+    \node[title,colorwhite,text width=10em] at (2,3.5) {Client};
     \draw[fill=colorclient] (0.5,2) rectangle (3,3);
-    \node[title,text width=10em] at (2.5,2.5) {Planner};
+    \node[title,colorwhite,text width=10em] at (2.5,2.5) {Planner};
     \draw[fill=colorclient] (0.5,0.5) rectangle (3,1.5);
-    \node[title,text width=10em] at (2.5,1) {Executor};
+    \node[title,colorwhite,text width=10em] at (2.5,1) {Executor};
     
     % Arrows to/from client
     \draw[->,thick] (-5,2.5) -- node[midway]{query $Q$, sources $U$, keys $K$} (0.5,2.5);
