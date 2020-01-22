@@ -9,7 +9,7 @@ Before introducing our privacy-preserving aggregation framework, we first presen
 With Solid, everyone has their own personal _data pod_, in which any kind of data can be stored.
 Applications are decoupled from the data, and require permission from users to access their personal data store.
 Individuals can decide which actors and applications can read from or write to specific parts of their data store.
-With this, Solid enables true data ownership for users.
+With this, Solid gives full data control to users.
 
 Solid is not an application or tool, but rather a collection of open standards and conventions.
 Concretely, Solid makes use of a collection of Web standards, including the [Linked Data stack](cite:cites linkeddata),
@@ -89,7 +89,7 @@ and we let aggregators combine them, similar to the [SPARQL ASK approach](cite:c
 Just like with the [Triple Pattern Fragments approach](cite:cites tpf_amf),
 clients can then use these Bloom filters to reduce the number of sources they need to fetch.
 
-<!-- ### Shapes -->
+### Shapes
 
-<!--SIMON shapes (SHACL/ShEx) and [using shapes for Web APIs](cite:cites hypermedia_shapes)
-{:.todo} -->
+SIMON shapes (SHACL/ShEx) and [using shapes for Web APIs](cite:cites hypermedia_shapes)
+{:.todo}
