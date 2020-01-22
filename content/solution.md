@@ -210,15 +210,15 @@ Concretely, they meet the requirements in the following manner:
     Values in Bloom filters are hashed, which can not be reversed.
 2. **Value additions**:
     Additions to Bloom filters are possible by inserting a bit string.
-    `Summary_Initialize() = 0` and
-    `Summary_Add(Σ.c, q.c, k, u) = Σ.c | (q.c & k) | u`
+    `SummaryInitialize() = 0` and
+    `SummaryAdd(Σ.c, q.c, k, u) = Σ.c | (q.c & k) | u`
 3. **Summary combinations**
     Bloom filters can be combined by `OR`-ing them.
-    `Summary_Combine(Σ.c, Σ'.c) = Σ.c | Σ'.c`.
+    `SummaryCombine(Σ.c, Σ'.c) = Σ.c | Σ'.c`.
 4. **Authorized membership checking**
     Membership in Bloom filters can be tested by hashing the value,
     and checking its membership inside the filter.
-    `Summary_Contains(Σ.c, q.c, k, u) = Σ.c[(q.c & k) | u]`.
+    `SummaryContains(Σ.c, q.c, k, u) = Σ.c[(q.c & k) | u]`.
 
 The main advantage of using AMFs such as Bloom filters
 is that all of the performance-critical operations on summaries

@@ -102,7 +102,7 @@ where we iterate over all the file's quads,
 and the access token (aka a key) that are applicable for each quad.
 For each of these combinations, we add the quad component to the summary,
 for the given key and file source URI.
-The `Summary_Initialize` and  `Summary_Add` functions that are used in the algorithm depend on the type of summary that is being used,
+The `SummaryInitialize` and  `SummaryAdd` functions that are used in the algorithm depend on the type of summary that is being used,
 for which we will list the requirements and give examples at the end of this section.
 An high-level example of this summarization algorithm can be seen in [](#figure-summary-components-privacy).
 
@@ -110,8 +110,8 @@ An high-level example of this summarization algorithm can be seen in [](#figure-
 ````/code/summarization-algorithm.txt````
 <figcaption markdown="block">
 Algorithm for creating a summary over a file within a data pod,
-with `Summary_Add` a summary-type-dependent function for adding a quad component, key, and file URI to summary,
-and `Summary_Initialize` a summary-type-dependent function for initializing a new summary.
+with `SummaryAdd` a summary-type-dependent function for adding a quad component, key, and file URI to summary,
+and `SummaryInitialize` a summary-type-dependent function for initializing a new summary.
 </figcaption>
 </figure>
 
@@ -130,7 +130,7 @@ these values are merely an indication of what information is used to construct t
 
 Based on the resulting file summaries,
 the aggregator can create a combined summary using the algorithm from [](#aggregation-algorithm).
-As before, the `Summary_Initialize` and `Summary_Combine` functions that are used in these algorithms
+As before, the `SummaryInitialize` and `SummaryCombine` functions that are used in these algorithms
 depend on the type of summary that is being used.
 [](#figure-summary-components-privacy-aggregated) shows a high-level example of how this aggregation can happen in practise.
 
@@ -138,8 +138,8 @@ depend on the type of summary that is being used.
 ````/code/aggregation-algorithm.txt````
 <figcaption markdown="block">
 Algorithm for creating a combined summary over a set of sources,
-with `Summary_Combine` a summary-type-dependent function for combining two summaries,
-and `Summary_Initialize` a summary-type-dependent function for initializing a new summary.
+with `SummaryCombine` a summary-type-dependent function for combining two summaries,
+and `SummaryInitialize` a summary-type-dependent function for initializing a new summary.
 </figcaption>
 </figure>
 
@@ -197,7 +197,7 @@ combined with the component value and key.
 When a true negative is found for a source, this source is removed from the list of sources.
 Finally, the remaining list of sources is returned,
 which can be used by the query engine to execute the quad pattern query over.
-In this algorithm, the `Summary_Contains` also depends on the type of summary that is being used.
+In this algorithm, the `SummaryContains` also depends on the type of summary that is being used.
 [](#figure-query-execution) shows an example of how this source selection algorithm can be used in client-side query engines.
 
 <figure id="client-algorithm" class="listing">
@@ -205,7 +205,7 @@ In this algorithm, the `Summary_Contains` also depends on the type of summary th
 <figcaption markdown="block">
 Client-side algorithm for selecting query-relevant sources for a quad pattern query
 based on a given privacy-preserving summary.
-`Summary_Contains` is a summary-type-dependent function for checking if a summary contains a given quad component
+`SummaryContains` is a summary-type-dependent function for checking if a summary contains a given quad component
 for a given key and source URI.
 </figcaption>
 </figure>
@@ -236,15 +236,15 @@ We consider the following requirements:
     Data within summaries must not be readable without the proper authentication keys.
 2. **Value additions**:
     It must be possible to add values to summaries by key and file URI.
-    An implementation for `Summary_Add(Σ.c, q.c, k, u)` is required,
-    based on an initialized summary as implemented by `Summary_Initialize()`.
+    An implementation for `SummaryAdd(Σ.c, q.c, k, u)` is required,
+    based on an initialized summary as implemented by `SummaryInitialize()`.
 3. **Summary combinations**
     It must be possible to combine two summaries,
     where the combined summary is identical to a summary where all of the entries were added directly.
-    An implementation for `Summary_Combine(Σ.c, Σ'.c)` is required.
+    An implementation for `SummaryCombine(Σ.c, Σ'.c)` is required.
 4. **Authorized membership checking**
     Probabilistic membership checking must be possible for a given value, key and file URI.
     False positives are allowed, but true negatives are required.
     We require that the file URI can be falsy, in case all file URIs must be tested.
-    An implementation for `Summary_Contains(Σ.c, q.c, k, u)` is required.
+    An implementation for `SummaryContains(Σ.c, q.c, k, u)` is required.
 

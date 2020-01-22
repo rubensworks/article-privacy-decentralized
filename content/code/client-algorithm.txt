@@ -9,9 +9,9 @@ FUNCTION SelectSources(q, K, Σ, U)
 FOREACH c in [subject, predicate, object, graph]
   IF q.c not variable
     FOREACH k in K
-      IF ! Summary_Contains(Σ.c, q.c, k, ε)
+      IF ! SummaryContains(Σ.c, q.c, k, ε)
         RETURN []
       FOREACH u in U
-        IF ! Summary_Contains(Σ.c, q.c, k, u)
+        IF ! SummaryContains(Σ.c, q.c, k, u)
           remove u from U
 RETURN U
