@@ -13,7 +13,7 @@ We put a particular emphasis on three core aspects of the framework:
 
 The proposed privacy-preserving federation architecture is depicted in [](#figure-privacy-federation-architecture).
 We first provide a high-level overview of the architecture,
-after which we introduce our aggregation algorithm, which is used to create privacy-preserving summaries,
+after which we introduce our abstract aggregation algorithm, which is used to create privacy-preserving summaries,
 and a client-side algorithm, which is used to execute queries over such summaries.
 In this overview, we do not focus on specific technologies,
 instead, we provide a list of requirements and offer examples of technologies that can be used to instantiate this architecture.
@@ -68,7 +68,8 @@ and they need not necessarily be trusted parties.
 In addition to exposing the combined summary,
 an aggregator also needs to maintain and expose the list of sources it aggregates over,
 such that clients can derive the range of sources a summary is applied over.
-In our example we consider one aggregator, but in practise multiple aggregators can exist with different ranges.
+In our example we consider one aggregator, but in practise multiple aggregators can exist with different ranges,
+which we consider out-of-scope for this work.
 
 <!-- This aggregation process will be explained in more detail in [](#framework-aggregation). -->
 
@@ -78,6 +79,10 @@ permitted to access
 
 {:.comment data-author="SS"}
 AC doesn't happen when data summaries are created, but happens as part of the client-side querying, right? _"the client is permitted to access"_ implies that combined summaries already know **which** client is permitted to access **what** parts of the data. They do know however, what data could potentially be requested.
+Finally, a client-side query engine can make use of the combined summary provided by the aggregator to perform source selection before query execution, i.e., reduce the number of sources it has to request. Thus the combined summaries serve two purposes: (i) to determine which data sources the client is permitted to access; and (ii) to identify the authorised data sources.
+
+{:.todo}
+SABRINA: the two purposes above sound identical to me, or am I misunderstanding this? (Ruben)
 
 <!-- For each source, it should do this by testing the summary for its query using its authentication key.
 If the test is true, then the client should consider this source as valid target it can query.
@@ -86,10 +91,10 @@ This client-side process will be explained in more detail in [](#framework-clien
 ### Summary Creation Algorithm
 {:#framework-summary-creation}
 
-<!-- The main purpose of an aggregator is to enable clients to optimize federated querying
+The main purpose of an aggregator is to enable clients to optimize federated querying
 by reducing the range of source to query over through summaries.
 Since we are considering private data, these summaries are privacy-preserving,
-which means that only people with the proper credentials must be able to determine the presence of data. -->
+which means that only people with the proper credentials must be able to determine the presence of data.
 
 In practise, multiple aggregators can exist,
 which are not necessarily trusted,
@@ -194,7 +199,7 @@ and make use of them during query execution, but we consider this out-of-scope f
 Furthermore, we consider quad pattern-based access to file sources instead of more complex [SPARQL queries](cite:cites spec:sparqllang).
 This is because triple and quad patterns are the fundamental elements of SPARQL queries,
 and any SPARQL query can be decomposed into multiple smaller quad pattern queries.
-For examples, client-side query engines such as [Comunica](cite:cites comunica) decompose any SPARQL query
+For example, client-side query engines such as [Comunica](cite:cites comunica) decompose any SPARQL query
 into a sequence of quad pattern queries for evaluation against heterogeneous sources,
 where the results of these quad pattern queries are joined together locally.
 More complex SPARQL features such as `FILTER` and aggregates are fully handled client-side.
