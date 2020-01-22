@@ -79,7 +79,6 @@ permitted to access
 
 {:.comment data-author="SS"}
 AC doesn't happen when data summaries are created, but happens as part of the client-side querying, right? _"the client is permitted to access"_ implies that combined summaries already know **which** client is permitted to access **what** parts of the data. They do know however, what data could potentially be requested.
-Finally, a client-side query engine can make use of the combined summary provided by the aggregator to perform source selection before query execution, i.e., reduce the number of sources it has to request. Thus the combined summaries serve two purposes: (i) to determine which data sources the client is permitted to access; and (ii) to identify the authorised data sources.
 
 {:.todo}
 SABRINA: the two purposes above sound identical to me, or am I misunderstanding this? (Ruben)
