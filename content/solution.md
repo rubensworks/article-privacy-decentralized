@@ -30,7 +30,8 @@ SABRINA This section feels a bit too much like background work to me. Perhaps we
 ### Shape Based Access Control
 {:#solution-sac}
 
-
+{:.todo}
+SIMON I suggest to either significantly shorten these listings, or remove them for the workshop paper.
 
 <figure id="figure-acl-graph" markdown="block" style="background: #FFFFFF">
 

@@ -1,7 +1,7 @@
 ## Use Case: Personalized Address Book
 {:#use-case}
 
-In the scope of this work, we consider the use case of a personalized address book,
+To illustrate the context of this work, we consider the use case of a personalized address book,
 where the address book is merely a list of WebIDs,
 and the actual details of each contact is stored in their own respective pod.
 To keep this use case simple, we assume an address book of Alice that contains two contacts: Bob and Carol.
