@@ -711,6 +711,8 @@ content:",\0020";
 .authors dd:last-child:after {
 content:"";
 }
+.col-span {
+  column-span: all; }
 
 
 article > dl[id^="document-"] {

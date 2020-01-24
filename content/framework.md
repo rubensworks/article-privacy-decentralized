@@ -123,7 +123,7 @@ and `SummaryInitialize` a summary-type-dependent function for initializing a new
 </figcaption>
 </figure>
 
-<figure id="figure-summary-components-privacy">
+<figure id="figure-summary-components-privacy" class="col-span" style="float: column-top;">
 <img src="img/summary-components-privacy.svg" alt="[Privacy-preserving summarization of a file]">
 <figcaption markdown="block">
 Privacy-preserving summarization of all RDF quads (`Q`) within a file (`u`),
@@ -132,6 +132,7 @@ based on a set of quad-dependent keys that are derived using a mapping function 
 these values are merely an indication of what information is used to construct the summary.*
 </figcaption>
 </figure>
+
 
 ### Summary Aggregation Algorithm
 {:#framework-summary-aggregation}
