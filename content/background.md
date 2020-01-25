@@ -1,7 +1,9 @@
 ## Background
 {:#background}
 
-Before introducing our privacy-preserving aggregation framework, we first present the necessary background information in relation to the Solid platform, decentralized query execution,  approximate membership functions, and the W3C Shapes Constraint Language (SHACL).
+Before introducing our privacy-preserving aggregation framework, we first present the necessary background information in relation to the Solid platform, decentralized query execution,  approximate membership functions, and data shapes.
+
+<!-- the W3C Shapes Constraint Language (SHACL). -->
 
 ### Solid
 
@@ -64,7 +66,11 @@ In the context of federated querying, the [SPARQL ASK response has been enhanced
 In this work, we use Bloom filters to encode encrypted triple components that are available within each source,
 and we let aggregators combine them.
 
-### Shapes
+### Shape Languages
+
+One of the challenges in a decentralized Web-based ecosystem like Solid, where everyone maintains and is in control of their own data, is to enable interoperability between applications and the data they use. By adopting [Linked Data principles](cite:cites linkeddata) a system can facilitate interoperability by means of flexibility, i.e., enabling anyone to say anything about anything without having to follow any specific global data model since -- in theory -- links (e.g., equivalences and dependencies) between individual models can be established separately using reasoning. However, in practice, a lack of actual reasoning support[](cite:cites sbischof15) as well as [improper linking between datasets](cite:cites sameas) force applications to become less and less flexible with respect to the data models they interface with.
+
+Following the ... as outlined in [](cite:cites desiss:shapes), shapes languages such as [SHACL](cite:cites spec:shacl), specifically address the need to constrain the data in a graph to a certain shape
 
 {:.comment data-author="SS"}
 I guess it's sufficient to introduce shapes/Shape-based AC only once.. either here or in [](#framework-access-control) given that we say at some point that we assume AC already being dealt with..
