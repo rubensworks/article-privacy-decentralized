@@ -244,17 +244,17 @@ which we consider out-of-scope for this work.
 <figure id="access-control-algorithm" class="listing">
 ````/code/access-control-algorithm.txt````
 <figcaption markdown="block">
-Server-side algorithm for processing query requests from a client-side query engine.
-`ProcessRequest` is a function for processing a quad-pattern query `q`, issued by a requester `i` against a data source, in conformance with the data source's applicable access control policies `P'`.
-Whether a policy is applicable is determined by checking if the query request conforms to any of the shapes the policy was defined against.
+Server-side algorithm for processing access requests from a client-side query engine.
 </figcaption>
 </figure>
 
-(i.e., `perm(i, acl:Read, q)`) conforms to the shape the policy
-was specified against (e.g., "all foaf:members of ex:Company1 which have
-at least 1 vcard:hasEmail are permitted to acl:Read all quads of F1.
-Everyone is permitted to read rdf:type quads of F1 and F2") and
-responding to the CSQE accordingly.
+A server matches requests consisting of a client identifiation `i`, the requested access mode `a`, and a quad pattern query `q`, against a set of access control policies `P`.
+A policy `p ∈ P` is applicable for a request `[i, a, q]` if the request conforms to the shape; policy `p` was specified against. Instead of specifying ACLs explicitly for particular users and resources, shapes allow for constraining, i.e., shaping (i) the **resources** that can be accessed/should be returned, (ii) the **action/mode** that is permitted to be performed on the resource, and (iii) the **agents/party** whose requests the policy applies to. This allows for expressing more fine-grained access control policies, such as:
+
+* All foaf:member of ex:Company1 which have at least 1 vcard:hasEmail, are permitted to perform acl:Read over all quads of File 1.
+* Everyone is permitted to read rdf:type quads of File 1 and File 2
+
+Eventually, `ProcessRequest` will return result set `R`.
 
 <!--
 {:.todo}
@@ -264,11 +264,7 @@ two options:
 * (shacl-spec): validation-based (~filter)
 * (shacl note): filter/rule-based -->
 
-(related https://github.com/solid/data-interoperability-panel/issues/34)
-
-* Constrain the **resource** that can be accessed/is returned
-* Constrain the **action/mode** that can be performed on the data
-* Constrain the **agents/party** the policy applies to.
+<!-- (related https://github.com/solid/data-interoperability-panel/issues/34) -->
 
 
 ### Architecture Requirements

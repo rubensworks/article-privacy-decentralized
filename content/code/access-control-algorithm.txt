@@ -6,10 +6,8 @@ FUNCTION ProcessRequest(i, a, q, P)
     set of access control policies P
   OUTPUT:
     query results R
-P' = {}
+R = {}
 FOREACH p in P
-  FOREACH s in shapes(p)
-    IF [i, a, q] conforms to s
-      P' = P' ∪ p
-R = query results of q shaped in conformance with P'
+  IF [i, a, q] conforms to shape of p
+    R = R ∪ results(q,p)
 RETURN R
