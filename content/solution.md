@@ -33,7 +33,7 @@ SABRINA This section feels a bit too much like background work to me. Perhaps we
 {:.todo}
 SIMON NOT FINISHED; have to fix it
 
-<figure id="figure-acl-graph" markdown="block" style="background: #FFFFFF"></figure>
+<figure id="figure-acl-graph" markdown="block" style="background: #FFFFFF">
 
 ~~~ turtle
 
@@ -48,10 +48,12 @@ SIMON NOT FINISHED; have to fix it
     sh:rule [
         a sh:SPARQLRule ;
         sh:construct """
-            CONSTRUCT WHERE {
+            CONSTRUCT {
+                ?s ?p ?o
+            } WHERE {
                 GRAPH <http://alice.pod/share/file1> {
                     ?s ?p ?o
-            }
+                }
             }
         """ ;
         sh:condition [
@@ -72,10 +74,6 @@ SIMON NOT FINISHED; have to fix it
                 sh:path odrl:action ; # the requested mode of access
                 sh:hasValue acl:Read ;
             ] ;
-            sh:property [
-                sh:path odrl:target ; # the requested resource
-                sh:
-            ]
         ] ;
     ] ;
 ~~~
@@ -85,11 +83,12 @@ ACL Policy
 </figcaption>
 </figure>
 
+<!--
 * Data owners are responsible for enforcing access control (as opposed to other approaches where federation engine takes care of that). We assume that access control is already taken care of at the (client-side) federation engine.
 * Build on Solid's WebID-OIDC for auth, and WAC for access control.
 * Allow shape-based/quadpattern-based (SHACL/SHEX) access modes in .acl files. (advantage of shapes is that fewer keys may be needed, which reduces the complexity of key mgmt) (motivation for keys is that Solid is going to use it for data validation: https://github.com/solid/data-interoperability-panel/blob/b2591bf2f8808972e5459db2aa4ac8d9854f5b5e/data-validation/use-cases.md)
 * Right now, we do it role-based, but it could be attribute-based as well.
-{:.todo}
+{:.todo} -->
 
 
 
