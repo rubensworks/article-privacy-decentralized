@@ -1,0 +1,15 @@
+FUNCTION ProcessRequest(i, a, q, P)
+  INPUT:
+    client identification i
+    requested mode of access a
+    quad pattern query q
+    set of access control policies P
+  OUTPUT:
+    query results R
+P' = {}
+FOREACH p in P
+  FOREACH s in shapes(p)
+    IF [i, a, q] conforms to s
+      P' = P' ∪ p
+R = query results of q shaped in conformance with P'
+RETURN R

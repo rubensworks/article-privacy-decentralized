@@ -9,4 +9,4 @@ FOREACH u in U
   Σ' = get summaries from u
   FOREACH c in [subject, predicate, object, graph]
     Σ.c = SummaryCombine(Σ.c, Σ'.c)
-RETURN S
+RETURN Σ

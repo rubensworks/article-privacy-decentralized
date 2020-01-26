@@ -169,23 +169,6 @@ The combined summary requires similar actions to avoid going stale.
 This can be achieved through immediate notifications from the pod to the aggregator upon file changes,
 or the aggregator can periodically scan the files or its summaries for changes.
 
-### Shape-based Access Control Algorithm
-{:#framework-access-control}
-
-Simon outline Shape-based AC algo
-{:.todo}
-
-two options:
-
-* (shacl-spec): validation-based (~filter)
-* (shacl note): filter/rule-based
-
-(related https://github.com/solid/data-interoperability-panel/issues/34)
-
-* Constrain the **resource** that can be accessed/is returned
-* Constrain the **action/mode** that can be performed on the data
-* Constrain the **agents/party** the policy applies to.
-
 
 ### Client-side Querying Algorithm
 {:#framework-client}
@@ -253,6 +236,39 @@ they may apply to overlapping sources,
 and some sources may not be aggregated at all.
 For these cases, extensions to this algorithm will be needed,
 which we consider out-of-scope for this work.
+
+
+### Shape-based Access Control Algorithm
+{:#framework-access-control}
+
+<figure id="access-control-algorithm" class="listing">
+````/code/access-control-algorithm.txt````
+<figcaption markdown="block">
+Server-side algorithm for processing query requests from a client-side query engine.
+`ProcessRequest` is a function for processing a quad-pattern query `q`, issued by a requester `i` against a data source, in conformance with the data source's applicable access control policies `P'`.
+Whether a policy is applicable is determined by checking if the query request conforms to any of the shapes the policy was defined against.
+</figcaption>
+</figure>
+
+(i.e., `perm(i, acl:Read, q)`) conforms to the shape the policy
+was specified against (e.g., "all foaf:members of ex:Company1 which have
+at least 1 vcard:hasEmail are permitted to acl:Read all quads of F1.
+Everyone is permitted to read rdf:type quads of F1 and F2") and
+responding to the CSQE accordingly.
+
+<!--
+{:.todo}
+
+two options:
+
+* (shacl-spec): validation-based (~filter)
+* (shacl note): filter/rule-based -->
+
+(related https://github.com/solid/data-interoperability-panel/issues/34)
+
+* Constrain the **resource** that can be accessed/is returned
+* Constrain the **action/mode** that can be performed on the data
+* Constrain the **agents/party** the policy applies to.
 
 
 ### Architecture Requirements
