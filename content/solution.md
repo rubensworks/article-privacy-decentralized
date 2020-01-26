@@ -31,9 +31,9 @@ SABRINA This section feels a bit too much like background work to me. Perhaps we
 {:#solution-sac}
 
 {:.todo}
-SIMON I suggest to either significantly shorten these listings, or remove them for the workshop paper.
+SIMON NOT FINISHED; have to fix it
 
-<figure id="figure-acl-graph" markdown="block" style="background: #FFFFFF">
+<figure id="figure-acl-graph" markdown="block" style="background: #FFFFFF"></figure>
 
 ~~~ turtle
 
@@ -44,138 +44,46 @@ SIMON I suggest to either significantly shorten these listings, or remove them f
 @prefix sh: <http://www.w3.org/ns/shacl#> .
 
 <http://alice.pod/share/policy>
-    a odrl:Policy ;
-    odrl:conflict odrl:perm ;
-    odrl:prohibition [
-        odrl:target <http://alice.pod/share/photoAnnotations/> ;
-        odrl:action odrl:Read
-    ] ;
-    odrl:permission [
-        odrl:target [
-            a odrl:AssetCollection ;
-            odrl:source <https://alice.databox.me/docs/file1> ;
-            odrl:refinement [ # refine the asset/resource
-                a sh:NodeShape ;
-                sh:pattern "public" ;
-                sh:flags   "i"
+    a sh:NodeShape ;
+    sh:rule [
+        a sh:SPARQLRule ;
+        sh:construct """
+            CONSTRUCT WHERE {
+                GRAPH <http://alice.pod/share/file1> {
+                    ?s ?p ?o
+            }
+            }
+        """ ;
+        sh:condition [
+            sh:property [
+                sh:path odrl:assignee ; # the requesting agent
+                sh:node [
+                    a sh:PropertyShape ;
+                    sh:path [ sh:inversePath foaf:member ] ;
+                    sh:hasValue <http://company1/> ;
+                ] ;
+                sh:node [
+                    a sh:PropertyShape ;
+                    sh:path vcard:hasEmail ;
+                    sh:minCount 1 .
+                ]
+            ] ;
+            sh:property [
+                sh:path odrl:action ; # the requested mode of access
+                sh:hasValue acl:Read ;
+            ] ;
+            sh:property [
+                sh:path odrl:target ; # the requested resource
+                sh:
             ]
         ] ;
-        odrl:action acl:Read ;
     ] ;
-    odrl:permission [
-        odrl:target <http://alice.pod/share/photoAnnotations/> ;
-        odrl:action [
-            rdf:value acl:Read ;
-            odrl:refinement <#AccessRulesShape> # refine the action
-        ]
-    ] ;
-    odrl:permission [
-        odrl:target <http://alice.pod/share/photoAnnotations/> ;
-        odrl:action acl:Read ;
-        odrl:assignee [
-            a foaf:Agent ;
-            odrl:source <https://alice.example.com/work-groups#Accounting>;
-            odrl:refinement [ # refine the agent
-                a sh:NodeShape ;
-                sh:property [
-                    sh:path foaf:interest ;
-                    sh:minCount 1 ;
-                    sh:hasValue <#photography>
-                ]
-            ]
-        ]
-    ] .
-
 ~~~
 
 <figcaption markdown="block">
 ACL Policy
 </figcaption>
 </figure>
-
-
-----------
-<figure id="figure-shapes-graph" markdown="block" style="background: #FFFFFF">
-
-~~~ turtle
-
-# Shapes Graph
-
-<#AccessRulesShape>
-    a sh:NodeShape ;
-    sh:targetObjectsOf ldp:contains  ;
-    sh:rule [
-        a sh:SPARQLRule ;
-        sh:construct """
-            CONSTRUCT WHERE {
-                $this a ?o .
-            }
-        """ ;
-        sh:condition <#PrivateAuthorizationShape> ;
-    ] ;
-    sh:rule [
-        a sh:SPARQLRule ;
-        sh:construct """
-            CONSTRUCT WHERE {
-                $this ?p ?o .
-            }
-        """ ;
-        sh:condition <#PublicAuthorizationShape> ;
-    ] .
-
-<#MemberPropertyShape>
-    a sh:PropertyShape ;
-    sh:path [ sh:inversePath ldp:contains ] ;
-    sh:hasValue  <http://alice.pod/share/photoAnnotations/> ;
-    sh:minCount 1 .
-
-<#PrivateAuthorizationShape>
-    a sh:NodeShape ;
-    sh:targetObjectsOf ldp:contains  ;
-    sh:pattern "private" ;
-    sh:flags   "i" ;
-    sh:property <#MemberPropertyShape> .
-
-<#PublicAuthorizationShape>
-    a sh:NodeShape ;
-    sh:targetObjectsOf ldp:contains  ;
-    sh:pattern "public" ;
-    sh:flags   "i" ;
-    sh:property <#MemberPropertyShape> .
-
-~~~
-
-<figcaption markdown="block">
-Shapes Graph
-</figcaption>
-</figure>
-
-----------
-<figure id="figure-data-graph" markdown="block" style="background: #FFFFFF">
-
-~~~ turtle
-
-# Data Graph
-<http://alice.pod/share/photoAnnotations/> a ldp:BasicContainer ;
-    ldp:contains <public/annot123>, <private/annot456>.
-
-<public/annot123> a photo:Annotation ;
-    dc:author "Alice" ;
-    photo:photo <http://amy.pod/photos/photo123.jpg> ;
-    photo:caption "Alice and Amy at work" .
-
-<private/annot456> a photo:Annotation ;
-    dc:author "Alice" ;
-    photo:photo <http://bob.pod/photos/photo456.jpg>;
-    photo:caption "Bob sleeping at work" .
-
-~~~
-
-<figcaption markdown="block">
-Data Graph
-</figcaption>
-</figure>
-
 
 * Data owners are responsible for enforcing access control (as opposed to other approaches where federation engine takes care of that). We assume that access control is already taken care of at the (client-side) federation engine.
 * Build on Solid's WebID-OIDC for auth, and WAC for access control.
