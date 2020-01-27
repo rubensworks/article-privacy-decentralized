@@ -247,9 +247,15 @@ which we consider out-of-scope for this work.
 Server-side algorithm for processing access requests from a client-side query engine.
 </figcaption>
 </figure>
-
+<figure id="figure-request-processing">
+<img src="img/request-processing_manualppt.svg" alt="[Shape-based access control]" style=" max-width: 60%;">
+<figcaption markdown="block">
 A server matches requests consisting of a client identifiation `i`, the requested access mode `a`, and a quad pattern query `q`, against a set of access control policies `P`.
-A policy `p ∈ P` is applicable for a request `[i, a, q]` if the request conforms to the shape; policy `p` was specified against. Instead of specifying ACLs explicitly for particular users and resources, shapes allow for constraining, i.e., shaping (i) the **resources** that can be accessed/should be returned, (ii) the **action/mode** that is permitted to be performed on the resource, and (iii) the **agents/party** whose requests the policy applies to. This allows for expressing more fine-grained access control policies, such as:
+A policy `p ∈ P` is applicable for a request `[i, a, q]` if the request conforms to the shape; policy `p` was specified against.
+</figcaption>
+</figure>
+
+Instead of specifying ACLs explicitly for particular users and resources, shapes allow for constraining, i.e., shaping (i) the **resources** that can be accessed/should be returned, (ii) the **action/mode** that is permitted to be performed on the resource, and (iii) the **agents/party** whose requests the policy applies to. This allows for expressing more fine-grained access control policies, such as:
 
 * All foaf:member of ex:Company1 which have at least 1 vcard:hasEmail, are permitted to perform acl:Read over all quads of File 1.
 * Everyone is permitted to read rdf:type quads of File 1 and File 2
