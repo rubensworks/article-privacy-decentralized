@@ -1,95 +1,14 @@
-## Possible Instantiations
+## A Possible Instantiation
 {:#solution}
 
 Summary of the section
 {:.todo}
-
-* Each user has a list of keys, keys are shared among users for same parts of data
-* Explain key management (creation and where it's stored) and revocation
-* Mention self-sovereign identity?
-{:.todo}
-
 
 ...go over the 3 aspects
 1. AMFs meet all of these requirements (but can require multiple param-versions, AMF-negotiation?, LDN)
 2. ...
 3. SHACL/ShEx, encryption stuff
 {:.todo}
-
-
-### Identity Management
-[OpenID Connect](cite:cites OpenIDConnect) is an industry standard authentication protocol, which enables applications to delegate responsibility for authentication to third party identity providers. One of the primary benefits being the ability to connect to multiple sites using the same login credentials. A comprehensive security analysis of the protocol is provided by [Fett et al.](cite:cites fett2017web).
-
-[Web Identity and Discovery (WebID)](cite:cites WebID) is a HTTP URI used to uniquely identify and [authenticate a person, company, organisation, or other entity](cite:cites Sambra2014). A description of the agent is provided in an RDF document, known as a WebID profile, which can be dereferenced using 303 or Hash URI's. The agent places URI for their WebID profile document in the Subject Alternative Names field of their certificate and the public key details to their [WebID profile document](cite:cites Inkster2014). The WebID Transport Layer Security (TLS) protocol specifies how the WebID profile and public key certificates can together be used to [authenticate users](cite:cites Inkster2014). A service wishing to  authenticate the user, needs to verify that the public key of the certificate it receives matches the public key specified in the [WebID profile](cite:cites Hollenbach2009).
-
-[Self-sovereign identity (SSI)](cite:cites SSI) is a paradigm shift in terms of identity management, whereby individuals manage their own identity credential as opposed to relying on centralised identity providers, such as private or public sector organisations. [Mühle et al.](cite:cites muhle2018survey) provides a high level overview of the various components that are necessary to support SSI. Key supporting technology includes, verifiable claims which has claims that can be verified via a digital signature, and blockchain technology which plays the role of the third party identity provider.
-
-{:.todo}
-SABRINA This section feels a bit too much like background work to me. Perhaps we can rephrase it so that their relationship to each other becomes more clear, and what their advantages/disadvantages with respect to this framework are?
-
-### Shape Based Access Control
-{:#solution-sac}
-
-{:.todo}
-SIMON NOT FINISHED; have to fix it
-
-<figure id="figure-acl-graph" markdown="block" style="background: #FFFFFF">
-
-~~~ turtle
-
-@prefix acl: <http://www.w3.org/ns/auth/acl#> .
-@prefix odrl: <http://www.w3.org/ns/odrl/2/> .
-@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
-@prefix sh: <http://www.w3.org/ns/shacl#> .
-
-<http://alice.pod/share/policy>
-    a sh:NodeShape ;
-    sh:rule [
-        a sh:SPARQLRule ;
-        sh:construct """
-            CONSTRUCT {
-                ?s ?p ?o
-            } WHERE {
-                GRAPH <http://alice.pod/share/file1> {
-                    ?s ?p ?o
-                }
-            }
-        """ ;
-        sh:condition [
-            sh:property [
-                sh:path odrl:assignee ; # the requesting agent
-                sh:node [
-                    a sh:PropertyShape ;
-                    sh:path [ sh:inversePath foaf:member ] ;
-                    sh:hasValue <http://company1/> ;
-                ] ;
-                sh:node [
-                    a sh:PropertyShape ;
-                    sh:path vcard:hasEmail ;
-                    sh:minCount 1 .
-                ]
-            ] ;
-            sh:property [
-                sh:path odrl:action ; # the requested mode of access
-                sh:hasValue acl:Read ;
-            ] ;
-        ] ;
-    ] ;
-~~~
-
-<figcaption markdown="block">
-ACL Policy
-</figcaption>
-</figure>
-
-<!--
-* Data owners are responsible for enforcing access control (as opposed to other approaches where federation engine takes care of that). We assume that access control is already taken care of at the (client-side) federation engine.
-* Build on Solid's WebID-OIDC for auth, and WAC for access control.
-* Allow shape-based/quadpattern-based (SHACL/SHEX) access modes in .acl files. (advantage of shapes is that fewer keys may be needed, which reduces the complexity of key mgmt) (motivation for keys is that Solid is going to use it for data validation: https://github.com/solid/data-interoperability-panel/blob/b2591bf2f8808972e5459db2aa4ac8d9854f5b5e/data-validation/use-cases.md)
-* Right now, we do it role-based, but it could be attribute-based as well.
-{:.todo} -->
-
 
 
 ### Privacy-Preserving Federated Querying
@@ -165,5 +84,91 @@ after which the aggregators could restart aggregated summary creation.
 In practise, combinations of pull-based and push-based techniques may be valuable,
 for instance when only some sources support change subscriptions,
 which means that other sources will require polling.
+
+### Shape Based Access Control
+{:#solution-sac}
+
+* Each user has a list of keys, keys are shared among users for same parts of data
+* Explain key management (creation and where it's stored) and revocation
+* Mention self-sovereign identity?
+{:.todo}
+
+Following the ... as outlined in [](cite:cites desiss:shapes), shapes languages such as [SHACL](cite:cites spec:shacl), specifically address the need to constrain the data in a graph to a certain shape
+
+<!--
+{:.todo}
+
+two options:
+
+* (shacl-spec): validation-based (~filter)
+* (shacl note): filter/rule-based -->
+
+<!-- (related https://github.com/solid/data-interoperability-panel/issues/34) -->
+
+
+SIMON shapes (SHACL/ShEx) and [using shapes for Web APIs](cite:cites hypermedia_shapes)
+{:.todo}
+
+
+{:.todo}
+SIMON NOT FINISHED; have to fix it
+
+<figure id="figure-acl-graph" markdown="block" style="background: #FFFFFF">
+
+~~~ turtle
+
+@prefix acl: <http://www.w3.org/ns/auth/acl#> .
+@prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+<http://alice.pod/share/policy>
+    a sh:NodeShape ;
+    sh:rule [
+        a sh:SPARQLRule ;
+        sh:construct """
+            CONSTRUCT {
+                ?s ?p ?o
+            } WHERE {
+                GRAPH <http://alice.pod/share/file1> {
+                    ?s ?p ?o
+                }
+            }
+        """ ;
+        sh:condition [
+            sh:property [
+                sh:path odrl:assignee ; # the requesting agent
+                sh:node [
+                    a sh:PropertyShape ;
+                    sh:path [ sh:inversePath foaf:member ] ;
+                    sh:hasValue <http://company1/> ;
+                ] ;
+                sh:node [
+                    a sh:PropertyShape ;
+                    sh:path vcard:hasEmail ;
+                    sh:minCount 1 .
+                ]
+            ] ;
+            sh:property [
+                sh:path odrl:action ; # the requested mode of access
+                sh:hasValue acl:Read ;
+            ] ;
+        ] ;
+    ] ;
+~~~
+
+<figcaption markdown="block">
+ACL Policy
+</figcaption>
+</figure>
+
+<!--
+* Data owners are responsible for enforcing access control (as opposed to other approaches where federation engine takes care of that). We assume that access control is already taken care of at the (client-side) federation engine.
+* Build on Solid's WebID-OIDC for auth, and WAC for access control.
+* Allow shape-based/quadpattern-based (SHACL/SHEX) access modes in .acl files. (advantage of shapes is that fewer keys may be needed, which reduces the complexity of key mgmt) (motivation for keys is that Solid is going to use it for data validation: https://github.com/solid/data-interoperability-panel/blob/b2591bf2f8808972e5459db2aa4ac8d9854f5b5e/data-validation/use-cases.md)
+* Right now, we do it role-based, but it could be attribute-based as well.
+{:.todo} -->
+
 
 

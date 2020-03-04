@@ -12,7 +12,7 @@ One of the major limitations of current aggregation techniques, is the fact that
 </div>
 Concretely, query engines need to be able to authenticate themselves to sources, such that only authorised data is returned. Furthermore, since aggregators may be untrusted third-parties, there is a need for privacy-preserving aggregation techniques, such that malicious aggregators are not able to access unauthorised data, but authorized agents are still able to exploit them.
 
-In this position paper, we propose a high-level framework that can be use to: (i) optimize federated querying through privacy-preserving aggregation and; (ii) enable fine-grained access control. Our goal is *not* to introduce a complete solution to these problems, instead, our contribution is a framework that can be used to position future research.
+In this position paper, we propose a high-level framework that can be use to: (i) enable fine-grained access control; and (ii) optimize federated querying through privacy-preserving aggregation. <!--Our goal is *not* to introduce a complete solution to these problems, instead, our contribution is a framework that can be used to position future research.-->
 
 The remainder of this article is structured as follows: In [](#background) we present relevant background in terms of querying and indexing.
 In [](#use-case) we introduce the motivating use case that is used to guide our work.  Following on from this our framework is introduced in [](#framework) and a possible instantiation is presented in [](#solution).

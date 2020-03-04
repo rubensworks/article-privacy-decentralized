@@ -3,7 +3,7 @@
 The Web as we know it is a ubiquitous economic, educational, and collaborative space.
 However, it also serves as a haven for personal information harvesting, disinformation, and political manipulation.
 Although existing decentralized Web-based ecosystems, such as Solid,
-aim to combat personal data exploitation on the Web by giving individuals full control over their data,
+aim to combat personal data exploitation on the Web by giving individuals more control over their data,
 <!-- Need         -->
 there is a need for new techniques that support efficient privacy-preserving query execution over personal data that is distributed across many sources.
 <!-- Task         -->
