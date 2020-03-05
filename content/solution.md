@@ -109,7 +109,6 @@ two options:
 SIMON shapes (SHACL/ShEx) and [using shapes for Web APIs](cite:cites hypermedia_shapes)
 {:.todo}
 
-</figure>
 <figure id="figure-request-processing">
 <img src="img/request-processing_manualppt.svg" alt="[Shape-based access control]" style=" max-width: 60%; display: block; margin-left: auto; margin-right: auto;">
 <figcaption markdown="block">

@@ -146,7 +146,8 @@ and `SummaryInitialize` a summary-type-dependent function for initializing a new
 </figcaption>
 </figure>
 
-<figure id="figure-summary-components-privacy" class="col-span" style="float: column-top;">
+
+<figure id="figure-summary-components-privacy">
 <img src="img/summary-components-privacy.svg" alt="[Privacy-preserving summarization of a file]">
 <figcaption markdown="block">
 Privacy-preserving summarization of all RDF quads (`Q`) within a file (`u`),
@@ -175,7 +176,7 @@ and `SummaryInitialize` a summary-type-dependent function for initializing a new
 </figcaption>
 </figure>
 
-<figure id="figure-summary-components-privacy-aggregated" class="col-span" style="float: column-top;">
+<figure id="figure-summary-components-privacy-aggregated">
 <img src="img/summary-components-privacy-aggregated.svg" alt="[Privacy-preserving aggregated summarization]">
 <figcaption markdown="block">
 Privacy-preserving aggregation of multiple summaries.
@@ -243,7 +244,7 @@ for a given key and source URI.
 </figcaption>
 </figure>
 
-<figure id="figure-query-execution" class="col-span" style="float: column-top;">
+<figure id="figure-query-execution">
 <img src="img/query-execution.svg" alt="[Query execution over privacy-preserving summaries]">
 <figcaption markdown="block">
 Federated query execution using a privacy-preserving summary.
