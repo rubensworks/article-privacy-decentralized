@@ -1,4 +1,4 @@
-FUNCTION CreateSummaryPrivacyPreserving(Q, u, qk)
+FUNCTION CreatePrivacyPreservingSummary(Q, u, qk)
   INPUT:
     list of quads Q
     URI u of the file

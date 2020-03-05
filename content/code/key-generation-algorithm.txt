@@ -1,0 +1,13 @@
+FUNCTION CreateAccessKeys(Q, P)
+  INPUT:
+    list of quads Q
+    list of policies P
+  OUTPUT:
+    hashmap of quads to policies and keys
+qpk<q,item<p,k>> = MapInitialize()
+FOREACH q in Q
+  FOREACH p in P
+    key k = null
+    k = GenerateKey(q,p)
+    qpk = AddKey(qpk, q, p, k)
+RETURN qpk

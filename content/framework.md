@@ -80,7 +80,7 @@ This client-side process will be explained in more detail in [](#framework-clien
 ### Architecture Requirements
 
 The main technical requirements are derived from the fact that our architecture need to support efficient privacy preserving query execution over personal data that is distributed across many sources.
-Thus we consider the following key requirements:
+Thus we consider the following key requirements, where `Σ.c` and `Σ'.c` denote existing summaries, `q.c` denotes a quad component, `k` denotes a given access key, and `u` denotes the URI for the data source:
 
 1. **No data leaking**:
     Data within summaries must not be interpretable by those who are not authorised to have access to this data.
@@ -99,15 +99,22 @@ Thus we consider the following key requirements:
     An implementation for `SummaryContains(Σ.c, q.c, k, u)` is required.
 
 
-### Privacy Preservation Algorithm
+### Access Key Creation Algorithm
 
 The main purpose of an aggregator is to enable clients to optimize federated querying
 by reducing the range of source to query over through summaries.
-Since we are considering private data, these summaries are privacy-preserving,
-which means that only people with the proper credentials must be able to determine the presence of data.
+Since we are considering private data, these summaries need to be privacy-preserving, 
+which means that only people with the appropriate access rights can determine the presence of data.
+The first step is to create a hashmap of keys to quads based on existing access policies, using the algorithm outlined in [](#key-generation-algorithm). Here we assume that pod owners already have a set of access control policies that governs quads stored in theirs pods. 
 
-SABRINA we first need to explain how the privacy is preserved via the access token (aka a key), where these keys come from, and how keys map to access policies
-{:.todo}
+
+<figure id="key-generation-algorithm" class="listing">
+````/code/key-generation-algorithm.txt````
+<figcaption markdown="block">
+Algorithm for generating keys for quads based on existing access policies, with `MapInitialize` for initializing a hashmap between quads and keys, `GenerateKey` which generates a key for a quad based on a policy, and `AddKey` which adds a key to a hashmap.
+</figcaption>
+</figure>
+
 
 ### Summary Creation Algorithm
 {:#framework-summary-creation}
@@ -257,27 +264,13 @@ which we consider out-of-scope for this work.
 ### Access Control Algorithm
 {:#framework-access-control}
 
+Once the client has obtained the list of sources that it needs to query, the next step is to execute the query against each source. 
+Here there is a need for access control enforcement, such that it is possible to check that a client does in fact possess the credentials necessary to execute the request.
+
 <figure id="access-control-algorithm" class="listing">
 ````/code/access-control-algorithm.txt````
 <figcaption markdown="block">
-Server-side algorithm for processing access requests from a client-side query engine.
+An algorithm that takes the requesters credentials, the requested access right, a quad pattern, and a policy, and returns the query execution results. The algorithm is composed of an `AllowedAccess` function that checks if access is permitted, and an `ExecuteQuery` function that executes a query and adds the result to the result list.
 </figcaption>
 </figure>
-<figure id="figure-request-processing">
-<img src="img/request-processing_manualppt.svg" alt="[Shape-based access control]" style=" max-width: 60%; display: block; margin-left: auto; margin-right: auto;">
-<figcaption markdown="block">
-A server matches requests consisting of a client identifiation `i`, the requested access mode `a`, and a quad pattern query `q`, against a set of access control policies `P`.
-A policy `p ∈ P` is applicable for a request `[i, a, q]` if the request conforms to the shape; policy `p` was specified against.
-</figcaption>
-</figure>
-
-Instead of specifying ACLs explicitly for particular users and resources, shapes allow for constraining, i.e., shaping (i) the **resources** that can be accessed/should be returned, (ii) the **action/mode** that is permitted to be performed on the resource, and (iii) the **agents/party** whose requests the policy applies to. This allows for expressing more fine-grained access control policies, such as:
-
-* All foaf:member of ex:Company1 which have at least 1 vcard:hasEmail, are permitted to perform acl:Read over all quads of File 1.
-* Everyone is permitted to read rdf:type quads of File 1 and File 2
-
-Eventually, `ProcessRequest` will return result set `R`.
-
-SABRINA describe abstractly how access control will work
-{:.todo}
 
