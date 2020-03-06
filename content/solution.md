@@ -3,12 +3,15 @@
 
 In this section, we present an instantiation of the proposed framework and discuss possible alternatives approaches, placing a particular focus on techniques for access key creation, summarization generation and maintenance, and access control enforcement.
 
+ALL: We should also revisit our use case scenario here
+{:.todo}
+
 ### Access Key Creation
 
+SABRINA:
 * Propose one way to generate access keys from policies, and highlight potential alternatives.
 * Each user has a list of keys, keys are shared among users for same parts of data
 * Explain key management (creation and where it's stored) and revocation
-* Mention self-sovereign identity?
 {:.todo}
 
 Concretely, we address the following requirement:
@@ -41,7 +44,7 @@ is that all of the performance-critical operations on summaries
 (adding, combining, membership checking)
 can happen very efficiently, as these are essentially just bitwise operations.
 
-**AMF Parameter Handling**
+#### MF Parameter Handling
 
 When using AMFs, it is important to take account that these have certain parameters,
 and that all operations must be known before any operation can be done with them.
@@ -68,7 +71,7 @@ For this, some kind of parameter negotiation may be required between the aggrega
 Concretely, AMFs can be used to efficiently implement privacy-preserving,
 but it will require mechanisms to cope with their different parameters.
 
-**Source-Aggregator Communication**
+#### Source-Aggregator Communication
 
 Different techniques are possible for triggering aggregated summary creation.
 These techniques can be categorized in *pull-based* and *push-based* techniques.
@@ -90,7 +93,7 @@ Concretely, we address the following requirement:
 5. **Access control enforcement**
 	It must be possible for the data source to limit query results based on a set of access policies. 
 
-Instead of specifying ACLs explicitly for particular users and resources, shapes allow for constraining, i.e., shaping (i) the **resources** that can be accessed/should be returned, (ii) the **action/mode** that is permitted to be performed on the resource, and (iii) the **agents/party** whose requests the policy applies to. This allows for expressing more fine-grained access control policies, such as:
+SIMON: Instead of specifying ACLs explicitly for particular users and resources, shapes allow for constraining, i.e., shaping (i) the **resources** that can be accessed/should be returned, (ii) the **action/mode** that is permitted to be performed on the resource, and (iii) the **agents/party** whose requests the policy applies to. This allows for expressing more fine-grained access control policies, such as:
 * As outlined in [](cite:cites desiss:shapes), shapes languages such as [SHACL](cite:cites spec:shacl), specifically address the need to constrain the data in a graph to a certain shape
 * shapes (SHACL/ShEx) and [using shapes for Web APIs](cite:cites hypermedia_shapes)
 * (shacl-spec): validation-based (~filter) and (shacl note): filter/rule-based (related https://github.com/solid/data-interoperability-panel/issues/34)
@@ -105,7 +108,7 @@ A policy `p ∈ P` is applicable for a request `[i, a, q]` if the request confor
 </figure>
 
 
-SIMON Change this example so that it aligns with the use case scenario
+SIMON: Change this example so that it aligns with the use case scenario
 * All foaf:member of ex:Company1 which have at least 1 vcard:hasEmail, are permitted to perform acl:Read over all quads of File 1.
 * Everyone is permitted to read rdf:type quads of File 1 and File 2
 {:.todo}

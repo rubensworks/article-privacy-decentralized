@@ -71,7 +71,7 @@ Although in our example we consider one aggregator, in practise multiple aggrega
 <!-- This aggregation process will be explained in more detail in [](#framework-aggregation). -->
 
 A client-side query engine can make use of the combined summary provided by the aggregator to perform source selection before query execution, i.e., reduce the number of sources to be queried. Thus the combined summaries serve to determine the data sources that contain data, which is both relevant and accessible.
-Finally, the data sources take care of the access control enforcement at query time.
+Finally, the data sources take care of the access control enforcement at query time, by taking into account permissions and prohibitions specified via access control policies.
 
 <!-- For each source, it should do this by testing the summary for its query using its authentication key.
 If the test is true, then the client should consider this source as valid target it can query.
@@ -81,28 +81,29 @@ This client-side process will be explained in more detail in [](#framework-clien
 ### Architecture Requirements
 
 The main technical requirements are derived from the fact that our architecture needs to support efficient privacy preserving query execution over personal data that is distributed across many sources.
-Thus we consider the following key requirements, where `Σ.c` and `Σ'.c` denote existing summaries, `q` denotes a quad, `q.c` denotes a quad component, `p` denotes a given access policy, `k` denotes a given access key, `u` denotes the URI for the data source, `a` denotes a mode of access, and `R` denotes query execution results:
+Thus we consider the following key requirements:
+<!--, where `Σ.c` and `Σ'.c` denote existing summaries, `q` denotes a quad, `q.c` denotes a quad component, `p` denotes a given access policy, `k` denotes a given access key, `u` denotes the URI for the data source, `a` denotes a mode of access, and `R` denotes query execution results:-->
 
 1. **No data leaking**:
-    Data within summaries must not be interpretable by those who are not authorised to have access to this data. Implementations for `GenerateKey(q,p)` and `AddKey(qpk, q, p, k)` are required to generated a key for a given access policy and create a hashmap of quads, policies and keys.
+    Data within summaries must not be interpretable by those who are not authorised to have access to this data. <!--Implementations for `GenerateKey(q,p)` and `AddKey(qpk, q, p, k)` are required to generated a key for a given access policy and create a hashmap of quads, policies and keys.-->
 2. **Privacy preserving summary creation**:
     It must be possible to add values to summaries by access key and file URI.
-    An implementation for `SummaryAdd(Σ.c, q.c, k, u)` is required to create the individual summaries,
-    based on an initialized summary as implemented by `SummaryInitialize()`.
+    <!--An implementation for `SummaryAdd(Σ.c, q.c, k, u)` is required to create the individual summaries,
+    based on an initialized summary as implemented by `SummaryInitialize()`.-->
 3. **Summary combinations**
     It must be possible to combine two summaries,
     where the combined summary is identical to a summary where all of the entries were added directly.
-    An implementation for `SummaryCombine(Σ.c, Σ'.c)` is required, based on an initialized summary as implemented by `SummaryInitialize()`.
+     <!--An implementation for `SummaryCombine(Σ.c, Σ'.c)` is required, based on an initialized summary as implemented by `SummaryInitialize()`..-->
 4. **Authorized membership checking**
     Probabilistic membership checking must be possible for a given value, access key and file URI.
     False positives are allowed, but true negatives are required.
-    We require that the file URI can be falsy, in case all file URIs must be tested. Here, an implementation for `SummaryContains(Σ.c, q.c, k, u)` is required.
+    <!-- We require that the file URI can be falsy, in case all file URIs must be tested. Here, an implementation for `SummaryContains(Σ.c, q.c, k, u)` is required..-->
 5. **Access control enforcement**
-	It must be possible for the data source to limit query results based on a set of access policies. Thus there is an need for functions that identify the policies (implemented via `GetPolicies(QPK, c, q)`) that need to be considered during query execution (implemented via `ExecuteQueryWithAccessControl(c, q, p)`).
+	It must be possible for the data source to limit query results based on a set of access policies. <!--Thus there is an need for functions that identify the policies (implemented via `GetPolicies(QPK, c, q)`) that need to be considered during query execution (implemented via `ExecuteQueryWithAccessControl(c, q, p)`)..-->
 	
-	
+<!--	
 SABRINA: I think it's good to have the requirements up front thus I moved them to the start of this section, however i'm not sure about the functions that need to be implemented, perhaps it is better to have abstract requirements here and later refer to them in the section below.
-{:.todo}	
+{:.todo}-->
 	
 ### Access Key Creation Algorithm
 
@@ -281,6 +282,6 @@ An algorithm that takes the requesters credentials, the requested access right, 
 </figcaption>
 </figure>
 
-In the proposed algorithm a hashmap relating quads to policies and keys is used to identify access policies that govern a particular query. We assume that there may be multiple policies that govern a particular quad and a simple conflict resolution strategy whereby either prohibitions override permissions or visa versa. The algorithm stops as soon as it finds a policy that permits the given query to be executed and returns the results of the query execution. 
+In the proposed algorithm a hashmap relating quads to policies and keys is used to identify access policies that govern a particular query. We assume that there may be multiple policies that govern a particular quad and thus envisage a simple conflict resolution strategy whereby either prohibitions override permissions or visa versa. The algorithm stops as soon as it finds a policy that permits the given query to be executed and returns the results of the query execution. 
 
 	

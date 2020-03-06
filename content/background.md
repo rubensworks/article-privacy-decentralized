@@ -1,7 +1,7 @@
 ## Background and Related Work
 {:#background}
 
-Before describing our motivating scenario and introducing our privacy preserving federation framework, we first present the necessary background information in relation to the Solid platform, decentralized query execution,  approximate membership functions, authentication and access control.
+Before describing our motivating scenario and introducing our privacy preserving federation framework, we first present the necessary background information in relation to the Solid platform, federated query processing, approximate membership functions, authentication and access control.
 
 <!-- the W3C Shapes Constraint Language (SHACL). -->
 
