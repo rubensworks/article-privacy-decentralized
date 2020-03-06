@@ -1,32 +1,29 @@
 ## A Possible Instantiation
 {:#solution}
 
-Summary of the section
+In this section, we present an instantiation of the proposed framework and discuss possible alternatives approaches, placing a particular focus on techniques for access key creation, summarization generation and maintenance, and access control enforcement.
+
+### Access Key Creation
+
+* Propose one way to generate access keys from policies, and highlight potential alternatives.
+* Each user has a list of keys, keys are shared among users for same parts of data
+* Explain key management (creation and where it's stored) and revocation
+* Mention self-sovereign identity?
 {:.todo}
 
-...go over the 3 aspects
-1. AMFs meet all of these requirements (but can require multiple param-versions, AMF-negotiation?, LDN)
-2. ...
-3. SHACL/ShEx, encryption stuff
-{:.todo}
+Concretely, we address the following requirement:
 
+1. **No data leaking**:
+    Values in Bloom filters are hashed, which can not be reversed.
 
-### Privacy-Preserving Federated Querying
-
-In this section, we discuss techniques for summarization,
-suggestions on how to handle their different parameters,
-and how communication between sources and aggregators could be handled.
-
-**Summarization techniques**
+### Summarization Generation and Maintenance
 
 The technical requirements for enabling federated querying in an efficient manner through privacy-preserving aggregators
 are mainly driven by the summarization technology.
 We consider Approximate Membership Functions (AMFs), such as Bloom filters or GCS
 one possible candidate for such summaries that meet all of these requirements.
-Concretely, they meet the requirements in the following manner:
+Concretely, we address the following requirements:
 
-1. **No data leaking**:
-    Values in Bloom filters are hashed, which can not be reversed.
 2. **Value additions**:
     Additions to Bloom filters are possible by inserting a bit string.
     `SummaryInitialize() = 0` and
@@ -88,25 +85,15 @@ which means that other sources will require polling.
 ### Shape Based Access Control
 {:#solution-sac}
 
-* Each user has a list of keys, keys are shared among users for same parts of data
-* Explain key management (creation and where it's stored) and revocation
-* Mention self-sovereign identity?
-{:.todo}
+Concretely, we address the following requirement:
 
-Following the ... as outlined in [](cite:cites desiss:shapes), shapes languages such as [SHACL](cite:cites spec:shacl), specifically address the need to constrain the data in a graph to a certain shape
+5. **Access control enforcement**
+	It must be possible for the data source to limit query results based on a set of access policies. 
 
-<!--
-{:.todo}
-
-two options:
-
-* (shacl-spec): validation-based (~filter)
-* (shacl note): filter/rule-based -->
-
-<!-- (related https://github.com/solid/data-interoperability-panel/issues/34) -->
-
-
-SIMON shapes (SHACL/ShEx) and [using shapes for Web APIs](cite:cites hypermedia_shapes)
+Instead of specifying ACLs explicitly for particular users and resources, shapes allow for constraining, i.e., shaping (i) the **resources** that can be accessed/should be returned, (ii) the **action/mode** that is permitted to be performed on the resource, and (iii) the **agents/party** whose requests the policy applies to. This allows for expressing more fine-grained access control policies, such as:
+* As outlined in [](cite:cites desiss:shapes), shapes languages such as [SHACL](cite:cites spec:shacl), specifically address the need to constrain the data in a graph to a certain shape
+* shapes (SHACL/ShEx) and [using shapes for Web APIs](cite:cites hypermedia_shapes)
+* (shacl-spec): validation-based (~filter) and (shacl note): filter/rule-based (related https://github.com/solid/data-interoperability-panel/issues/34)
 {:.todo}
 
 <figure id="figure-request-processing">
@@ -117,17 +104,11 @@ A policy `p ∈ P` is applicable for a request `[i, a, q]` if the request confor
 </figcaption>
 </figure>
 
-Instead of specifying ACLs explicitly for particular users and resources, shapes allow for constraining, i.e., shaping (i) the **resources** that can be accessed/should be returned, (ii) the **action/mode** that is permitted to be performed on the resource, and (iii) the **agents/party** whose requests the policy applies to. This allows for expressing more fine-grained access control policies, such as:
 
+SIMON Change this example so that it aligns with the use case scenario
 * All foaf:member of ex:Company1 which have at least 1 vcard:hasEmail, are permitted to perform acl:Read over all quads of File 1.
 * Everyone is permitted to read rdf:type quads of File 1 and File 2
-
-Eventually, `ProcessRequest` will return result set `R`.
-
-
-
 {:.todo}
-SIMON NOT FINISHED; have to fix it
 
 <figure id="figure-acl-graph" markdown="block" style="background: #FFFFFF">
 

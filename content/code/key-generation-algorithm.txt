@@ -3,11 +3,11 @@ FUNCTION CreateAccessKeys(Q, P)
     list of quads Q
     list of policies P
   OUTPUT:
-    hashmap of quads to policies and keys
-qpk<q,item<p,k>> = MapInitialize()
+    hashmap of quads to policies and keys QPK
+QPK<q,item<p,k>> = MapInitialize()
 FOREACH q in Q
   FOREACH p in P
     key k = null
     k = GenerateKey(q,p)
-    qpk = AddKey(qpk, q, p, k)
-RETURN qpk
+    QPK = AddKey(QPK, q, p, k)
+RETURN QPK

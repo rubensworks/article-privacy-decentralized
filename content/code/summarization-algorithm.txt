@@ -1,14 +1,14 @@
-FUNCTION CreatePrivacyPreservingSummary(Q, u, qk)
+FUNCTION CreatePrivacyPreservingSummary(Q, u, QPK)
   INPUT:
     list of quads Q
     URI u of the file
-    qk(q) a mapping function from quad to a list of applicable keys
+    QPK a hashmap relating quads to policies and keys
   OUTPUT:
     summary for each quad component: Σ.subject, Σ.predicate, Σ.object, Σ.graph
 FOREACH c in [subject, predicate, object, graph]
   Σ.c = SummaryInitialize()
 FOREACH q in Q
   FOREACH c in [subject, predicate, object, graph]
-    FOREACH k in qk(q)
+    FOREACH k in QPK(q)
       Σ.c = SummaryAdd(Σ.c, q.c, k, u)
 RETURN Σ

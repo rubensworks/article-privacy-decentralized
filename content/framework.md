@@ -12,9 +12,7 @@ We put a particular emphasis on three core aspects of the framework:
 <!-- ### Privacy-Preserving Federated Querying -->
 
 The proposed privacy-preserving federation architecture is depicted in [](#figure-privacy-federation-architecture).
-We first provide a high-level overview of the architecture,
-after which we introduce our abstract aggregation algorithm, which is used to create privacy-preserving summaries,
-and a client-side algorithm, which is used to execute queries over such summaries.
+We first provide a high-level overview of the architecture, and the requirements that guide our proposal. Following on from this we introduce our abstract (i) access key creation algorithm, (ii) summary creation algorithm, (iii) summary aggregation algorithm, (iv) client side querying algorithm, and our (v) access control algorithm.
 
 <figure id="figure-privacy-federation-architecture">
 <img src="img/privacy-federation-architecture.svg" alt="[Privacy-Preserving Federated Querying Architecture]">
@@ -40,7 +38,9 @@ in order to reduce the number of sources that need to be queried by the client.
 We assume that each data pod exposes a data summary for each separate file,
 which is subsequently aggregated by third-party aggregators.
 Since files may contain private data, these data summaries must be *privacy-preserving*,
-i.e., they must not allow access restricted data to be leaked to unauthorised individuals.
+i.e., they must not allow access restricted data to be leaked to unauthorised individuals. 
+Here we assume that access policies can be represented as access keys and these keys are taken into account by the summary generation algorithm.
+
 Pods can generate these summaries lazily on demand, either periodically or upon file changes.
 An overview of this architecture can be seen in [](#figure-privacy-federation-architecture).
 Following the approach from [Vander Sande et al.](cite:cites tpf_amf),
@@ -71,6 +71,7 @@ Although in our example we consider one aggregator, in practise multiple aggrega
 <!-- This aggregation process will be explained in more detail in [](#framework-aggregation). -->
 
 A client-side query engine can make use of the combined summary provided by the aggregator to perform source selection before query execution, i.e., reduce the number of sources to be queried. Thus the combined summaries serve to determine the data sources that contain data, which is both relevant and accessible.
+Finally, the data sources take care of the access control enforcement at query time.
 
 <!-- For each source, it should do this by testing the summary for its query using its authentication key.
 If the test is true, then the client should consider this source as valid target it can query.
@@ -79,33 +80,37 @@ This client-side process will be explained in more detail in [](#framework-clien
 
 ### Architecture Requirements
 
-The main technical requirements are derived from the fact that our architecture need to support efficient privacy preserving query execution over personal data that is distributed across many sources.
-Thus we consider the following key requirements, where `Σ.c` and `Σ'.c` denote existing summaries, `q.c` denotes a quad component, `k` denotes a given access key, and `u` denotes the URI for the data source:
+The main technical requirements are derived from the fact that our architecture needs to support efficient privacy preserving query execution over personal data that is distributed across many sources.
+Thus we consider the following key requirements, where `Σ.c` and `Σ'.c` denote existing summaries, `q` denotes a quad, `q.c` denotes a quad component, `p` denotes a given access policy, `k` denotes a given access key, `u` denotes the URI for the data source, `a` denotes a mode of access, and `R` denotes query execution results:
 
 1. **No data leaking**:
-    Data within summaries must not be interpretable by those who are not authorised to have access to this data.
-2. **Value additions**:
+    Data within summaries must not be interpretable by those who are not authorised to have access to this data. Implementations for `GenerateKey(q,p)` and `AddKey(qpk, q, p, k)` are required to generated a key for a given access policy and create a hashmap of quads, policies and keys.
+2. **Privacy preserving summary creation**:
     It must be possible to add values to summaries by access key and file URI.
-    An implementation for `SummaryAdd(Σ.c, q.c, k, u)` is required,
+    An implementation for `SummaryAdd(Σ.c, q.c, k, u)` is required to create the individual summaries,
     based on an initialized summary as implemented by `SummaryInitialize()`.
 3. **Summary combinations**
     It must be possible to combine two summaries,
     where the combined summary is identical to a summary where all of the entries were added directly.
-    An implementation for `SummaryCombine(Σ.c, Σ'.c)` is required.
+    An implementation for `SummaryCombine(Σ.c, Σ'.c)` is required, based on an initialized summary as implemented by `SummaryInitialize()`.
 4. **Authorized membership checking**
     Probabilistic membership checking must be possible for a given value, access key and file URI.
     False positives are allowed, but true negatives are required.
-    We require that the file URI can be falsy, in case all file URIs must be tested.
-    An implementation for `SummaryContains(Σ.c, q.c, k, u)` is required.
-
-
+    We require that the file URI can be falsy, in case all file URIs must be tested. Here, an implementation for `SummaryContains(Σ.c, q.c, k, u)` is required.
+5. **Access control enforcement**
+	It must be possible for the data source to limit query results based on a set of access policies. Thus there is an need for functions that identify the policies (implemented via `GetPolicies(QPK, c, q)`) that need to be considered during query execution (implemented via `ExecuteQueryWithAccessControl(c, q, p)`).
+	
+	
+SABRINA: I think it's good to have the requirements up front thus I moved them to the start of this section, however i'm not sure about the functions that need to be implemented, perhaps it is better to have abstract requirements here and later refer to them in the section below.
+{:.todo}	
+	
 ### Access Key Creation Algorithm
 
 The main purpose of an aggregator is to enable clients to optimize federated querying
 by reducing the range of source to query over through summaries.
 Since we are considering private data, these summaries need to be privacy-preserving, 
 which means that only people with the appropriate access rights can determine the presence of data.
-The first step is to create a hashmap of keys to quads based on existing access policies, using the algorithm outlined in [](#key-generation-algorithm). Here we assume that pod owners already have a set of access control policies that governs quads stored in theirs pods. 
+The first step is to create a hashmap of keys to quads based on existing access policies, using the algorithm outlined in [](#key-generation-algorithm). Here we assume that pod owners already have a set of access control policies that govern access to quads stored in theirs pods. 
 
 
 <figure id="key-generation-algorithm" class="listing">
@@ -115,6 +120,7 @@ Algorithm for generating keys for quads based on existing access policies, with 
 </figcaption>
 </figure>
 
+There is a one to one mapping between access policies that are used for policy enforcement at query time, and access keys that are used to create privacy preserving summaries that are needed to optimize federated querying. 
 
 ### Summary Creation Algorithm
 {:#framework-summary-creation}
@@ -126,8 +132,8 @@ For example, an aggregator could be setup within a family to aggregate over all 
 or a company-wide aggregator can be setup to keep track of the birthdays of all employees.
 
 In the proposed framework, data pods expose a separate summary for each file,
-and aggregators: (i) create combined summaries using these separate summaries;
-and (ii) maintain a list of all source URIs that they aggregate over.
+and aggregators create combined summaries using these separate summaries;
+and maintain a list of all source URIs that they aggregate over.
 We assume that pods expose summaries that are created according to the algorithm presented in [](#summarization-algorithm).
 In this algorithm, a file summary is created for each quad component,
 where we iterate over all the file's quads,
@@ -271,7 +277,10 @@ Here there is a need for access control enforcement, such that it is possible to
 <figure id="access-control-algorithm" class="listing">
 ````/code/access-control-algorithm.txt````
 <figcaption markdown="block">
-An algorithm that takes the requesters credentials, the requested access right, a quad pattern, and a policy, and returns the query execution results. The algorithm is composed of an `AllowedAccess` function that checks if access is permitted, and an `ExecuteQuery` function that executes a query and adds the result to the result list.
+An algorithm that takes the requesters credentials, the requested access right, a quad pattern, and a policy, and returns the query execution results. The algorithm is composed of an `AllowedAccess` function that checks if access is permitted, and an `ExecuteQueryWithAccessControl` function that executes a query and adds the result to the result list.
 </figcaption>
 </figure>
 
+In the proposed algorithm a hashmap relating quads to policies and keys is used to identify access policies that govern a particular query. We assume that there may be multiple policies that govern a particular quad and a simple conflict resolution strategy whereby either prohibitions override permissions or visa versa. The algorithm stops as soon as it finds a policy that permits the given query to be executed and returns the results of the query execution. 
+
+	
