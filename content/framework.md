@@ -12,7 +12,14 @@ We put a particular emphasis on three core aspects of the framework:
 <!-- ### Privacy-Preserving Federated Querying -->
 
 The proposed privacy-preserving federation architecture is depicted in [](#figure-privacy-federation-architecture).
-We first provide a high-level overview of the architecture, and the requirements that guide our proposal. Following on from this we introduce our abstract (i) access key creation algorithm, (ii) summary creation algorithm, (iii) summary aggregation algorithm, (iv) client side querying algorithm, and our (v) access control algorithm.
+We first provide a high-level overview of the architecture, and the requirements that guide our proposal. Following on from this we introduce our (i) abstract access key creation algorithm, (ii) summary creation algorithm, (iii) summary aggregation algorithm, (iv) client side querying algorithm, and our (v) access control algorithm.
+
+{:.todo}
+I'm wondering if we should just refer to _multiple algorithms_ at this point, instead of explicitly naming them here, because the reader won't really understand them yet at this point.
+
+{:.todo}
+Should we move the figure to the following sub-section?
+Because we basically just say "here it is", without really explaining it.
 
 <figure id="figure-privacy-federation-architecture">
 <img src="img/privacy-federation-architecture.svg" alt="[Privacy-Preserving Federated Querying Architecture]">
@@ -27,12 +34,12 @@ Client-side query engines can use this combined summary to derive which sources 
 
 ### Architecture Overview
 
-Based on our use case from [](#use-case), we assume that multiple data pods, each potentially containing multiple privacy-constrained files, exist.
+Based on our use case from [](#use-case), we assume that multiple data pods exist, each potentially containing multiple privacy-constrained files.
 If clients want to read the contents of these files,
-they have to authenticate themselves to the data pod server. Depending on the pods access control policy the client may be authorized to read the full contents or parts of it.
+they have to authenticate themselves to the respective data pod servers. Depending on each file's access control policy, the client may be authorized to read the full file contents or parts of it.
 
 Since realistic decentralized environments could easily contain hundreds or thousands of files,
-it is inefficient for the client to query each of them.
+it can become inefficient for the client to query each of them.
 For this reason, we make make use of the _[data summaries](cite:cites summaries)_ concept
 in order to reduce the number of sources that need to be queried by the client.
 We assume that each data pod exposes a data summary for each separate file,
@@ -60,22 +67,28 @@ these values are merely an indication of what information is used to construct t
 </figure>
 
 Using the summaries of these files, third-party aggregators can create _combined summaries_.
-Since the separate summaries are privacy-preserving, the combined summaries will also be privacy-preserving,
+Since the separate summaries are expected to be privacy-preserving, the combined summaries will also be privacy-preserving,
 which means that third-party aggregators will not be able to know the actual contents of the data,
 and they need not necessarily be trusted parties.
 In addition to exposing the combined summary,
 an aggregator also needs to maintain and expose the list of sources it aggregates over,
 such that clients know which data sources could potentially contribute query results.
-Although in our example we consider one aggregator, in practise multiple aggregators can exist with different ranges.
+Although in our example we consider one aggregator, in practise multiple aggregators can exist with different source ranges.
 
 <!-- This aggregation process will be explained in more detail in [](#framework-aggregation). -->
 
-A client-side query engine can make use of the combined summary provided by the aggregator to perform source selection before query execution, i.e., reduce the number of sources to be queried. Thus the combined summaries serve to determine the data sources that contain data, which is both relevant and accessible.
+A client-side query engine can make use of the combined summary provided by the aggregator to perform source selection before query execution, i.e., reduce the number of sources to be queried. Thus the combined summaries serve to determine the data sources that contain _relevant_ and _accessible_ data.
 Finally, the data sources take care of the access control enforcement at query time, by taking into account permissions and prohibitions specified via access control policies.
 
 <!-- For each source, it should do this by testing the summary for its query using its authentication key.
 If the test is true, then the client should consider this source as valid target it can query.
 This client-side process will be explained in more detail in [](#framework-client). -->
+
+{:.todo}
+We're using a mixture of both "file" and "data source".
+We should probably stick to just one, to avoid confusion.
+In the context of Solid, I think "file" makes more sense.
+But we should clarify somewhere early on that we consider them equivalent.
 
 
 ### Architecture Requirements
@@ -100,6 +113,9 @@ Thus we consider the following key requirements:
     <!-- We require that the file URI can be falsy, in case all file URIs must be tested. Here, an implementation for `SummaryContains(Σ.c, q.c, k, u)` is required..-->
 5. **Access control enforcement**
 	It must be possible for the data source to limit query results based on a set of access policies. <!--Thus there is an need for functions that identify the policies (implemented via `GetPolicies(QPK, c, q)`) that need to be considered during query execution (implemented via `ExecuteQueryWithAccessControl(c, q, p)`)..-->
+    
+{:.todo}
+For this last one, should we refocus it to access control enforcement on the summaries, instead of the source itself?
 	
 <!--	
 SABRINA: I think it's good to have the requirements up front thus I moved them to the start of this section, however i'm not sure about the functions that need to be implemented, perhaps it is better to have abstract requirements here and later refer to them in the section below.
@@ -108,11 +124,13 @@ SABRINA: I think it's good to have the requirements up front thus I moved them t
 ### Access Key Creation Algorithm
 
 The main purpose of an aggregator is to enable clients to optimize federated querying
-by reducing the range of source to query over through summaries.
+by reducing the range of files to query over through summaries.
 Since we are considering private data, these summaries need to be privacy-preserving, 
 which means that only people with the appropriate access rights can determine the presence of data.
 The first step is to create a hashmap of keys to quads based on existing access policies, using the algorithm outlined in [](#key-generation-algorithm). Here we assume that pod owners already have a set of access control policies that govern access to quads stored in theirs pods. 
 
+{:.todo}
+I would just call it a mapping instead of a hashmap, other map implementations would work here as well.
 
 <figure id="key-generation-algorithm" class="listing">
 ````/code/key-generation-algorithm.txt````
@@ -120,6 +138,13 @@ The first step is to create a hashmap of keys to quads based on existing access 
 Algorithm for generating keys for quads based on existing access policies, with `MapInitialize` for initializing a hashmap between quads and keys, `GenerateKey` which generates a key for a quad based on a policy, and `AddKey` which adds a key to a hashmap.
 </figcaption>
 </figure>
+
+{:.todo}
+The MapInitialize line seems a bit complex, can this just be <code>QKP = new Map()</code>?
+The map signature could be explained in the text.
+
+{:.todo}
+Can the line <code>key k = null</code> be removed?
 
 There is a one to one mapping between access policies that are used for policy enforcement at query time, and access keys that are used to create privacy preserving summaries that are needed to optimize federated querying. 
 
