@@ -68,29 +68,20 @@ In the context of our work, Bloom filters are used to encode encrypted triple co
 
 Authentication is the process of verifying someone is who they say they are and/or verifying someones attributes or credentials are valid. From an authentication perspective, we provide a brief overview of the predominant identity management approaches: 
 
-{:.todo}
-WebID is also cited in Solid section, but we have different references.
-
-[Web Identity and Discovery (WebID)](cite:cites WebID) is a HTTP URI used to uniquely identify and [authenticate a person, company, organisation, or other entity](cite:cites Sambra2014). A description of the agent is provided in an RDF document, known as a dereferencable WebID profile. The agent places the URI for their WebID profile document in the Subject Alternative Names field of their certificate and the public key details to their [WebID profile document](cite:cites Inkster2014). The WebID Transport Layer Security (TLS) protocol specifies how the WebID profile and public key certificates can together be used to [authenticate users](cite:cites Inkster2014). A service wishing to  authenticate the user, needs to verify that the public key of the certificate it receives matches the public key specified in the [WebID profile](cite:cites Hollenbach2009).
+[Web Identity and Discovery (WebID)](cite:cites spec:webid) is a HTTP URI used to uniquely identify and [authenticate a person, company, organisation, or other entity](cite:cites Sambra2014). A description of the agent is provided in an RDF document, known as a dereferencable WebID profile. The agent places the URI for their WebID profile document in the Subject Alternative Names field of their certificate and the public key details to their [WebID profile document](cite:cites Inkster2014). The WebID Transport Layer Security (TLS) protocol specifies how the WebID profile and public key certificates can together be used to [authenticate users](cite:cites Inkster2014). A service wishing to  authenticate the user, needs to verify that the public key of the certificate it receives matches the public key specified in the [WebID profile](cite:cites Hollenbach2009).
 
 [OpenID Connect](cite:cites OpenIDConnect) is an industry standard authentication protocol, which enables applications to delegate responsibility for authentication to third party identity providers. One of the primary benefits being the ability to connect to multiple sites using the same login credentials. A comprehensive security analysis of the protocol is provided by [Fett et al.](cite:cites fett2017web).
 
 [Self-sovereign identity (SSI)](cite:cites SSI) is a paradigm shift in terms of identity management, whereby individuals manage their own identity credential as opposed to relying on centralised identity providers, such as private or public sector organisations. [Mühle et al.](cite:cites muhle2018survey) provides a high level overview of the various components that are necessary to support SSI. Key supporting technology includes, verifiable claims which has claims that can be verified via a digital signature, and blockchain technology which plays the role of the third party identity provider.
 
-Although the federated querying with policies instantiation proposed in this paper makes use of WebID for authentication purposes, both OpenIDConnect and SSI are viable alternatives.
+Given that WebID is the default authentication mechanism for Solid, in this paper we have elected to use it for the instantiation of the proposed federated querying with policies framework. However it is worth noting that both OpenIDConnect and SSI are both viable alternatives. 
 
-{:.todo}
-Should we mention here that we choose WebID because Solid uses it by default?
-(At the moment, Solid uses WebID + OpenIDConnect)
 
 ### Access Control
 
 The term authorisation is used to refer to the access control rules that specify that a given subject has access to a given resource. In this section we provide a brief overview of three different approaches that can be used to specify authorizations.
 
-{:.todo}
-WAC is also cited in Solid section, but we have different references.
-
-[WebAccessControl (WAC)](cite:cites WebAccessControl) is an RDF vocabulary and an access control framework, which demonstrates how together WebID and access control policies specified using the WAC vocabulary, can be used to enforce distributed access control. Essentially WAC authorisations grant agents, access to resources. Both [Villata et al.](cite:cites Villata2011) and [Sacco and Passant](cite:cites Sacco2011b) extend the WAC vocabulary to cater for context based access control policies and privacy preferences respectively.
+[WebAccessControl (WAC)](cite:cites spec:wac) is an RDF vocabulary and an access control framework, which demonstrates how together WebID and access control policies specified using the WAC vocabulary, can be used to enforce distributed access control. Essentially WAC authorisations grant agents, access to resources. Both [Villata et al.](cite:cites Villata2011) and [Sacco and Passant](cite:cites Sacco2011b) extend the WAC vocabulary to cater for context based access control policies and privacy preferences respectively.
 
 Pattern Based Access Control is a flexible means to specify the triples that can be access. A triple pattern is composed of an RDF triple with optionally a variable (denoted by a ?) in the subject, predicate and/or object position. [Kirrane et al.](cite:cites Kirrane2013) demonstrate how authorisations based on quad patterns (where the fourth element denotes the named graph) can be used to enforce Discretionary Access Control (DAC), whereby users can pass their access rights on to other users. Typical enforcement strategies involve filtering unauthorised data based on access control policies and executing queries against the filtered dataset, or using query rewriting techniques to inject access control filters into queries.
 

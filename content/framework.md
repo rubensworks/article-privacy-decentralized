@@ -11,24 +11,14 @@ We put a particular emphasis on three core aspects of the framework:
 
 <!-- ### Privacy-Preserving Federated Querying -->
 
-The proposed privacy-preserving federation architecture is depicted in [](#figure-privacy-federation-architecture).
-We first provide a high-level overview of the architecture, and the requirements that guide our proposal. Following on from this we introduce our (i) abstract access key creation algorithm, (ii) summary creation algorithm, (iii) summary aggregation algorithm, (iv) client side querying algorithm, and our (v) access control algorithm.
+The proposed privacy-preserving federation architecture is depicted in [](#overall-architecture).
+We first provide a high-level overview of the architecture, and the requirements that guide our proposal. Following on from this we introduce the various algorithms that are needed to enable efficient privacy-preserving federated querying.
 
-{:.todo}
-I'm wondering if we should just refer to _multiple algorithms_ at this point, instead of explicitly naming them here, because the reader won't really understand them yet at this point.
 
-{:.todo}
-Should we move the figure to the following sub-section?
-Because we basically just say "here it is", without really explaining it.
-
-<figure id="figure-privacy-federation-architecture">
-<img src="img/privacy-federation-architecture.svg" alt="[Privacy-Preserving Federated Querying Architecture]">
+<figure id="overall-architecture">
+<img src="img/overall-architecture.png" alt="[Privacy-Preserving Federated Querying Architecture]">
 <figcaption markdown="block">
-Overview of a privacy-preserving federation architecture
-with six access restricted sources and privacy-preserving summaries,
-and a third-party aggregator that combines these summaries in a privacy-preserving manner,
-together with a list of all sources it summarizes.
-Client-side query engines can use this combined summary to derive which sources are relevant for any given query.
+The proposed Privacy Preserving Federation Architecture is composed of four core entities, namely Requesters, Pods, Aggregators, and Query Engines.
 </figcaption>
 </figure>
 
@@ -42,8 +32,18 @@ Since realistic decentralized environments could easily contain hundreds or thou
 it can become inefficient for the client to query each of them.
 For this reason, we make make use of the _[data summaries](cite:cites summaries)_ concept
 in order to reduce the number of sources that need to be queried by the client.
-We assume that each data pod exposes a data summary for each separate file,
-which is subsequently aggregated by third-party aggregators.
+We assume that each data pod exposes a data summary for each separate file, which is subsequently aggregated by third-party aggregators, as depicted in [](#figure-privacy-federation-architecture).
+
+<figure id="figure-privacy-federation-architecture">
+<img src="img/privacy-federation-architecture.svg" alt="[Privacy-Preserving Federation]">
+<figcaption markdown="block">
+Overview of a privacy-preserving federation with six access restricted sources and privacy-preserving summaries,
+and a third-party aggregator that combines these summaries in a privacy-preserving manner,
+together with a list of all sources it summarizes.
+Client-side query engines can use this combined summary to derive which sources are relevant for any given query.
+</figcaption>
+</figure>
+
 Since files may contain private data, these data summaries must be *privacy-preserving*,
 i.e., they must not allow access restricted data to be leaked to unauthorised individuals. 
 Here we assume that access policies can be represented as access keys and these keys are taken into account by the summary generation algorithm.
@@ -98,7 +98,7 @@ Thus we consider the following key requirements:
 <!--, where `Σ.c` and `Σ'.c` denote existing summaries, `q` denotes a quad, `q.c` denotes a quad component, `p` denotes a given access policy, `k` denotes a given access key, `u` denotes the URI for the data source, `a` denotes a mode of access, and `R` denotes query execution results:-->
 
 1. **No data leaking**:
-    Data within summaries must not be interpretable by those who are not authorised to have access to this data. <!--Implementations for `GenerateKey(q,p)` and `AddKey(qpk, q, p, k)` are required to generated a key for a given access policy and create a hashmap of quads, policies and keys.-->
+    Data within summaries must not be available to those who are not authorised to access it. <!--Implementations for `GenerateKey(q,p)` and `AddKey(qpk, q, p, k)` are required to generated a key for a given access policy and create a map of quads, policies and keys.-->
 2. **Privacy preserving summary creation**:
     It must be possible to add values to summaries by access key and file URI.
     <!--An implementation for `SummaryAdd(Σ.c, q.c, k, u)` is required to create the individual summaries,
@@ -117,9 +117,11 @@ Thus we consider the following key requirements:
 {:.todo}
 For this last one, should we refocus it to access control enforcement on the summaries, instead of the source itself?
 	
-<!--	
-SABRINA: I think it's good to have the requirements up front thus I moved them to the start of this section, however i'm not sure about the functions that need to be implemented, perhaps it is better to have abstract requirements here and later refer to them in the section below.
-{:.todo}-->
+	
+RESPONSE: 1) No data leakage is the requirement which motivates the use of encryption to ensure summaries are privacy preserving, whereas 5) access control enforcement is the requirement which motivates the SHACL constant execution at query time. 
+{:.todo}
+
+
 	
 ### Access Key Creation Algorithm
 
@@ -127,24 +129,14 @@ The main purpose of an aggregator is to enable clients to optimize federated que
 by reducing the range of files to query over through summaries.
 Since we are considering private data, these summaries need to be privacy-preserving, 
 which means that only people with the appropriate access rights can determine the presence of data.
-The first step is to create a hashmap of keys to quads based on existing access policies, using the algorithm outlined in [](#key-generation-algorithm). Here we assume that pod owners already have a set of access control policies that govern access to quads stored in theirs pods. 
-
-{:.todo}
-I would just call it a mapping instead of a hashmap, other map implementations would work here as well.
+The first step is to create a map of keys to quads based on existing access policies, using the algorithm outlined in [](#key-generation-algorithm). Here we assume that pod owners already have a set of access control policies that govern access to quads stored in theirs pods. 
 
 <figure id="key-generation-algorithm" class="listing">
 ````/code/key-generation-algorithm.txt````
 <figcaption markdown="block">
-Algorithm for generating keys for quads based on existing access policies, with `MapInitialize` for initializing a hashmap between quads and keys, `GenerateKey` which generates a key for a quad based on a policy, and `AddKey` which adds a key to a hashmap.
+Algorithm for generating keys for quads based on existing access policies, with `MapInitialize` for initializing a map between quads and keys, `GenerateKey` which generates a key for a quad based on a policy, and `AddKey` which adds a key to a map.
 </figcaption>
 </figure>
-
-{:.todo}
-The MapInitialize line seems a bit complex, can this just be <code>QKP = new Map()</code>?
-The map signature could be explained in the text.
-
-{:.todo}
-Can the line <code>key k = null</code> be removed?
 
 There is a one to one mapping between access policies that are used for policy enforcement at query time, and access keys that are used to create privacy preserving summaries that are needed to optimize federated querying. 
 
@@ -307,6 +299,6 @@ An algorithm that takes the requesters credentials, the requested access right, 
 </figcaption>
 </figure>
 
-In the proposed algorithm a hashmap relating quads to policies and keys is used to identify access policies that govern a particular query. We assume that there may be multiple policies that govern a particular quad and thus envisage a simple conflict resolution strategy whereby either prohibitions override permissions or visa versa. The algorithm stops as soon as it finds a policy that permits the given query to be executed and returns the results of the query execution. 
+In the proposed algorithm a map relating quads to policies and keys is used to identify access policies that govern a particular query. We assume that there may be multiple policies that govern a particular quad and thus envisage a simple conflict resolution strategy whereby either prohibitions override permissions or visa versa. The algorithm stops as soon as it finds a policy that permits the given query to be executed and returns the results of the query execution. 
 
 	
