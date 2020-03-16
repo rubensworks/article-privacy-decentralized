@@ -98,7 +98,7 @@ Thus we consider the following key requirements:
 <!--, where `Σ.c` and `Σ'.c` denote existing summaries, `q` denotes a quad, `q.c` denotes a quad component, `p` denotes a given access policy, `k` denotes a given access key, `u` denotes the URI for the data source, `a` denotes a mode of access, and `R` denotes query execution results:-->
 
 1. **No data leaking**:
-    Data within summaries must not be available to those who are not authorised to access it. <!--Implementations for `GenerateKey(q,p)` and `AddKey(qpk, q, p, k)` are required to generated a key for a given access policy and create a map of quads, policies and keys.-->
+    Access restricted data must not be available to those who are not authorised to access it.  <!--Implementations for `GenerateKey(q,p)` and `AddKey(qpk, q, p, k)` are required to generated a key for a given access policy and create a map of quads, policies and keys.-->
 2. **Privacy preserving summary creation**:
     It must be possible to add values to summaries by access key and file URI.
     <!--An implementation for `SummaryAdd(Σ.c, q.c, k, u)` is required to create the individual summaries,
