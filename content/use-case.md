@@ -1,14 +1,14 @@
-## Use Case: Personalized Address Book
+## A Personalized Address Book Use Case Scenario
 {:#use-case}
 
-To illustrate the context of this work, we consider the use case of a personalized address book,
+Before presenting our privacy preserving federation framework we first provide a high level overview of our personalized address book use case scenario,
 where the address book is merely a list of WebIDs,
 and the actual details of each contact is stored in their own respective pod.
 To keep this use case simple, we assume an address book of Alice that contains two contacts: Bob and Carol.
 In practise, such an address book could contain many more contacts.
 Alice has chosen to make this address book public,
 so that everyone is able to see everyone she knows,
-without necessarily having access to everyone's private contact details.
+albeit without necessarily having access to everyone's private contact details as these are controlled via separate access control policies.
 We also consider Dave as a fourth person that has no relationship with anyone else.
 
 For the sake of simplicity, we consider three hierarchical authorization roles per pod,
@@ -34,8 +34,7 @@ Carol considers Alice an acquaintance (*R1<sub>C</sub>*, *R2<sub>C</sub>*).
 <figure id="figure-use-case">
 <img src="img/use-case.svg" alt="[Personal Address Book]">
 <figcaption markdown="block">
-Overview of the personalized address book use case where Alice, Bob and Carol have a data pod,
-and Alice and Dave aim to read certain data.
+Overview of the personalized address book use case where Alice, Bob and Carol each have separate data pods.
 Alice has an address book that contains links to the profiles of Bob and Carol.
 All triples in each profile are annotated with a role for users that can read that triple.
 Full lines indicate data reading by people,
@@ -64,7 +63,7 @@ For this use case, we consider the following example queries:
     <br />
     Dave is not able to read the telephone number of Bob or Carol.
     Because Bob's telephone number is readable for friends (*Dave ∉ R3<sub>B</sub>*),
-    but Carol's telephone number is only readable for her friends (*Dave ∉ R2<sub>C</sub>*).
+    but Carol's telephone number is only readable for her friends (*Dave ∉ R3<sub>C</sub>*).
 
-SABRINA rework the use case so that it aligns with the examples presented later
+SABRINA check use case and examples are aligned
 {:.todo}

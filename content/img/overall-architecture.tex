@@ -88,32 +88,35 @@
     % % Position the nodes using a matrix layout
     % \& \node[datastore] (buffer) {buffer};  \& \\
 
-    % \node[datastore] (storage) {storage};     \& \node[process] (monitor) {monitor};  \& \node[sink] (datastore) {datastore}; \\
-   \node[alice,minimum size=2em,label={[label distance=0.1em]below:Alice}] (ALICE){};
-  %  \node[person,process,fill=colorperson] (ALICE) {Alice};
-   \node[sink, right=of ALICE] (FE) {Query \\ Engine}; 
-   \node[sink, right = of FE] (IAM) [align=left] {Aggregator}; 
-   \node[pod, below = of FE] (POD2) {Pods};
-   \node[pod, left = of POD2] (POD1) {Pods}; 
-  \node[pod, right = of POD2] (POD3) {Pods};
-  \node[title,font=\sffamily\footnotesize, below=1em of POD1] (KPOD1) {$K_1^{Bob}\dots K_n^{Bob}$};
-  \node[title,font=\sffamily\footnotesize, below=1em of POD2] (KPOD2) {$K_1^{Carol}\dots K_n^{Carol}$};
+   \node[alice,minimum size=2em] (REQUESTER){$Requester$};
+   \node[sink, right=of REQUESTER] (FE) {$Query$ \\ $Engine$}; 
+   \node[sink, right = of FE] (IAM) [align=left] {$Aggregator$}; 
+   \node[pod, below = of FE] (POD2) {$Pod 2$};
+   \node[pod, left = of POD2] (POD1) {$Pod 1$}; 
+  \node[pod, right = of POD2] (POD3) {$Pod n$};
+  \node[title,font=\sffamily\footnotesize, below=1em of POD1] (KPOD1) {$K_1^{Pod 1}\dots K_n^{Pod 1}$}; 
+  \node[title,font=\sffamily\footnotesize, below=1em of POD2] (KPOD2) {$K_1^{Pod 2}\dots K_n^{Pod 2}$};
+  \node[title,font=\sffamily\footnotesize, below=1em of POD3] (KPOD3) {$K_1^{Pod n}\dots K_n^{Pod n}$};  
   \node[title, below=1em of POD3] (KPOD2) {};
   
-    % \matrix (TOP)  {
-    %  \& \node[person,process,fill=colorperson] (ALICE) {Alice}; \& \node[sink] (FE) {Federation \\ Engine}; \& \node[sink] (IAM) {\*Init\\Aggregate\\\* Maintenance}; \\
-    % };
-    % \matrix [below of=TOP]{
-    %   \node[pod] (POD1) {Pods}; \& \node[pod] (POD2) {Pods}; \& \node[pod] (POD3) {Pods};\\
-    % };
-    % \node[draw,fill=orange!30] at ([yshift=0.75cm]ACP.south){SHACL Shape};
-    % Draw the arrows between the nodes and label them.
-    \draw[to] (ALICE) -- node[midway,above] {$q,K$} node[midway,below] {Query, Keys} (FE);
-    \draw[to] (IAM) -- node[midway,above] {Request Summaries} (FE);
-    \draw[to] (FE) -- node[midway,below] {Summaries $\Sigma$ } (IAM); 
-    \draw[-,>=stealth',shorten >=1pt,semithick,font=\sffamily\footnotesize] (POD1.north) -- node[midway,sloped] {$q, K{\& \atop |}Cred$} (FE);
-    \draw[-,>=stealth',shorten >=1pt,semithick,font=\sffamily\footnotesize] (POD2.north) -- node[midway,sloped] {$q, K{\& \atop |}Cred$} (FE);
-    \draw[-,>=stealth',shorten >=1pt,semithick,font=\sffamily\footnotesize] (POD3.north) -- node[midway,sloped] {\phantom{$q, K{\& \atop |}Cred$}} (FE);
+
+    \draw[to] (REQUESTER) -- node[midway,above] {$query,Keys$}  (FE);
+    \draw[to] (FE) -- node[midway,below] {$Results$} (REQUESTER);    
+
+    \draw[to] (IAM) -- node[midway,above] {$request$} (FE);
+    \draw[to] (FE) -- node[midway,below] {$Summaries$} (IAM);
+     
+    \draw[to,>=stealth',shorten >=1pt,semithick,font=\sffamily\footnotesize] (POD1.north) -- node[midway,above,sloped] {$query, Credentials$} (FE);
+    \draw[to,>=stealth',shorten >=1pt,semithick,font=\sffamily\footnotesize] (FE) -- node[midway,below,sloped] {$Results$} (POD1.north);
+
+
+    \draw[to,>=stealth',shorten >=1pt,semithick,font=\sffamily\footnotesize] (POD2.north) -- node[midway,above,sloped] {$query, Credentials$} (FE);
+    \draw[to,>=stealth',shorten >=1pt,semithick,font=\sffamily\footnotesize] (FE) -- node[midway,above,sloped] {$Results$} (POD2.north);
+   
+    \draw[to,>=stealth',shorten >=1pt,semithick,font=\sffamily\footnotesize] (POD3.north) -- node[midway,above,sloped] {$query, Credentials$} (FE);
+     \draw[to,>=stealth',shorten >=1pt,semithick,font=\sffamily\footnotesize] (FE) -- node[midway,below,sloped] {$Results$} (POD3.north);   
+       
+       
     \draw[-,>=stealth',shorten >=1pt,semithick,dashed,font=\sffamily\footnotesize] (POD1.north) -- node[midway,sloped] {} (IAM);
     \draw[-,>=stealth',shorten >=1pt,semithick,dashed,font=\sffamily\footnotesize] (POD2.north) -- node[midway,sloped] {} (IAM);
     \draw[-,>=stealth',shorten >=1pt,semithick,dashed,font=\sffamily\footnotesize] (POD3.north) -- node[midway,sloped] {} (IAM);
@@ -126,85 +129,6 @@
       \node[fill=blue!20, draw, semithick,below left=0.5em and -1em of POD3.west, rectangle,minimum width=2em,minimum height=1em] (blue3) {};
       \node[fill=green!20, draw, semithick,rectangle,below= 0.5em of blue3, minimum width=2em, minimum height=1em] (green3) {};
       \end{scope}
-    % \draw[to] (ACP) -- node[midway,above] {Query} (DS);
-    % \draw[to] (DS) to[bend left=25] node[midway,below] {Results} (ALICE);
-
-    % \draw[to] (AW) -- node[midway,right] {raw event data\\level 1} (buffer);
-    % \draw[to] (buffer) --
-    %     node[midway,right] {raw event data\\level 1} (monitor);
-    % \draw[to] (monitor) to[bend left=50] node[midway,above] {events}
-    %     node[midway,below] {level 1} (storage);
-    % \draw[to] (storage) to[bend right=50] node[midway,above] {events}
-    %     node[midway,below] {level 1} (monitor);
-    % \draw[to] (monitor) -- node[midway,above] {events}
-    %     node[midway,below] {level 1} (datastore);
-
-    % % Person Alice
-    % \draw[fill=colorperson] (2,4) circle (30pt);
-    % \node[person] at (2,4) (alice) {Alice};
-    
-    % % % Person Dave
-    % % \draw[fill=colorperson] (17,4) circle (30pt);
-    % % \node[person] at (17,4) (dave) {Dave};
-
-    % % % Pod Alice
-    % % \draw[fill=colorpod] (5.5,0) rectangle (13.5,5.5);
-    % % \node[title,text width=10em] at (7.5,5) {Authentication WebID};
-
-    % % Address Book Alice
-    % \draw[fill=colorbook] (6,0.5) rectangle (13,4);
-    % \node[title,text width=10em] at (8,3.5) {Authentication};
-    % \node[code,text width=10em] at (13,3.5) {WebID};
-    % \node[code,text width=20em] at (9.8,2) {$<$/profile\#me$>$ :knows\\
-    % \ \ $<$https://bob.pods.org/profile\#me$>$,\\
-    % \ \ $<$https://carol.org/\#i$>$,\\
-    % \ldots};
-    
-    % % Pod Bob
-    % \draw[fill=colorpod] (0,-6.5) rectangle (8,-1.5);
-    % \node[title,text width=10em] at (2,-2) {Pod Bob};
-    % \node[code,text width=10em] at (6,-2) {https://bob.pods.org/};
-    
-    % % Profile Bob
-    % \draw[fill=colorprofile] (0.5,-6) rectangle (7.5,-3);
-    % \node[title,text width=10em] at (2.5,-3.5) {Profile};
-    % \node[code,text width=10em] at (7.5,-3.5) {/profile};
-    % \node[code,text width=20em] at (4.3,-5) {$<$/profile\#me$>$ :name "Bob".\\
-    % $<$/profile\#me$>$ :email $<$bob@mail.org$>$.\\
-    % $<$/profile\#me$>$ :telephone "0499 12 222a".};
-    % \node[key] at (0.75,-4.55) {R1$_B$};
-    % \node[key] at (0.75,-4.98) {R1$_B$};
-    % \node[key] at (0.75,-5.42) {R3$_B$};
-    % \node[key] at (4,-6.25) {Alice $\in$ R1$_B$, R2$_B$, R3$_B$; Dave $\in$ R1$_B$};
-    
-    % % Pod Carol
-    % \draw[fill=colorpod] (11,-6.5) rectangle (19,-1.5);
-    % \node[title,text width=10em] at (13,-2) {Pod Carol};
-    % \node[code,text width=10em] at (17.7,-2) {https://carol.org/};
-    
-    % % Profile Carol
-    % \draw[fill=colorprofile] (11.5,-6) rectangle (18.5,-3);
-    % \node[title,text width=10em] at (13.5,-3.5) {Profile};
-    % \node[code,text width=10em] at (19,-3.5) {/};
-    % \node[code,text width=20em] at (15.3,-5) {$<$/\#i$>$ :name "Carol".\\
-    % $<$/\#i$>$ :email $<$i@carol.org$>$.\\
-    % $<$/\#i$>$ :telephone "0499 11 22 33".};
-    % \node[key] at (11.75,-4.55) {R1$_C$};
-    % \node[key] at (11.75,-4.98) {R2$_C$};
-    % \node[key] at (11.75,-5.42) {R3$_C$};
-    % \node[key] at (15,-6.25) {Alice $\in$ R1$_C$, R2$_C$; Dave $\in$ R1$_C$};
-
-    % % Arrows between pods
-    % \draw[->,thick,dashed](6.6,2.2) to [out=180,in=90] (4,-3);
-    % \draw[->,thick,dashed](10,1.75) to [out=0,in=90] (15,-3);
-    
-    % % Arrows from people to data
-    % \draw[->,thick,colorperson] (alice) -- (6,3.5);
-    % \draw[->,thick,colorperson] (alice) -- (3.5,-3);
-    % \draw[->,thick,colorperson] (alice) -- (11.5,-3);
-    % \draw[->,thick,colorperson] (dave)  -- (13,3.5);
-    % \draw[->,thick,colorperson] (dave)  -- (7.5,-3);
-    % \draw[->,thick,colorperson] (dave)  -- (15.5,-3);
-
+ 
 \end{tikzpicture}
 \end{document}
