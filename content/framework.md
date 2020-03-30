@@ -1,4 +1,5 @@
-## A Privacy Preserving Federation Framework 
+## A Privacy Preserving Federation Framework
+
 {:#framework}
 
 <!-- In this section, we introduce a framework to enable querying
@@ -14,9 +15,8 @@ We put a particular emphasis on three core aspects of the framework:
 The proposed privacy-preserving federation architecture is depicted in [](#overall-architecture).
 We first provide a high-level overview of the architecture, and the requirements that guide our proposal. Following on from this we introduce the various algorithms that are needed to enable efficient privacy-preserving federated querying.
 
-
 <figure id="overall-architecture">
-<img src="img/overall-architecture.png" alt="[Privacy-Preserving Federated Querying Architecture]">
+<img src="img/overall-architecture.svg" alt="[Privacy-Preserving Federated Querying Architecture]">
 <figcaption markdown="block">
 The proposed Privacy Preserving Federation Architecture is composed of four core entities, namely Requesters, Pods, Aggregators, and Query Engines.
 </figcaption>
@@ -44,8 +44,8 @@ Client-side query engines can use this combined summary to derive which sources 
 </figcaption>
 </figure>
 
-Since files may contain private data, these data summaries must be *privacy-preserving*,
-i.e., they must not allow access restricted data to be leaked to unauthorised individuals. 
+Since files may contain private data, these data summaries must be _privacy-preserving_,
+i.e., they must not allow access restricted data to be leaked to unauthorised individuals.
 Here we assume that access policies can be represented as access keys and these keys are taken into account by the summary generation algorithm.
 
 Pods can generate these summaries lazily on demand, either periodically or upon file changes.
@@ -90,46 +90,43 @@ We should probably stick to just one, to avoid confusion.
 In the context of Solid, I think "file" makes more sense.
 But we should clarify somewhere early on that we consider them equivalent.
 
-
 ### Architecture Requirements
 
 The main technical requirements are derived from the fact that our architecture needs to support efficient privacy preserving query execution over personal data that is distributed across many sources.
 Thus we consider the following key requirements:
+
 <!--, where `Σ.c` and `Σ'.c` denote existing summaries, `q` denotes a quad, `q.c` denotes a quad component, `p` denotes a given access policy, `k` denotes a given access key, `u` denotes the URI for the data source, `a` denotes a mode of access, and `R` denotes query execution results:-->
 
 1. **No data leaking**:
-    Access restricted data must not be available to those who are not authorised to access it.  <!--Implementations for `GenerateKey(q,p)` and `AddKey(qpk, q, p, k)` are required to generated a key for a given access policy and create a map of quads, policies and keys.-->
+   Access restricted data must not be available to those who are not authorised to access it. <!--Implementations for `GenerateKey(q,p)` and `AddKey(qpk, q, p, k)` are required to generated a key for a given access policy and create a map of quads, policies and keys.-->
 2. **Privacy preserving summary creation**:
-    It must be possible to add values to summaries by access key and file URI.
-    <!--An implementation for `SummaryAdd(Σ.c, q.c, k, u)` is required to create the individual summaries,
-    based on an initialized summary as implemented by `SummaryInitialize()`.-->
+   It must be possible to add values to summaries by access key and file URI.
+   <!--An implementation for `SummaryAdd(Σ.c, q.c, k, u)` is required to create the individual summaries,
+   based on an initialized summary as implemented by `SummaryInitialize()`.-->
 3. **Summary combinations**
-    It must be possible to combine two summaries,
-    where the combined summary is identical to a summary where all of the entries were added directly.
-     <!--An implementation for `SummaryCombine(Σ.c, Σ'.c)` is required, based on an initialized summary as implemented by `SummaryInitialize()`..-->
+   It must be possible to combine two summaries,
+   where the combined summary is identical to a summary where all of the entries were added directly.
+    <!--An implementation for `SummaryCombine(Σ.c, Σ'.c)` is required, based on an initialized summary as implemented by `SummaryInitialize()`..-->
 4. **Authorized membership checking**
-    Probabilistic membership checking must be possible for a given value, access key and file URI.
-    False positives are allowed, but true negatives are required.
-    <!-- We require that the file URI can be falsy, in case all file URIs must be tested. Here, an implementation for `SummaryContains(Σ.c, q.c, k, u)` is required..-->
+   Probabilistic membership checking must be possible for a given value, access key and file URI.
+   False positives are allowed, but true negatives are required.
+   <!-- We require that the file URI can be falsy, in case all file URIs must be tested. Here, an implementation for `SummaryContains(Σ.c, q.c, k, u)` is required..-->
 5. **Access control enforcement**
-	It must be possible for the data source to limit query results based on a set of access policies. <!--Thus there is an need for functions that identify the policies (implemented via `GetPolicies(QPK, c, q)`) that need to be considered during query execution (implemented via `ExecuteQueryWithAccessControl(c, q, p)`)..-->
-    
+   It must be possible for the data source to limit query results based on a set of access policies. <!--Thus there is an need for functions that identify the policies (implemented via `GetPolicies(QPK, c, q)`) that need to be considered during query execution (implemented via `ExecuteQueryWithAccessControl(c, q, p)`)..-->
+
 {:.todo}
 For this last one, should we refocus it to access control enforcement on the summaries, instead of the source itself?
-	
-	
-RESPONSE: 1) No data leakage is the requirement which motivates the use of encryption to ensure summaries are privacy preserving, whereas 5) access control enforcement is the requirement which motivates the SHACL constant execution at query time. 
+
+RESPONSE: 1) No data leakage is the requirement which motivates the use of encryption to ensure summaries are privacy preserving, whereas 5) access control enforcement is the requirement which motivates the SHACL constant execution at query time.
 {:.todo}
 
-
-	
 ### Access Key Creation Algorithm
 
 The main purpose of an aggregator is to enable clients to optimize federated querying
 by reducing the range of files to query over through summaries.
-Since we are considering private data, these summaries need to be privacy-preserving, 
+Since we are considering private data, these summaries need to be privacy-preserving,
 which means that only people with the appropriate access rights can determine the presence of data.
-The first step is to create a map of keys to quads based on existing access policies, using the algorithm outlined in [](#key-generation-algorithm). Here we assume that pod owners already have a set of access control policies that govern access to quads stored in theirs pods. 
+The first step is to create a map of keys to quads based on existing access policies, using the algorithm outlined in [](#key-generation-algorithm). Here we assume that pod owners already have a set of access control policies that govern access to quads stored in theirs pods.
 
 <figure id="key-generation-algorithm" class="listing">
 ````/code/key-generation-algorithm.txt````
@@ -138,14 +135,15 @@ Algorithm for generating keys for quads based on existing access policies, with 
 </figcaption>
 </figure>
 
-There is a one to one mapping between access policies that are used for policy enforcement at query time, and access keys that are used to create privacy preserving summaries that are needed to optimize federated querying. 
+There is a one to one mapping between access policies that are used for policy enforcement at query time, and access keys that are used to create privacy preserving summaries that are needed to optimize federated querying.
 
 ### Summary Creation Algorithm
+
 {:#framework-summary-creation}
 
 In practise, multiple aggregators can exist,
 which are not necessarily trusted,
-and each one should not necessarily aggregate over *all* sources.
+and each one should not necessarily aggregate over _all_ sources.
 For example, an aggregator could be setup within a family to aggregate over all family events that may be hosted by several people,
 or a company-wide aggregator can be setup to keep track of the birthdays of all employees.
 
@@ -158,7 +156,7 @@ where we iterate over all the file's quads,
 and the access key that are applicable for each quad.
 For each of these combinations, we add the quad component to the summary,
 for the given key and file source URI.
-The `SummaryInitialize` and  `SummaryAdd` functions that are used in the algorithm depend on the type of summary that is being used.
+The `SummaryInitialize` and `SummaryAdd` functions that are used in the algorithm depend on the type of summary that is being used.
 A high-level example of this summarization algorithm can be seen in [](#figure-summary-components-privacy).
 
 <figure id="summarization-algorithm" class="listing">
@@ -170,7 +168,6 @@ and `SummaryInitialize` a summary-type-dependent function for initializing a new
 </figcaption>
 </figure>
 
-
 <figure id="figure-summary-components-privacy">
 <img src="img/summary-components-privacy.svg" alt="[Privacy-preserving summarization of a file]">
 <figcaption markdown="block">
@@ -181,8 +178,8 @@ these values are merely an indication of what information is used to construct t
 </figcaption>
 </figure>
 
-
 ### Summary Aggregation Algorithm
+
 {:#framework-summary-aggregation}
 
 Based on the resulting file summaries,
@@ -217,8 +214,8 @@ The combined summary requires similar actions to avoid going stale.
 This can be achieved through immediate notifications from the pod to the aggregator upon file changes,
 or the aggregator can periodically scan the files or its summaries for changes.
 
-
 ### Client-side Querying Algorithm
+
 {:#framework-client}
 
 Since file-based APIs are the basis for data retrieval on the Web as prescribed by the HTTP protocol,
@@ -234,7 +231,6 @@ Although intelligent clients could detect more expressive interfaces such as
 [SPARQL endpoints](cite:cites spec:sparqlprot) and [Triple Pattern Fragments](cite:cites ldf) interfaces,
 and make use of them during query execution, we consider this out-of-scope for this work.
 
-
 Assuming we have an aggregator exposing a summary over a set of sources,
 we introduce the algorithm in [](#client-algorithm) where a client-side query engine can make use of an aggregator's summary
 to reduce the number of sources the client should query over.
@@ -248,7 +244,7 @@ It will check whether or not the component value
 is present in the summary for the current key and component,
 with source URI set to `ε` to match with all sources.
 If it is not present, then we return an empty array, as none of the sources will contain the given component value.
-If it is present, some of the sources *may* contain the component value,
+If it is present, some of the sources _may_ contain the component value,
 because we consider summaries as being probabilistic.
 After that, we iterate over each source URI, and check its presence in the summary of the current component,
 combined with the component value and key.
@@ -285,11 +281,11 @@ and some sources may not be aggregated at all.
 For these cases, extensions to this algorithm will be needed,
 which we consider out-of-scope for this work.
 
-
 ### Access Control Algorithm
+
 {:#framework-access-control}
 
-Once the client has obtained the list of sources that it needs to query, the next step is to execute the query against each source. 
+Once the client has obtained the list of sources that it needs to query, the next step is to execute the query against each source.
 Here there is a need for access control enforcement, such that it is possible to check that a client does in fact possess the credentials necessary to execute the request.
 
 <figure id="access-control-algorithm" class="listing">
@@ -299,6 +295,4 @@ An algorithm that takes the requesters credentials, the requested access right, 
 </figcaption>
 </figure>
 
-In the proposed algorithm a map relating quads to policies and keys is used to identify access policies that govern a particular query. We assume that there may be multiple policies that govern a particular quad and thus envisage a simple conflict resolution strategy whereby either prohibitions override permissions or visa versa. The algorithm stops as soon as it finds a policy that permits the given query to be executed and returns the results of the query execution. 
-
-	
+In the proposed algorithm a map relating quads to policies and keys is used to identify access policies that govern a particular query. We assume that there may be multiple policies that govern a particular quad and thus envisage a simple conflict resolution strategy whereby either prohibitions override permissions or visa versa. The algorithm stops as soon as it finds a policy that permits the given query to be executed and returns the results of the query execution.
