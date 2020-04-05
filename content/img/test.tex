@@ -1,0 +1,100 @@
+\documentclass{article}
+
+
+
+\usepackage{minted}
+\usepackage{tikz}
+\usetikzlibrary{tikzmark}
+\usetikzlibrary{calc}
+\usetikzlibrary{fit}
+\usetikzlibrary{positioning}
+\usetikzlibrary{decorations.pathreplacing}
+\usepackage{adjustbox}
+\begin{document}
+
+% \begin{tikzpicture}[remember picture, overlay]
+%               \node[draw,line width=2,cyan,fit={(pic cs:returnval) (pic cs:returnval2)}] {};
+% \end{tikzpicture}
+% \begin{coding-turtle}{Basic loop
+%   Python}
+%   @\tikzmark{topleft}@<http://alice.pod/share/policy>
+%   a sh:NodeShape ;
+%   sh:rule [# @\tikzmark{anchor}@
+%       a sh:SPARQLRule ;
+%       sh:construct '''
+%           CONSTRUCT {
+%               ?s ?p ?o
+%           } WHERE {
+%               GRAPH <http://alice.pod/share/file1> {
+%                   ?s ?p ?o
+%               }
+%           }
+%           ''';
+%       sh:condition [
+%           sh:property [@\tikzmark{identifier}@
+%               sh:path odrl:assignee ; # the requesting agent
+%               sh:node [
+%                   a sh:PropertyShape ;
+%                   sh:path [ sh:inversePath foaf:member ] ;
+%                   sh:hasValue <http://company1/> ;
+%               ] ;
+%               sh:node [
+%                   a sh:PropertyShape ;
+%                   sh:path vcard:hasEmail ;
+%                   sh:minCount 1 .
+%               ]
+%           ] ;
+% @\tikzmark{returnval}       @sh:property [
+%               sh:path odrl:action ; # the requested mode of access
+%               sh:hasValue acl:Read ;
+%           ]     @\tikzmark{returnval2}@ ;
+%       ] ;
+%   ] ;@\tikzmark{downright}@
+
+%   \end{coding-turtle}
+
+ % adapt automatically to \linewidth
+
+\begin{minted}[escapeinside=@@]{turtle}
+    <http://alice.pod/share/policy>
+    a sh:NodeShape ;
+    sh:rule [# @\tikzmark{anchor}@
+        a sh:SPARQLRule ;
+        sh:construct '''
+            CONSTRUCT {
+                ?s ?p ?o
+            } WHERE {
+                GRAPH <http://alice.pod/share/file1> {
+                    ?s ?p ?o
+                }
+            }
+            ''';
+        sh:condition [
+            sh:property [@\tikzmark{identifier}@
+                sh:path odrl:assignee ; # the requesting agent
+                sh:node [
+                    a sh:PropertyShape ;
+                    sh:path [ sh:inversePath foaf:member ] ;
+                    sh:hasValue <http://company1/> ;
+                ] ;
+                sh:node [
+                    a sh:PropertyShape ;
+                    sh:path vcard:hasEmail ;
+                    sh:minCount 1 .
+                ]
+            ] ;
+            @\tikzmark{returnval}
+             @sh:property [
+                sh:path odrl:action ; # the requested mode of access
+                sh:hasValue acl:Read ;
+            ] ;                                                      @\tikzmark{returnval2}@
+        ] ;
+    ] ;
+  \end{minted}
+
+  \begin{tikzpicture}[remember picture, overlay, scale=\linewidth]
+
+                   \node[draw,line width=2,fill=blue!20,opacity=0.2,cyan,fit={(pic cs:returnval) (pic cs:returnval2)}] {};
+     \end{tikzpicture}
+
+\end{document}

@@ -84,11 +84,14 @@ Finally, the data sources take care of the access control enforcement at query t
 If the test is true, then the client should consider this source as valid target it can query.
 This client-side process will be explained in more detail in [](#framework-client). -->
 
-{:.todo}
+{:.comment data-author="RT"}
 We're using a mixture of both "file" and "data source".
 We should probably stick to just one, to avoid confusion.
 In the context of Solid, I think "file" makes more sense.
 But we should clarify somewhere early on that we consider them equivalent.
+
+{:.comment data-author="SS"}
+Isn't "data source" the more generic term? What if I don't necessarily want to serve a raw file but an endpoint via my pod? could I do this too?
 
 ### Architecture Requirements
 
