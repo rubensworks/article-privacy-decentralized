@@ -161,6 +161,11 @@ and each one should not necessarily aggregate over _all_ sources.
 For example, an aggregator could be setup within a family to aggregate over all family events that may be hosted by several people,
 or a company-wide aggregator can be setup to keep track of the birthdays of all employees.
 
+{:.comment data-author="RT"}
+The paragraph above doesn't really fit here IMO.
+If I remember correctly, this used to be in the solution section.
+Can we move it there?
+
 In the proposed framework, data pods expose a separate summary for each file,
 and aggregators create combined summaries using these separate summaries;
 and maintain a list of all source URIs that they aggregate over.
