@@ -133,7 +133,9 @@ For instance, Bloom filters allow data to be appended, but not removed.
 
 Different _push_ and _pull_ based techniques can be used to trigger aggregated summary creation.
 Push based techniques require the aggregators to _subscribe_ to the sources, after which the sources could _notify_ the aggregators upon any change, after which the aggregators could restart aggregated summary creation.
-Pull based techniques require the aggregator to periodically poll the applicable sources. Once the aggregator detects a change in one of the sources, the aggregated summary creation could restart.
+Pull based techniques require the aggregator to periodically poll the applicable sources,
+which could be done efficiently by sending `HEAD` requests and checking the last modification date of the files or summaries in the response headers.
+Once the aggregator detects a change in one of the sources, the aggregated summary creation could restart.
 [Linked Data Notifications](cite:cites spec:ldn) is one possible technique for sending such notifications. In practise, there is a need to support both push and pull based techniques, for instance when only some sources support change subscriptions, which means that other sources will require polling.
 
 ### Source Selection
