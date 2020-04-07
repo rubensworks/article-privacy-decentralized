@@ -123,6 +123,10 @@ For this last one, should we refocus it to access control enforcement on the sum
 RESPONSE: 1) No data leakage is the requirement which motivates the use of encryption to ensure summaries are privacy preserving, whereas 5) access control enforcement is the requirement which motivates the SHACL constant execution at query time.
 {:.todo}
 
+{:.comment data-author="RT"}
+Above, the required function implementations are commented out.
+Any reason for this? If not, can these be restored?
+
 ### Access Key Creation Algorithm
 
 The main purpose of an aggregator is to enable clients to optimize federated querying
