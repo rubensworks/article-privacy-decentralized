@@ -53,6 +53,8 @@ An overview of this architecture can be seen in [](#figure-privacy-federation-ar
 Following the approach from [Vander Sande et al.](cite:cites tpf_amf),
 each summary consists of 4 parts, corresponding to the 4 components in RDF quads,
 as illustrated in [](#figure-summary-components).
+This summary approach is followed because it enables querying for any possible quad pattern combination,
+where quad pattern queries are the fundamental elements of SPARQL queries.
 
 <figure id="figure-summary-components">
 <img src="img/summary-components.svg" alt="[Summarization of a file]" height="150px" class="figure-width-half">
@@ -65,6 +67,12 @@ for which [Vander Sande et al.](cite:cites tpf_amf) provide different implementa
 these values are merely an indication of what information is used to construct the summary.*
 </figcaption>
 </figure>
+
+Similar as to how RDF triple stores such as [RDF-3X](cite:cites rdf3x)
+make use of auxiliary aggregated indexes where multiple quad components are combined,
+our summaries could follow a similar extension in order to reduce the number of lookups for a given quad pattern query.
+Since this would however come at the cost of larger summaries,
+we consider this out of scope for this work.
 
 Using the summaries of these files, third-party aggregators can create _combined summaries_.
 Since the separate summaries are expected to be privacy-preserving, the combined summaries will also be privacy-preserving,
