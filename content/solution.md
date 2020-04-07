@@ -99,6 +99,13 @@ A hybrid approach where source selection happens both before and during query ex
 One open challenge will be to investigate how this file-based source selection method could be combined and enhanced
 by existing source selection methods for SPARQL endpoints, such as [Hibiscus](cite:cites hibiscus) and [Splendid](cite:cites splendid).
 
+Another open challenge is to determine the applicable aggregators within a client.
+For now, we assume that clients will have zero or more preconfigured links to certain aggregators,
+such as an aggregator for a person's family, or an employee's company.
+In future work, more elaborate aggregator discovery mechanisms should be investigated,
+where for example an aggregator is discovered based on the topic of a certain query,
+or based on the current location of the user.
+
 ### Query Execution
 
 Once the query engine has identified the data sources that could potentially contribute results to their query, the query engine needs to authenticate to the server(s) and execute the query or parts thereof. In turn the server is responsible for authenticating the requested, enforcing access control, and executing the query or parts thereof. Concretely, we address the following core requirement:
