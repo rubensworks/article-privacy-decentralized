@@ -33,7 +33,7 @@ The technical requirements for enabling federated querying in an efficient manne
 
 #### Constructing Privacy Preserving Data Summaries
 
-We consider Approximate Membership Functions (AMFs), such as Bloom filters or GCS
+We consider Approximate Membership Functions (AMFs), such as Bloom filters
 one possible candidate for such summaries that meet the following requirements:
 
 - **Value additions**:
