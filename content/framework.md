@@ -141,7 +141,6 @@ Algorithm for generating keys for quads based on existing access policies, with 
 There is a one to one mapping between access policies that are used for policy enforcement at query time, and access keys that are used to create privacy preserving summaries that are needed to optimize federated querying.
 
 ### Summary Creation Algorithm
-
 {:#framework-summary-creation}
 
 In practise, multiple aggregators can exist,
@@ -182,7 +181,6 @@ these values are merely an indication of what information is used to construct t
 </figure>
 
 ### Summary Combination Algorithm
-
 {:#framework-summary-aggregation}
 
 Based on the resulting file summaries,
@@ -218,7 +216,6 @@ This can be achieved through immediate notifications from the pod to the aggrega
 or the aggregator can periodically scan the files or its summaries for changes.
 
 ### Client-side Querying Algorithm
-
 {:#framework-client}
 
 Since file-based APIs are the basis for data retrieval on the Web as prescribed by the HTTP protocol,
@@ -236,7 +233,7 @@ and make use of them during query execution, we consider this out-of-scope for t
 
 Assuming we have an aggregator exposing a summary over a set of sources,
 we introduce the algorithm in [](#client-algorithm) where a client-side query engine can make use of an aggregator's summary
-to reduce the number of sources the client should query over.
+to reduce the number of sources the client should query over, i.e., to *source selection*.
 As input, this algorithm assumes a quad pattern query,
 the list of access keys provided by the user,
 and the summary and list of sources it obtained from an aggregator.
@@ -285,7 +282,6 @@ For these cases, extensions to this algorithm will be needed,
 which we consider out-of-scope for this work.
 
 ### Access Control Algorithm
-
 {:#framework-access-control}
 
 {:.comment data-author="RT"}

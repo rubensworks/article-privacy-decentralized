@@ -83,8 +83,19 @@ Pull based techniques require the aggregator to periodically poll the applicable
 
 ### Source Selection
 
-We should describe how the query engine makes use of the data summaries in order to reduce the number of data sources to be queried.
-{:.todo}
+As discussed in [](#framework-client), a client-side query engine can make use of the aggregator's summary to perform source selection,
+in order to reduce the number of sources that are being consulted by this engine.
+
+As the discussed summaries allow source selection based on quad patterns instead of full SPARQL queries,
+source selection can be pushed down into the query plan,
+which allows quad patterns in the query to be executed over a different range of sources.
+Furthermore, instead of applying source selection before query execution,
+this allows source selection to optionally happen adaptively during query execution,
+following the federation algorithm of [Triple Pattern Fragments](cite:cites ldf).
+A hybrid approach where source selection happens both before and during query execution could be investigated.
+
+One open challenge will be to investigate how this file-based source selection method could be combined and enhanced
+by existing source selection methods for SPARQL endpoints, such as [Hibiscus](cite:cites hibiscus) and [Splendid](cite:cites splendid).
 
 ### Query Execution
 
