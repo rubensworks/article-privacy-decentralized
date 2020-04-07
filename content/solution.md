@@ -36,6 +36,8 @@ The technical requirements for enabling federated querying in an efficient manne
 We consider Approximate Membership Functions (AMFs), such as Bloom filters
 one possible candidate for such summaries that meet the following requirements:
 
+- **No data leaking**:
+  Values in Bloom filters are hashed, which can not be reversed.
 - **Value additions**:
   Additions to Bloom filters are possible by inserting a bit string.
   `SummaryInitialize() = 0` and
