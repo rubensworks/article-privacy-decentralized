@@ -181,7 +181,7 @@ these values are merely an indication of what information is used to construct t
 </figcaption>
 </figure>
 
-### Summary Aggregation Algorithm
+### Summary Combination Algorithm
 
 {:#framework-summary-aggregation}
 
@@ -287,6 +287,10 @@ which we consider out-of-scope for this work.
 ### Access Control Algorithm
 
 {:#framework-access-control}
+
+{:.comment data-author="RT"}
+It is not clear to me if this section is talking about the client-side part (clients sends auth query to the server), or the server-side part (server checks client auth, and only emits quads that are authorized for this auth).
+We might even want to create two seperate dedicated sections for this.
 
 Once the client has obtained the list of sources that it needs to query, the next step is to execute the query against each source.
 Here there is a need for access control enforcement, such that it is possible to check that a client does in fact possess the credentials necessary to execute the request.
