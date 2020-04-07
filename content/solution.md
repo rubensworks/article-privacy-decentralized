@@ -76,6 +76,59 @@ In cases where many aggregators request such AMFs,
 the data pods may decide to only support a fixed set of parameters to reduce the load on them, and to enable caching of AMFs.
 For this, some kind of parameter negotiation may be required between the aggregator and all data pods.
 
+#### Maintenance of Summaries within Sources
+
+Since the creation of an AMF for a file can become expensive,
+sources need be intelligent on when these AMFs are created.
+Within this work, we discuss four approaches:
+
+1. **Eager AMF creation**:
+  <br />
+  For each file, an AMF is created as soon as a change occurs in the file.
+  This ensures that the AMFs are always synchronized with the state of the files,
+  and requests for AMFs will always return instantly.
+  The downside of this approach is that frequently changing files may cause more AMF updates than needed,
+  even when certain AMFs may not be used that often.
+2. **Transient AMF creation**:
+  <br />
+  When the AMF of a file is requested, it is created on-the-fly.
+  This means that the server does not store any AMFs physically,
+  but only constructs them when needed.
+  The advantages of this is that AMFs are always synchronized with the state of the files.
+  The main disadvantage is that requests for AMFs are slowed down by AMF creation time,
+  which may be significant for larger files.
+3. **Lazy AMF creation**:
+  <br />
+  This approach combines the two previous approaches.
+  Each AMF will only be created and stored from the moment that it is requested.
+  From the moment that a file change is detected, the stored AMF is invalidated,
+  which will cause a recalculation when it will be requested again.
+  The advantages of this approach are that AMFs are always synchronized with the state of the files,
+  and that even when files change frequently, no unneeded AMF creations will occur.
+  The downside is that requests for AMFs are sometimes slowed down by AMF creation time.
+4. **Periodic AMF creation**:
+  <br />
+  This approach involves creating AMFs for files at a following a certain frequency,
+  for example each hour, or each day.
+  The advantage of this approach is that requests for AMFs will always return instantly.
+  The downsides are that AMFs may not always be synchronized with the state of the files,
+  and that more AMF updates occur than needed.
+
+In practise, we expect that different approaches may be valuable for different types of use cases.
+For example, for sources that contain static or slowly changing files,
+the eager and periodic approaches may be beneficial.
+But for sources that contain very volatile files,
+the transient and lazy approaches may work better.
+
+Furthermore, some of these approaches may be combined with each other.
+For example, the lazy approach could be combined with the periodic approach
+so that for small files the regular lazy approach is followed,
+but for larger files, AMFs are periodically created to avoid slowing down requests for these AMFs.
+
+One open challenge for volatile files is to investigate incremental AMF creation approaches
+where only small parts of the data is added or removed.
+For instance, Bloom filters allow data to be appended, but not removed.
+
 #### Source-Aggregator Communication
 
 Different _push_ and _pull_ based techniques can be used to trigger aggregated summary creation.
