@@ -16,7 +16,7 @@ The proposed privacy-preserving federation architecture is depicted in [](#overa
 We first provide a high-level overview of the architecture, and the requirements that guide our proposal. Following on from this we introduce the various algorithms that are needed to enable efficient privacy-preserving federated querying.
 
 <figure id="overall-architecture">
-<img src="img/overall-architecture.svg" alt="[Privacy-Preserving Federated Querying Architecture]">
+<img src="img/overall-architecture.svg" alt="[Privacy-Preserving Federated Querying Architecture]" class="figure-width-twothird">
 <figcaption markdown="block">
 The proposed Privacy Preserving Federation Architecture is composed of four core entities, namely Requesters, Pods, Aggregators, and Query Engines.
 </figcaption>
@@ -35,7 +35,7 @@ in order to reduce the number of sources that need to be queried by the client.
 We assume that each data pod exposes a data summary for each separate file, which is subsequently aggregated by third-party aggregators, as depicted in [](#figure-privacy-federation-architecture).
 
 <figure id="figure-privacy-federation-architecture">
-<img src="img/privacy-federation-architecture.svg" alt="[Privacy-Preserving Federation]">
+<img src="img/privacy-federation-architecture.svg" alt="[Privacy-Preserving Federation]" class="figure-width-twothird">
 <figcaption markdown="block">
 Overview of a privacy-preserving federation with six access restricted sources and privacy-preserving summaries,
 and a third-party aggregator that combines these summaries in a privacy-preserving manner,
@@ -55,7 +55,7 @@ each summary consists of 4 parts, corresponding to the 4 components in RDF quads
 as illustrated in [](#figure-summary-components).
 
 <figure id="figure-summary-components">
-<img src="img/summary-components.svg" alt="[Summarization of a file]" height="150px">
+<img src="img/summary-components.svg" alt="[Summarization of a file]" height="150px" class="figure-width-half">
 <figcaption markdown="block">
 Summarization of all RDF quads within a file.
 The summary contains 4 parts, corresponding to all subjects, predicates, objects and graphs in the file.
@@ -172,7 +172,7 @@ and `SummaryInitialize` a summary-type-dependent function for initializing a new
 </figure>
 
 <figure id="figure-summary-components-privacy">
-<img src="img/summary-components-privacy.svg" alt="[Privacy-preserving summarization of a file]">
+<img src="img/summary-components-privacy.svg" alt="[Privacy-preserving summarization of a file]" class="figure-width-twothird">
 <figcaption markdown="block">
 Privacy-preserving summarization of all RDF quads (`Q`) within a file (`u`),
 based on a set of quad-dependent keys that are derived using a mapping function `qk`.

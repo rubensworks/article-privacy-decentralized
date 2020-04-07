@@ -101,7 +101,7 @@ Web Identity and Discovery, is a mechanism used to uniquely identify and authent
 For enforcement purposes the simple access control lists are translated into SHACL shapes that allow for constraining, i.e., shaping and (i) the **agents/party** whose requests the policy applies to; (ii) the **action/mode** that is permitted to be performed on the resource; and (iii) the **resources** that can be accessed/should be returned,
 
 <figure id="figure-request-processing">
-<img src="img/request-processing.svg" alt="[Shape-based access control]" style=" max-width: 60%; display: block; margin-left: auto; margin-right: auto;">
+<img src="img/request-processing.svg" alt="[Shape-based access control]" style="width: 40%; display: block; margin: auto;"  class="figure-width-half">
 <figcaption markdown="block">
 A server matches requests consisting of a client identifiation `i`, the requested access mode `a`, and a quad pattern query `q`, against a set of access control policies `P`.
 A policy `p ∈ P` is applicable for a request `(i, a, q)` if the request conforms to the shape; policy `p` was specified against.

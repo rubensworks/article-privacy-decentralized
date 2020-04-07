@@ -2,6 +2,16 @@
 @import "shared.scss";
 @import "shared_override.scss";
 
+.figure-width-twothird {
+  height: auto;
+  width: 300px !important;
+}
+
+.figure-width-half {
+  height: auto;
+  width: 200px !important;
+}
+
 header {
   .actions, .context {
     display: none;

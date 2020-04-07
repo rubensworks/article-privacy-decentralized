@@ -32,7 +32,7 @@ and her telephone number by friends (*R3<sub>C</sub>*).
 Carol considers Alice an acquaintance (*R1<sub>C</sub>*, *R2<sub>C</sub>*).
 
 <figure id="figure-use-case">
-<img src="img/use-case.svg" alt="[Personal Address Book]">
+<img src="img/use-case.svg" alt="[Personal Address Book]" class="figure-width-twothird">
 <figcaption markdown="block">
 Overview of the personalized address book use case where Alice, Bob and Carol each have separate data pods.
 Alice has an address book that contains links to the profiles of Bob and Carol.
