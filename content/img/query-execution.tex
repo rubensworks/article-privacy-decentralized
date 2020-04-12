@@ -27,12 +27,12 @@
 \begin{document}
 \pagestyle{empty}
 \begin{tikzpicture}[
-    node distance = 10em, auto, thick,
-    title/.style={text=colortext,font={\Large\itshape}},
-    person/.style={text=colorwhite,font={\Large\bfseries}},
-    code/.style={text=colortext,font={}},
-    key/.style={text=colorkey,font={\tiny\itshape}}
-]
+        node distance = 10em, auto, thick,
+        title/.style={text=colortext,font={\Large\itshape}},
+        person/.style={text=colorwhite,font={\Large\bfseries}},
+        code/.style={text=colortext,font={}},
+        key/.style={text=colorkey,font={\tiny\itshape}}
+    ]
 
     % Client
     \draw[fill=colorclient] (0,0) rectangle (3.5,4);
@@ -41,15 +41,15 @@
     \node[title,colorwhite,text width=10em] at (2.5,2.5) {Planner};
     \draw[fill=colorclient] (0.5,0.5) rectangle (3,1.5);
     \node[title,colorwhite,text width=10em] at (2.5,1) {Executor};
-    
+
     % Arrows to/from client
     \draw[->,thick] (-5,2.5) -- node[midway]{query $Q$, sources $U$, keys $K$} (0.5,2.5);
-    \draw[<-,thick] (-5,1) -- node[midway]{query results} (0.5,1);
-    
+    \draw[<-,thick] (-5,1) -- node[midway]{query results $R$} (0.5,1);
+
     % Aggregator
     \draw[fill=colorpod,dashed] (16,2.5) rectangle (20,4);
     \node[title,text width=10em] at (18,3.5) {Aggregator};
-    
+
     % Summary
     \draw[fill=colorsummary] (9,3) rectangle (14,-0.5);
     \node[title,text width=20em] at (12.5, 2.5) {Aggregated Summary};
@@ -61,19 +61,19 @@
     \node[code,text width=2em] at (12,1.2) {O1\\O2\\\ldots};
     \draw[fill=colorsummary] (12.5,2) rectangle (13.5,0.25);
     \node[code,text width=2em] at (13,1.2) {G1\\G2\\\ldots};
-    
+
     % Arrows to/from aggregator
     \draw[->,thick] (3.5,3.5) -- node[midway]{GET aggregated summary} (16,3.5);
     \draw[<-,thick] (3.5,3) -- (16,3);
-    
+
     % Repetition
     \draw[dashed,fill=colorrepeat] (3.6,2.9) rectangle (8.9,0.25);
     \node[text width=20em,text=colorgray] at (7.5, 0.5) {\emph{Repeated for each $q$ in $Q$}};
-    
+
     % Arrows between client and summary
     \draw[->,thick] (3,2.5) -- node[above]{SelectSources} node[below,xshift=0.2cm]{quad pattern $q$, sources $U$, keys $K$} (9,2.5);
     \draw[<-,thick] (3,1) -- node[above]{selected sources} (9,1);
-    
+
     % Pod Alice
     \draw[fill=colorpod] (-1.5,-6) rectangle (6,-2.5);
     \node[title,text width=10em] at (0.5,-3) {Pod Alice};
@@ -81,7 +81,7 @@
     \node[title,text width=10em] at (0.9,-4.5) {File 1};
     \draw[fill=colorfile] (2.5,-5.5) rectangle (5.5,-4);
     \node[title,text width=10em] at (4.4,-4.5) {File 2};
-    
+
     % Pod Bob
     \draw[fill=colorpod] (6.5,-6) rectangle (14,-2.5);
     \node[title,text width=10em] at (8.5,-3) {Pod Bob};
@@ -89,7 +89,7 @@
     \node[title,text width=10em] at (8.9,-4.5) {File 1};
     \draw[fill=colorfile] (10.5,-5.5) rectangle (13.5,-4);
     \node[title,text width=10em] at (12.4,-4.5) {File 2};
-    
+
     % Pod Carol
     \draw[fill=colorpod] (14.5,-6) rectangle (22,-2.5);
     \node[title,text width=10em] at (16.5,-3) {Pod Carol};
@@ -97,7 +97,7 @@
     \node[title,text width=10em] at (16.9,-4.5) {File 1};
     \draw[fill=colorfile] (18.5,-5.5) rectangle (21.5,-4);
     \node[title,text width=10em] at (20.4,-4.5) {File 2};
-    
+
     % Arrows between executor and files
     \draw[<->,thick,dashed] (2,0.5) -- node[left]{execute $q$} (1,-4);
     \draw[<->,thick,dashed] (2,0.5) -- node[left]{execute $q$} (12,-4);

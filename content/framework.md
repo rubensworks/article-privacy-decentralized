@@ -153,6 +153,7 @@ Algorithm for generating keys for quads based on existing access policies, with 
 There is a one to one mapping between access policies that are used for policy enforcement at query time, and access keys that are used to create privacy preserving summaries that are needed to optimize federated querying.
 
 ### Summary Creation Algorithm
+
 {:#framework-summary-creation}
 
 In practise, multiple aggregators can exist,
@@ -198,6 +199,7 @@ these values are merely an indication of what information is used to construct t
 </figure>
 
 ### Summary Combination Algorithm
+
 {:#framework-summary-aggregation}
 
 Based on the resulting file summaries,
@@ -233,6 +235,7 @@ This can be achieved through immediate notifications from the pod to the aggrega
 or the aggregator can periodically scan the files or its summaries for changes.
 
 ### Client-side Querying Algorithm
+
 {:#framework-client}
 
 Since file-based APIs are the basis for data retrieval on the Web as prescribed by the HTTP protocol,
@@ -250,7 +253,7 @@ and make use of them during query execution, we consider this out-of-scope for t
 
 Assuming we have an aggregator exposing a summary over a set of sources,
 we introduce the algorithm in [](#client-algorithm) where a client-side query engine can make use of an aggregator's summary
-to reduce the number of sources the client should query over, i.e., to *source selection*.
+to reduce the number of sources the client should query over, i.e., to _source selection_.
 As input, this algorithm assumes a quad pattern query,
 the list of access keys provided by the user,
 and the summary and list of sources it obtained from an aggregator.
@@ -299,14 +302,29 @@ For these cases, extensions to this algorithm will be needed,
 which we consider out-of-scope for this work.
 
 ### Access Control Algorithm
+
 {:#framework-access-control}
 
 {:.comment data-author="RT"}
 It is not clear to me if this section is talking about the client-side part (clients sends auth query to the server), or the server-side part (server checks client auth, and only emits quads that are authorized for this auth).
 We might even want to create two seperate dedicated sections for this.
 
+#### Client-Side Access Control
+
 Once the client has obtained the list of sources that it needs to query, the next step is to execute the query against each source.
 Here there is a need for access control enforcement, such that it is possible to check that a client does in fact possess the credentials necessary to execute the request.
+
+#### Server-Side Access Control
+
+In the proposed algorithm a map relating quads to policies and keys is used to identify access policies that govern a particular query. We assume that there may be multiple policies that govern a particular quad and thus envisage a simple conflict resolution strategy whereby either prohibitions override permissions or visa versa. The algorithm stops as soon as it finds a policy that permits the given query to be executed and returns the results of the query execution.
+
+<figure id="figure-request-processing">
+<img src="img/request-processing.svg" alt="[Shape-based access control]" style="width: 40%; display: block; margin: auto;"  class="figure-width-half">
+<figcaption markdown="block">
+A server validates requests `r ∈ R` with `r = ⟨i, a, q⟩` consisting of the requestors client identifiation `i`, the requested access mode `a`, and a quad pattern query `q`, against a set of _applicable_ access control policies `P'⊆ P`.
+A policy `p ∈ P` with `p = ⟨s, a, o⟩` is _applicable_ to a request `r ∈ R` if the request conforms to the shape; policy `p` was specified against.
+</figcaption>
+</figure>
 
 <figure id="access-control-algorithm" class="listing">
 ````/code/access-control-algorithm.txt````
@@ -315,4 +333,4 @@ An algorithm that takes the requesters credentials, the requested access right, 
 </figcaption>
 </figure>
 
-In the proposed algorithm a map relating quads to policies and keys is used to identify access policies that govern a particular query. We assume that there may be multiple policies that govern a particular quad and thus envisage a simple conflict resolution strategy whereby either prohibitions override permissions or visa versa. The algorithm stops as soon as it finds a policy that permits the given query to be executed and returns the results of the query execution.
+
