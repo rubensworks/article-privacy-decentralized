@@ -56,6 +56,9 @@ her email is only readable by acquaintances (_R2<sub>C</sub>_),
 and her telephone number by friends (_R3<sub>C</sub>_).
 Carol considers Alice an acquaintance (_R1<sub>C</sub>_, _R2<sub>C</sub>_).
 
+{:.comment data-author="SS"}
+should we move the rules from below the profile to above of it, surrounded by an `Access Policy` block like in [](#figure-request-processing)?
+
 <figure id="figure-use-case">
 <img src="img/use-case.svg" alt="[Personal Address Book]" class="figure-width-twothird">
 <figcaption markdown="block">
