@@ -321,7 +321,7 @@ In the proposed algorithm a map relating quads to policies and keys is used to i
 <figure id="figure-request-processing">
 <img src="img/request-processing.svg" alt="[Shape-based access control]" style="width: 40%; display: block; margin: auto;"  class="figure-width-half">
 <figcaption markdown="block">
-A server validates requests `r ∈ R` with `r = ⟨i, a, q⟩` consisting of the requestors client identifiation `i`, the requested access mode `a`, and a quad pattern query `q`, against a set of _applicable_ access control policies `P'⊆ P`.
+A server validates requests `r ∈ R` with `r = ⟨i, a, q⟩` consisting of the requestors client identification `i`, the requested access mode `a`, and a quad pattern query `q`, against a set of _applicable_ access control policies `P'⊆ P`.
 A policy `p ∈ P` with `p = ⟨s, a, o⟩` is _applicable_ to a request `r ∈ R` if the request conforms to the shape; policy `p` was specified against.
 </figcaption>
 </figure>

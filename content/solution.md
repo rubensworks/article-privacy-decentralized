@@ -198,7 +198,7 @@ SIMON: Change this figure and the example so that it aligns with the use case sc
 
 <figure id="figure-acl-graph" markdown="block" style="background: #FFFFFF">
 
-```turtle
+~~~turtle
 
 @prefix acl: <http://www.w3.org/ns/auth/acl#> .
 @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
@@ -239,7 +239,7 @@ SIMON: Change this figure and the example so that it aligns with the use case sc
             ] ;
         ] ;
     ] ;
-```
+~~~
 
 <figcaption markdown="block">
 Access Control Policy

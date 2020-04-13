@@ -19,29 +19,84 @@ where the members of each role can be configured for each pod:
 - _R2_: Acquaintances (inherits from _R1_)
 - _R3_: Friends (inherits from _R2_)
 
-{:.comment data-author="SS"}
-↑ Later on (i.e., [](#access-policy-specification)) we use `Rs` to indicate `Rules`. Also this might be focusing too much on the **Role** part, rather than roles being just one of the aspects of a policy? i.e. policy `p` consisting of a set of rules `R` where each rule `r` is represented as a tuple `r = ⟨t, s, a, o⟩` with `t ∈ {perm,proh}` specifying the `type` of the rule, i.e. whether it is permitted (`perm`) or prohibited (`proh`) for requester `s` to perform action `a` on asset `o`. As such, we could then reformulate those to:
+{::options parse_block_html="true" /}
 
-{:.comment data-author="SS"}
 
-- Bob:
+<div class="bs-callout bs-callout-info">
+  <strong>Roles, Rules and Confusion</strong>\\
+  Later on (i.e., [](#access-policy-specification)) we use `R1C, R2B, etc.` to indicate `Rules` of Carol, Bob,... Also, the current description above may be focusing too much on the **Role** part, rather than roles being just one of the aspects of a policy.. What about something along the lines of:
 
-  - Bob is quite liberal, and allows everyone to read both his name and email.
-    - `r1`<sub>`B`</sub> `= ⟨perm, Everyone, read, {name, email}⟩`
-  - His telephone number is however only readable for friends.
-    - `r2`<sub>`B`</sub> `= ⟨perm, Friends, read, {telephone number}⟩`
-  - Bob considers Alice a friend
-    - `Alice ∈ Friends, Friends ⊆ Acquaintances ⊆ Everyone`
+- a policy `p` consisting of a set of rules `R` where each rule `r` is represented as \\
+  a tuple `r = ⟨t, s, a, o⟩` with
+  - `t ∈ {perm,proh,obl}` - specifying the `type` of the rule *
+  - `s` - the party/user/group... to which this rule applies to (WHO)
+  - `a` - the action/mode/... to be executed (HOW)
+  - `o` - the resource/asset/asset group/... in question (WHAT)
 
-- Carol:
-  - Carol only allows her name to be read by the public
-    - `r1`<sub>`C`</sub> `= ⟨perm, Everyone, read, {name}⟩`
-  - Her email is only readable by acquaintances
-    - `r2`<sub>`C`</sub> `= ⟨perm, Acquaintances, read, {email}⟩`
-  - Her telephone number is readable by friends only
-    - `r3`<sub>`C`</sub> `= ⟨perm, Friends, read, {telephone number}⟩`
-  - Carol considers Alice a acquaintance
-    - `Alice ∈ Acquaintances, Friends ⊆ Acquaintances ⊆ Everyone`
+\* TBD → only required if we want to add the concept of _obligations_ at some point too.. otherwise, every `r` would represent an explicit permission, thus if there's no applicable rule for a request the request should be denied (prohibition)
+</div>
+<div class="bs-callout bs-callout-info">
+As such, we could then reformulate those to
+
+<div class="panel panel-info">
+**Bob**
+{: .panel-heading}
+<div class="panel-body">
+
+**Bob is quite liberal, and allows everyone to read both his name and email.**
+
+- `r1`<sub>`B`</sub> `= ⟨perm, {u | u ∈ Everyone}, read, {name, email}⟩`\\
+or
+- `r1`<sub>`B`</sub> `= ⟨{u | u ∈ Everyone}, read, {name, email}⟩`
+
+**His telephone number is however only readable for friends.**
+
+- `r2`<sub>`B`</sub> `= ⟨perm, {u | u ∈ Friends}, read, {telephone number}⟩`\\
+or
+- `r2`<sub>`B`</sub> `= ⟨{u | u ∈ Friends}, read, {telephone number}⟩`
+
+**Bob considers Alice a friend**
+
+- `Alice ∈ Friends`<sub>`B`</sub>`, Friends`<sub>`B`</sub>` ⊆ Acquaintances`<sub>`B`</sub>` ⊆ Everyone`
+
+</div>
+</div>
+
+<div class="panel panel-info">
+**Carol**
+{: .panel-heading}
+<div class="panel-body">
+
+**Carol only allows her name to be read by the public**
+
+- `r1`<sub>`C`</sub> `= ⟨perm, {u | u ∈ Everyone}, read, {name}⟩ # or ε for wild card?` \\
+or
+- `r1`<sub>`C`</sub> `= ⟨{u | u ∈ Everyone}, read, {name}⟩`
+
+**Her email is only readable by acquaintances**
+
+- `r2`<sub>`C`</sub> `= ⟨perm, {u | u ∈ Acquaintances`<sub>`C`</sub>`}, read, {email}⟩`\\
+or
+- `r2`<sub>`C`</sub> `= ⟨{u | u ∈ Acquaintances`<sub>`C`</sub>`}, read, {email}⟩`
+
+**Her telephone number is readable by friends only**
+
+- `r3`<sub>`C`</sub> `= ⟨perm, {u | u ∈ Friends`<sub>`C`</sub>`}, read, {telephone number}⟩`\\
+or
+- `r3`<sub>`C`</sub> `= ⟨{u | u ∈ Friends`<sub>`C`</sub>`}, read, {telephone number}⟩`
+
+**Carol considers Alice a acquaintance**
+
+- `Alice ∈ Acquaintances`<sub>`C`</sub>`, Friends`<sub>`C`</sub>` ⊆ Acquaintances`<sub>`C`</sub>` ⊆ Everyone`
+
+
+</div>
+</div>
+</div>
+
+
+{::options parse_block_html="false" /}
+
 
 [](#figure-use-case) shows a detailed overview of this use case.
 Alice uses the `/contacts` file in her pod to list everyone that she knows using their WebID,
