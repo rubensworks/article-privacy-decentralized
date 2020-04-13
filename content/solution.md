@@ -1,5 +1,4 @@
 ## A Possible Instantiation
-
 {:#solution}
 
 In this section, we present an instantiation of the proposed framework and identify challenges that need to be addressed, placing a particular focus on techniques for access policy specification, summarization generation and maintenance, and access control enforcement.
@@ -15,14 +14,35 @@ We assume that pod owners need to be able to specify access control policies tha
 
 From a policy specification perspective, our pod owners (Alice, Bob, and Carol) could create three separate files that are used to distinguish between data that is accessible by: _everyone_, _acquaintances_, and _friends_. In such a scenario, authorisations could abstractly be represented as lists of _roles_, _access rights_, and _pods_, such that:
 
-{:.comment data-author="SS"}
-↓ May want to already indicate whether a rule is considered being a Permission/Prohibition here.. Up for discussion though ;)
-
 - Rule _R1<sub>C</sub>_, a _permission_ which states that everyone has read access to the name property, is represented as `<everyone, read access, everyone file>`, where name is stored in the everyone file.
 
 - Rule _R2<sub>C</sub>_, which states that acquaintances have read access to the e-mail property, is represented as `<acquaintances, read access, acquaintances file>`, where e-mail is stored in the acquaintances file.
 
 - Rule _R3<sub>C</sub>_, which states that friends have read access to the telephone number property, is represented as `<friends, read access, friends file>`, where the telephone number is stored in the friends file.
+
+{::options parse_block_html="true" /}
+<div class="bs-callout bs-callout-info">
+  <strong>Representation </strong>
+
+Should we follow a similar representation as in [](#use-case)? e.g.:
+
+Rule _R1<sub>C</sub>_, a _permission_ which states that everyone has read access to the name property where name is stored in the everyone file, is represented as:
+
+- `r1 = ⟨{s | s ∈ Everyone}, read, {name}⟩`\\
+  or maybe even
+- `r1 = ⟨{s | s ∈ Everyone}, read, {o | o ∈ File`<sub>`Everyone`</sub>` ∧ o ⊆ name}⟩`
+
+
+otherwise - unless the friends file already contains only those triples that can be read by **all** friends - a rule like:
+
+<p style="padding-left:1em;">
+_friends have read access to the telephone number property, is represented as `<friends, read access, friends file>`, where the telephone number is stored in the friends file._
+</p>
+
+would provide access to more information than intended (only read access to telephone number property should be provided, not read access to the entire friends file)
+</div>
+
+{::options parse_block_html="false" /}
 
 <!-- - Rule _R1<sub>C</sub>_, a _permission_ which states that everyone has read access to the name property, is represented as `<everyone, read access, everyone file>`, where name is stored in the everyone file.
 

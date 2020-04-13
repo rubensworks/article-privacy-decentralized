@@ -1,5 +1,4 @@
 ## A Privacy Preserving Federation Framework
-
 {:#framework}
 
 <!-- In this section, we introduce a framework to enable querying

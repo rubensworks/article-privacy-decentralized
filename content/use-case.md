@@ -1,6 +1,5 @@
 ## A Personalized Address Book Use Case Scenario
-
-{:#use-case}
+{: #use-case}
 
 Before presenting our privacy preserving federation framework we first provide a high level overview of our personalized address book use case scenario,
 where the address book is merely a list of WebIDs,
@@ -20,7 +19,6 @@ where the members of each role can be configured for each pod:
 - _R3_: Friends (inherits from _R2_)
 
 {::options parse_block_html="true" /}
-
 
 <div class="bs-callout bs-callout-info">
   <strong>Roles, Rules and Confusion</strong>\\
@@ -45,19 +43,24 @@ As such, we could then reformulate those to
 
 **Bob is quite liberal, and allows everyone to read both his name and email.**
 
-- `r1`<sub>`B`</sub> `= ⟨perm, {u | u ∈ Everyone}, read, {name, email}⟩`\\
+- `r1`<sub>`B`</sub> `= ⟨perm, {s | s ∈ Everyone}, read, {name, email}⟩ # or ε for wild card?` \\
 or
-- `r1`<sub>`B`</sub> `= ⟨{u | u ∈ Everyone}, read, {name, email}⟩`
+- `r1`<sub>`B`</sub> `= ⟨{s | s ∈ Everyone}, read, {name, email}⟩` \\
+or
+- `r1`<sub>`C`</sub> `= ⟨{s | s ∈ Everyone}, read, {o | o ∈ File`<sub>`Everyone`</sub>` ∧ o ⊆ {name, email}}⟩`
 
 **His telephone number is however only readable for friends.**
 
-- `r2`<sub>`B`</sub> `= ⟨perm, {u | u ∈ Friends}, read, {telephone number}⟩`\\
+- `r2`<sub>`B`</sub> `= ⟨perm, {s | s ∈ Friends`<sub>`B`</sub>`}, read, {telephone number}⟩`\\
 or
-- `r2`<sub>`B`</sub> `= ⟨{u | u ∈ Friends}, read, {telephone number}⟩`
+- `r2`<sub>`B`</sub> `= ⟨{s | s ∈ Friends`<sub>`B`</sub>`}, read, {telephone number}⟩`\\
+or
+- `r2`<sub>`B`</sub> `= ⟨{s | s ∈ Friends`<sub>`C`</sub>`}, read, {o | o ∈ File`<sub>`Friends`<sub>`B`</sub></sub>` ∧ o ⊆ telephone number}⟩`
 
 **Bob considers Alice a friend**
 
 - `Alice ∈ Friends`<sub>`B`</sub>`, Friends`<sub>`B`</sub>` ⊆ Acquaintances`<sub>`B`</sub>` ⊆ Everyone`
+- `{s | s ∈ Everyone} ⊆ ε ∧ ε ⊆ {s | s ∈ Everyone}` ?
 
 </div>
 </div>
@@ -67,28 +70,34 @@ or
 {: .panel-heading}
 <div class="panel-body">
 
-**Carol only allows her name to be read by the public**
+**Carol allows only her name to be read by the public**
 
-- `r1`<sub>`C`</sub> `= ⟨perm, {u | u ∈ Everyone}, read, {name}⟩ # or ε for wild card?` \\
+- `r1`<sub>`C`</sub> `= ⟨perm, {s | s ∈ Everyone}, read, {name}⟩ # or ε for wild card?` \\
 or
-- `r1`<sub>`C`</sub> `= ⟨{u | u ∈ Everyone}, read, {name}⟩`
+- `r1`<sub>`C`</sub> `= ⟨{s | s ∈ Everyone}, read, {name}⟩` \\
+or
+- `r1`<sub>`C`</sub> `= ⟨{s | s ∈ Everyone}, read, {o | o ∈ File`<sub>`Everyone`</sub>` ∧ o ⊆ name}⟩`
 
 **Her email is only readable by acquaintances**
 
-- `r2`<sub>`C`</sub> `= ⟨perm, {u | u ∈ Acquaintances`<sub>`C`</sub>`}, read, {email}⟩`\\
+- `r2`<sub>`C`</sub> `= ⟨perm, {s | s ∈ Acquaintances`<sub>`C`</sub>`}, read, {email}⟩`\\
 or
-- `r2`<sub>`C`</sub> `= ⟨{u | u ∈ Acquaintances`<sub>`C`</sub>`}, read, {email}⟩`
+- `r2`<sub>`C`</sub> `= ⟨{s | s ∈ Acquaintances`<sub>`C`</sub>`}, read, {email}⟩`\\
+or
+- `r2`<sub>`C`</sub> `= ⟨{s | s ∈ Acquaintances`<sub>`C`</sub>`}, read, {o | o ∈ File`<sub>`Acquaintances`<sub>`C`</sub></sub>` ∧ o ⊆ email}⟩`
 
 **Her telephone number is readable by friends only**
 
-- `r3`<sub>`C`</sub> `= ⟨perm, {u | u ∈ Friends`<sub>`C`</sub>`}, read, {telephone number}⟩`\\
+- `r3`<sub>`C`</sub> `= ⟨perm, {s | s ∈ Friends`<sub>`C`</sub>`}, read, {telephone number}⟩`\\
 or
-- `r3`<sub>`C`</sub> `= ⟨{u | u ∈ Friends`<sub>`C`</sub>`}, read, {telephone number}⟩`
+- `r3`<sub>`C`</sub> `= ⟨{s | s ∈ Friends`<sub>`C`</sub>`}, read, {telephone number}⟩`\\
+or
+- `r3`<sub>`C`</sub> `= ⟨{s | s ∈ Friends`<sub>`C`</sub>`}, read, {o | o ∈ File`<sub>`Friends`<sub>`C`</sub></sub>` ∧ o ⊆ telephone number}⟩`
 
 **Carol considers Alice a acquaintance**
 
 - `Alice ∈ Acquaintances`<sub>`C`</sub>`, Friends`<sub>`C`</sub>` ⊆ Acquaintances`<sub>`C`</sub>` ⊆ Everyone`
-
+- `{s | s ∈ Everyone} ⊆ ε ∧ ε ⊆ {s | s ∈ Everyone}` ?
 
 </div>
 </div>
