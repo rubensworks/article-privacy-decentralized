@@ -2,7 +2,7 @@ FUNCTION SelectSources(q, K, Σ, U)
   INPUT:
     quad pattern query q
     access keys K
-    summary for each quad component: Σ.subject, Σ.predicate, Σ.object, Σ.graph
+    summary Σ comprising four parts, one for each quad component: Σ.subject, Σ.predicate, Σ.object, Σ.graph
     list of sources U
   OUTPUT:
     list of selected sources
