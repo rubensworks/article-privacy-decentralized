@@ -1,4 +1,4 @@
-## A Privacy Preserving Federation Framework
+## A Privacy-Preserving Federation Framework
 {:#framework}
 
 <!-- In this section, we introduce a framework to enable querying
@@ -14,12 +14,17 @@ We put a particular emphasis on three core aspects of the framework:
 The proposed privacy-preserving federation architecture is depicted in [](#overall-architecture).
 We first provide a high-level overview of the architecture, and the requirements that guide our proposal. Following on from this we introduce the various algorithms that are needed to enable efficient privacy-preserving federated querying.
 
+
+{:.comment data-author="SS"}
+Privacy-Preserving Federation **Architecture** or **Framework**?
+
 <figure id="overall-architecture">
 <img src="img/overall-architecture.svg" alt="[Privacy-Preserving Federated Querying Architecture]" class="figure-width-twothird">
 <figcaption markdown="block">
-The proposed Privacy Preserving Federation Architecture is composed of four core entities, namely Requesters, Pods, Aggregators, and Query Engines.
+The proposed Privacy-Preserving Federation Architecture is composed of four core entities, namely Requesters, Pods, Aggregators, and Query Engines.
 </figcaption>
 </figure>
+
 
 ### Architecture Overview
 
@@ -102,14 +107,14 @@ Isn't "data source" the more generic term? What if I don't necessarily want to s
 
 ### Architecture Requirements
 
-The main technical requirements are derived from the fact that our architecture needs to support efficient privacy preserving query execution over personal data that is distributed across many sources.
+The main technical requirements are derived from the fact that our architecture needs to support efficient privacy-preserving query execution over personal data that is distributed across many sources.
 Thus we consider the following key requirements:
 
 <!--, where `Σ.c` and `Σ'.c` denote existing summaries, `q` denotes a quad, `q.c` denotes a quad component, `p` denotes a given access policy, `k` denotes a given access key, `u` denotes the URI for the data source, `a` denotes a mode of access, and `R` denotes query execution results:-->
 
 1. **No data leaking**:
    Access restricted data must not be available to those who are not authorised to access it. <!--Implementations for `GenerateKey(q,p)` and `AddKey(qpk, q, p, k)` are required to generated a key for a given access policy and create a map of quads, policies and keys.-->
-2. **Privacy preserving summary creation**:
+2. **Privacy-preserving summary creation**:
    It must be possible to add values to summaries by access key and file URI.
    <!--An implementation for `SummaryAdd(Σ.c, q.c, k, u)` is required to create the individual summaries,
    based on an initialized summary as implemented by `SummaryInitialize()`.-->
@@ -127,7 +132,7 @@ Thus we consider the following key requirements:
 {:.todo}
 For this last one, should we refocus it to access control enforcement on the summaries, instead of the source itself?
 
-RESPONSE: 1) No data leakage is the requirement which motivates the use of encryption to ensure summaries are privacy preserving, whereas 5) access control enforcement is the requirement which motivates the SHACL constant execution at query time.
+RESPONSE: 1) No data leakage is the requirement which motivates the use of encryption to ensure summaries are privacy-preserving, whereas 5) access control enforcement is the requirement which motivates the SHACL constant execution at query time.
 {:.todo}
 
 {:.comment data-author="RT"}
@@ -149,10 +154,9 @@ Algorithm for generating keys for quads based on existing access policies, with 
 </figcaption>
 </figure>
 
-There is a one to one mapping between access policies that are used for policy enforcement at query time, and access keys that are used to create privacy preserving summaries that are needed to optimize federated querying.
+There is a one to one mapping between access policies that are used for policy enforcement at query time, and access keys that are used to create privacy-preserving summaries that are needed to optimize federated querying.
 
 ### Summary Creation Algorithm
-
 {:#framework-summary-creation}
 
 In practise, multiple aggregators can exist,
@@ -198,7 +202,6 @@ these values are merely an indication of what information is used to construct t
 </figure>
 
 ### Summary Combination Algorithm
-
 {:#framework-summary-aggregation}
 
 Based on the resulting file summaries,
@@ -234,7 +237,6 @@ This can be achieved through immediate notifications from the pod to the aggrega
 or the aggregator can periodically scan the files or its summaries for changes.
 
 ### Client-side Querying Algorithm
-
 {:#framework-client}
 
 Since file-based APIs are the basis for data retrieval on the Web as prescribed by the HTTP protocol,
@@ -301,26 +303,26 @@ For these cases, extensions to this algorithm will be needed,
 which we consider out-of-scope for this work.
 
 ### Access Control Algorithm
-
 {:#framework-access-control}
 
 {:.comment data-author="RT"}
 It is not clear to me if this section is talking about the client-side part (clients sends auth query to the server), or the server-side part (server checks client auth, and only emits quads that are authorized for this auth).
 We might even want to create two seperate dedicated sections for this.
 
+
 #### Client-Side Access Control
 
 Once the client has obtained the list of sources that it needs to query, the next step is to execute the query against each source.
 Here there is a need for access control enforcement, such that it is possible to check that a client does in fact possess the credentials necessary to execute the request.
 
-#### Server-Side Access Control
+#### Server-side Access Control
 
 In the proposed algorithm a map relating quads to policies and keys is used to identify access policies that govern a particular query. We assume that there may be multiple policies that govern a particular quad and thus envisage a simple conflict resolution strategy whereby either prohibitions override permissions or visa versa. The algorithm stops as soon as it finds a policy that permits the given query to be executed and returns the results of the query execution.
 
 <figure id="figure-request-processing">
 <img src="img/request-processing.svg" alt="[Shape-based access control]" style="width: 40%; display: block; margin: auto;"  class="figure-width-half">
 <figcaption markdown="block">
-A server validates requests `r ∈ R` with `r = ⟨i, a, q⟩` consisting of the requestors client identification `i`, the requested access mode `a`, and a quad pattern query `q`, against a set of _applicable_ access control policies `P'⊆ P`.
+A server validates requests `r ∈ R` with `r = ⟨i, a, q⟩` consisting of the requester's client identification `i`, the requested access mode `a`, and a quad pattern query `q`, against a set of _applicable_ access control policies `P'⊆ P`.
 A policy `p ∈ P` with `p = ⟨s, a, o⟩` is _applicable_ to a request `r ∈ R` if the request conforms to the shape; policy `p` was specified against.
 </figcaption>
 </figure>

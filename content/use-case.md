@@ -1,7 +1,7 @@
 ## A Personalized Address Book Use Case Scenario
 {: #use-case}
 
-Before presenting our privacy preserving federation framework we first provide a high level overview of our personalized address book use case scenario,
+Before presenting our privacy-preserving federation framework we first provide a high level overview of our personalized address book use case scenario,
 where the address book is merely a list of WebIDs,
 and the actual details of each contact is stored in their own respective pod.
 To keep this use case simple, we assume an address book of Alice that contains two contacts: Bob and Carol.
