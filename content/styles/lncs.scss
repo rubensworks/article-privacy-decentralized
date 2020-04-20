@@ -766,11 +766,21 @@ counter-reset:table 0;
 figure.equation {
 counter-increment:equation;
 }
+figure.definition {
+counter-increment:definition;
+}
 table {
 counter-increment:table;
 }
 figure.equation:after {
 content:"(" counter(equation) ")";
+line-height:0;
+position:absolute;
+top:45%;
+right:0;
+}
+figure.definition:after {
+content:"(" counter(definition) ")";
 line-height:0;
 position:absolute;
 top:45%;
@@ -835,6 +845,17 @@ top:45%;
 right:0;
 }
 
+figure.definition {
+  counter-increment:definition;
+  }
+
+  figure.definition:after {
+  content:"(" counter(definition) ")";
+  line-height:0;
+  position:absolute;
+  top:45%;
+  right:0;
+  }
 
 
 ol, ul, p, dd {

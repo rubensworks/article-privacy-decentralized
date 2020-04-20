@@ -14,7 +14,6 @@ We put a particular emphasis on three core aspects of the framework:
 The proposed privacy-preserving federation architecture is depicted in [](#overall-architecture).
 We first provide a high-level overview of the architecture, and the requirements that guide our proposal. Following on from this we introduce the various algorithms that are needed to enable efficient privacy-preserving federated querying.
 
-
 {:.comment data-author="SS"}
 Privacy-Preserving Federation **Architecture** or **Framework**?
 
@@ -24,7 +23,6 @@ Privacy-Preserving Federation **Architecture** or **Framework**?
 The proposed Privacy-Preserving Federation Architecture is composed of four core entities, namely Requesters, Pods, Aggregators, and Query Engines.
 </figcaption>
 </figure>
-
 
 ### Architecture Overview
 
@@ -309,7 +307,6 @@ which we consider out-of-scope for this work.
 It is not clear to me if this section is talking about the client-side part (clients sends auth query to the server), or the server-side part (server checks client auth, and only emits quads that are authorized for this auth).
 We might even want to create two seperate dedicated sections for this.
 
-
 #### Client-Side Access Control
 
 Once the client has obtained the list of sources that it needs to query, the next step is to execute the query against each source.
@@ -333,5 +330,3 @@ A policy `p ∈ P` with `p = ⟨s, a, o⟩` is _applicable_ to a request `r ∈ 
 An algorithm that takes the requesters credentials, the requested access right, a quad pattern, and a policy, and returns the query execution results. The algorithm is composed of an `AllowedAccess` function that checks if access is permitted, and an `ExecuteQueryWithAccessControl` function that executes a query and adds the result to the result list.
 </figcaption>
 </figure>
-
-

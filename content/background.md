@@ -79,10 +79,24 @@ Given that WebID is the default authentication mechanism for Solid, in this pape
 
 ### Access Control
 
-The term authorisation is used to refer to the access control rules that specify that a given subject has access to a given resource. In this section we provide a brief overview of three different approaches that can be used to specify authorizations.
+The term authorisation is used to refer to the access control rules that specify that a given subject has access to a given resource. More formally, we consider
 
-{:.comment data-author="SS"}
-↑ above paragraph should be aligned with the new subsection title "Access Control" (IIRC it was named "Authorisation" before?)
+<figure id="def-authorisation" class="definition"  markdown="1">
+<figcaption markdown="block">
+Authorisation
+</figcaption>
+An **Authorisation** $$r \in R$$ is represented as a tuple $$r = \langle s, a, o\rangle$$, where $$s$$ represents the subjects to whom the rule applies to, $$a$$ denotes the granted access right, and $$o$$ specifies the resources subjects $$s$$ can exercise access right $$a$$ over.
+</figure>
+
+<figure id="def-policy" class="definition"  markdown="1">
+<figcaption markdown="block">
+Access Policy
+</figcaption>
+An **Access Policy** $$P$$ is represented as a set of authorisations $$P \subseteq R$$
+</figure>
+
+In this section we provide a brief overview of three different approaches that can be used to specify authorisation rules.
+
 
 [Web Access Control (WAC)](cite:cites spec:wac) is an RDF vocabulary and an access control framework, which demonstrates how together WebID and access control policies specified using the WAC vocabulary, can be used to enforce distributed access control. Essentially WAC authorisations grant agents, access to resources. Both [Villata et al.](cite:cites Villata2011) and [Sacco and Passant](cite:cites Sacco2011b) extend the WAC vocabulary to cater for context based access control policies and privacy preferences respectively.
 

@@ -11,100 +11,34 @@ so that everyone is able to see everyone she knows,
 albeit without necessarily having access to everyone's private contact details as these are controlled via separate access control policies.
 We also consider Dave as a fourth person that has no relationship with anyone else.
 
-For the sake of simplicity, we consider three hierarchical authorization roles per pod,
-where the members of each role can be configured for each pod:
+For the sake of simplicity, we consider three hierarchical subject groups per pod,
+where the members of each group can be configured for each pod:
 
-- _R1_: Everyone (without authentication)
-- _R2_: Acquaintances (inherits from _R1_)
-- _R3_: Friends (inherits from _R2_)
+- $$S_E$$: Everyone (without authentication)
+- $$S_A$$: Acquaintances ($$S_A \subseteq S_E$$)
+- $$S_F$$: Friends ($$S_F \subseteq S_A$$)
 
+
+
+<!--
 {::options parse_block_html="true" /}
-
 <div class="bs-callout bs-callout-info">
   <strong>Roles, Rules and Confusion</strong>\\
   Later on (i.e., [](#access-policy-specification)) we use `R1C, R2B, etc.` to indicate `Rules` of Carol, Bob,... Also, the current description above may be focusing too much on the **Role** part, rather than roles being just one of the aspects of a policy.. What about something along the lines of:
 
 - a policy `p` consisting of a set of rules `R` where each rule `r` is represented as \\
   a tuple `r = ⟨t, s, a, o⟩` with
-  - `t ∈ {perm,proh,obl}` - specifying the `type` of the rule *
+  - `t ∈ {perm,proh,obl}` - specifying the `type` of the rule \*
   - `s` - the party/user/group... to which this rule applies to (WHO)
   - `a` - the action/mode/... to be executed (HOW)
   - `o` - the resource/asset/asset group/... in question (WHAT)
 
 \* TBD → only required if we want to add the concept of _obligations_ at some point too.. otherwise, every `r` would represent an explicit permission, thus if there's no applicable rule for a request the request should be denied (prohibition)
-</div>
-<div class="bs-callout bs-callout-info">
-As such, we could then reformulate those to
-
-<div class="panel panel-info">
-**Bob**
-{: .panel-heading}
-<div class="panel-body">
-
-**Bob is quite liberal, and allows everyone to read both his name and email.**
-
-- `r1`<sub>`B`</sub> `= ⟨perm, {s | s ∈ Everyone}, read, {name, email}⟩ # or ε for wild card?` \\
-or
-- `r1`<sub>`B`</sub> `= ⟨{s | s ∈ Everyone}, read, {name, email}⟩` \\
-or
-- `r1`<sub>`C`</sub> `= ⟨{s | s ∈ Everyone}, read, {o | o ∈ File`<sub>`Everyone`</sub>` ∧ o ⊆ {name, email}}⟩`
-
-**His telephone number is however only readable for friends.**
-
-- `r2`<sub>`B`</sub> `= ⟨perm, {s | s ∈ Friends`<sub>`B`</sub>`}, read, {telephone number}⟩`\\
-or
-- `r2`<sub>`B`</sub> `= ⟨{s | s ∈ Friends`<sub>`B`</sub>`}, read, {telephone number}⟩`\\
-or
-- `r2`<sub>`B`</sub> `= ⟨{s | s ∈ Friends`<sub>`C`</sub>`}, read, {o | o ∈ File`<sub>`Friends`<sub>`B`</sub></sub>` ∧ o ⊆ telephone number}⟩`
-
-**Bob considers Alice a friend**
-
-- `Alice ∈ Friends`<sub>`B`</sub>`, Friends`<sub>`B`</sub>` ⊆ Acquaintances`<sub>`B`</sub>` ⊆ Everyone`
-- `{s | s ∈ Everyone} ⊆ ε ∧ ε ⊆ {s | s ∈ Everyone}` ?
 
 </div>
-</div>
 
-<div class="panel panel-info">
-**Carol**
-{: .panel-heading}
-<div class="panel-body">
+{::options parse_block_html="false" /} -->
 
-**Carol allows only her name to be read by the public**
-
-- `r1`<sub>`C`</sub> `= ⟨perm, {s | s ∈ Everyone}, read, {name}⟩ # or ε for wild card?` \\
-or
-- `r1`<sub>`C`</sub> `= ⟨{s | s ∈ Everyone}, read, {name}⟩` \\
-or
-- `r1`<sub>`C`</sub> `= ⟨{s | s ∈ Everyone}, read, {o | o ∈ File`<sub>`Everyone`</sub>` ∧ o ⊆ name}⟩`
-
-**Her email is only readable by acquaintances**
-
-- `r2`<sub>`C`</sub> `= ⟨perm, {s | s ∈ Acquaintances`<sub>`C`</sub>`}, read, {email}⟩`\\
-or
-- `r2`<sub>`C`</sub> `= ⟨{s | s ∈ Acquaintances`<sub>`C`</sub>`}, read, {email}⟩`\\
-or
-- `r2`<sub>`C`</sub> `= ⟨{s | s ∈ Acquaintances`<sub>`C`</sub>`}, read, {o | o ∈ File`<sub>`Acquaintances`<sub>`C`</sub></sub>` ∧ o ⊆ email}⟩`
-
-**Her telephone number is readable by friends only**
-
-- `r3`<sub>`C`</sub> `= ⟨perm, {s | s ∈ Friends`<sub>`C`</sub>`}, read, {telephone number}⟩`\\
-or
-- `r3`<sub>`C`</sub> `= ⟨{s | s ∈ Friends`<sub>`C`</sub>`}, read, {telephone number}⟩`\\
-or
-- `r3`<sub>`C`</sub> `= ⟨{s | s ∈ Friends`<sub>`C`</sub>`}, read, {o | o ∈ File`<sub>`Friends`<sub>`C`</sub></sub>` ∧ o ⊆ telephone number}⟩`
-
-**Carol considers Alice a acquaintance**
-
-- `Alice ∈ Acquaintances`<sub>`C`</sub>`, Friends`<sub>`C`</sub>` ⊆ Acquaintances`<sub>`C`</sub>` ⊆ Everyone`
-- `{s | s ∈ Everyone} ⊆ ε ∧ ε ⊆ {s | s ∈ Everyone}` ?
-
-</div>
-</div>
-</div>
-
-
-{::options parse_block_html="false" /}
 
 
 [](#figure-use-case) shows a detailed overview of this use case.
@@ -123,6 +57,40 @@ Carol considers Alice an acquaintance (_R1<sub>C</sub>_, _R2<sub>C</sub>_).
 {:.comment data-author="SS"}
 should we move the rules from below the profile to above of it, surrounded by an `Access Policy` block like in [](#figure-request-processing)?
 
+
+
+**Bob is quite liberal, and allows everyone to read both his name and email.**
+
+- \$$r1_B = \langle\{s \vert s \in S_E\}, read, \{o \vert o \in File_C \wedge o \subseteq \{name, email\}\}\rangle$$
+
+**His telephone number is however only readable for friends.**
+
+- `r2`<sub>`B`</sub> `= ⟨{s | s ∈ Friends`<sub>`C`</sub>`}, read, {o | o ∈ File`<sub>`Friends`<sub>`B`</sub></sub>`∧ o ⊆ {telephone number}⟩`
+
+**Bob considers Alice a friend**
+
+- `Alice ∈ Friends`<sub>`B`</sub>`, Friends`<sub>`B`</sub>`⊆ Acquaintances`<sub>`B`</sub>`⊆ Everyone`
+- `{s | s ∈ Everyone} ⊆ ε ∧ ε ⊆ {s | s ∈ Everyone}` ?
+
+**Carol allows only her name to be read by the public**
+
+- `r1`<sub>`C`</sub> `= ⟨{s | s ∈ Everyone}, read, {o | o ∈ File`<sub>`Everyone`</sub>`∧ o ⊆ name}⟩`
+
+**Her email is only readable by acquaintances**
+
+- `r2`<sub>`C`</sub> `= ⟨{s | s ∈ Acquaintances`<sub>`C`</sub>`}, read, {o | o ∈ File`<sub>`Acquaintances`<sub>`C`</sub></sub>`∧ o ⊆ email}⟩`
+
+**Her telephone number is readable by friends only**
+
+- `r3`<sub>`C`</sub> `= ⟨{s | s ∈ Friends`<sub>`C`</sub>`}, read, {o | o ∈ File`<sub>`Friends`<sub>`C`</sub></sub>`∧ o ⊆ telephone number}⟩`
+
+**Carol considers Alice a acquaintance**
+
+- `Alice ∈ Acquaintances`<sub>`C`</sub>`, Friends`<sub>`C`</sub>`⊆ Acquaintances`<sub>`C`</sub>`⊆ Everyone`
+- `{s | s ∈ Everyone} ⊆ ε ∧ ε ⊆ {s | s ∈ Everyone}` ?
+
+
+
 <figure id="figure-use-case">
 <img src="img/use-case.svg" alt="[Personal Address Book]" class="figure-width-twothird">
 <figcaption markdown="block">
@@ -133,6 +101,8 @@ Full lines indicate data reading by people,
 and dashed lines indicate data links.
 </figcaption>
 </figure>
+
+
 
 For this use case, we consider the following example queries:
 
