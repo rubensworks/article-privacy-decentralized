@@ -156,9 +156,9 @@ main, #appendix {
   h4 {
     font-weight: bold;
     margin: 0 1em 0 0;
-    
+
     counter-increment: subsubsection;
-    
+
     &::before {
       content: counter(section) "." counter(subsection) "." counter(subsubsection) ". ";
     }
@@ -383,7 +383,7 @@ table {
   thead {
     border-bottom: 1px solid;
   }
-  
+
   .hr {
     display: block;
     width: 100%;
@@ -401,6 +401,360 @@ tbody th {
 // Hide table of contents in screen-mode
 ol.index-entries {
   display: none;
+}
+$max-width-default: 800px !default;
+
+$font-text-secondary: "Source Sans Pro" !default;
+// Set font size and line-height in ems or px.
+// These values, especially $line-height-default, are used to compute vertical rhythm
+// for many features in this theme. So do not use a unitless value for line-height,
+// and don't use percentages, which will break layouts computed by multiplying this value.
+$font-size-default: 1.2em !default;
+$line-height-default: 1.5em !default;
+$font-size-smaller: 0.7 !default; // How much smaller than font-size-default for features like sidenotes and footers?
+$font-size-bigger: 2 !default; // How many times bigger than font-size-default for features like headings and pullquotes?
+
+// Do you want space between paragraphs, rather than a text-indent? true or false
+$spaced-paras: true !default;
+// If not spacing paras, how large is the first-line indent on paragraphs?
+$paragraph-indent: 1em !default;
+
+// Rounded corners
+$button-border-radius: 0.1em !default; // Roundness of button corners
+$box-border-radius: 0.5em !default; // Roundness of box corners
+
+// Rules, lines
+$rule-thickness: 1px !default;
+
+// Colours
+$color-text-main: #222222 !default;
+$color-text-secondary: #222222 !default;
+$color-background: white !default;
+$color-light: #e0e0e0 !default;
+$color-mid: #9c9c9c !default;
+$color-accent: #009E7F !default;
+$color-links: #5f738c !default;
+$color-buttons: $color-accent !default;
+$color-buttons-hover: darken( $color-buttons, 20% ) !default;
+$color-highlight: #ffd54d !default;
+$color-notification-low-text: $color-light !default;
+$color-notification-medium-text: $color-light !default;
+$color-notification-high-text: $color-light !default;
+$color-notification-low-background: #009E7F !default;
+$color-notification-medium-background: #ffe388 !default;
+$color-notification-high-background: #ff7c4d !default;
+
+// Some features rearrange at certain screen sizes.
+// What are your screen-width break points?
+$break-width-small: 600px !default;
+$break-width-medium: 900px !default;
+$break-width-large: 1200px !default;
+$break-height-small: 600px !default;
+$break-height-medium: 900px !default;
+$break-height-large: 1200px !default;
+
+// Set the default start-depth of pages.
+// This is the distance from the top of the page to the first element on the first page.
+$start-depth: $line-height-default * 2 !default;
+
+// Hyphenation
+// Variables here apply to p, ul, ol, dl.
+// Note: Most browsers and ereaders do not support hyphenation rules.
+$hyphenation: manual !default; // Can be auto, none, or manual (only breaks on hyphens and soft hyphens)
+$hyphenation-dictionary: "" !default; // Path to dictionary file, relative to `/book/styles`. E.g. "../../assets/hyph.dic".
+$hyphenation-custom: add !default; // add or replace. Whether your dictionary adds to or replaces the built-in Prince dictionaries
+$hyphenate-after: 3 !default; // Minimum letters on new line after hyphen
+$hyphenate-before: 3 !default; // Minimum letters at end of line before hyphen
+$hyphenate-lines: 1 !default; // Maximum number of consecutive lines ending with hyphens
+
+// Text dividers
+// For breaks created with *** in markdown.
+// If using an image, set $text-divider-image in CSS URL syntax, e.g.
+// $text-divider-image: url('../images/epub/text-divider.jpg');
+$text-divider-text: "" !default; // Empty leaves space. \2022 is a bullet
+$text-divider-image: "" !default;
+$text-divider-image-width: $line-height-default * 2 !default;
+
+// Footer
+$footer-text-color: $color-text-main !default;
+$footer-background-color: $color-accent !default;
+$footer-border-color: $color-accent !default;
+
+// Website masthead
+$masthead-text-color: $color-light !default;
+$masthead-background-color: $color-accent !default;
+$masthead-border-color: $color-light !default;
+$masthead-breadcrumb-divider: "\2044" !default; // 2044 is a fraction slash
+
+// Website sidebar/navigation
+$nav-bar-text-size: 0.8em !default;
+$nav-bar-item-collapse: false !default; // Does the nav list fully expand, or collapse until mouseover?
+$nav-bar-close: "\00D7" !default; // &times; ×
+$nav-bar-children-prompt: "+" !default;
+$nav-bar-children-prompt-hide: "\2212" !default; // \2212 is an actual minus sign
+$nav-bar-scrollbar: true !default;
+$nav-bar-width: 15em !default;
+$nav-bar-fixed: true !default; // fixed is not fully supported on many mobile browsers
+$nav-bar-back-button-hide: true !default;
+$nav-bar-title-color: $color-text-secondary !default;
+$nav-bar-label-color: $color-light !default;
+$nav-bar-label-background-color: $masthead-background-color !default;
+$nav-bar-label-border-color: transparent !default;
+$nav-bar-border-color: $color-light !default;
+$nav-bar-background-color: white !default;
+$nav-bar-search-background-color: white !default;
+$nav-bar-parent-background-color: white !default;
+$nav-bar-parent-text-color: black !default;
+$nav-bar-parent-hover-color: $color-accent !default;
+$nav-bar-parent-text-hover-color: white !default;
+$nav-bar-children-prompt-color: $color-mid !default;
+$nav-bar-child-background-color: $color-light !default;
+$nav-bar-child-text-color: black !default;
+$nav-bar-child-hover-color: $color-accent !default;
+$nav-bar-child-text-hover-color: white !default;
+
+// Language selector
+$language-select-icon-color: $color-light !default;
+$language-select-text-color: $color-text-secondary !default;
+$language-select-links-color: $color-links !default;
+$language-select-background-color: $color-background !default;
+
+// Annotator
+$annotator-sidebar-width: 16em !default;
+$annotator-icon-line-color-active: $color-light !default;
+$annotator-icon-line-color-inactive: $color-light !default;
+$annotator-icon-background-color-active: $color-accent !default;
+$annotator-icon-background-color-inactive: $color-background !default;
+$annotator-icon-thickness: 1.5px !default;
+
+// ---------------------------------
+// Set to false to turn partials off
+// ---------------------------------
+
+// Reset browser CSS as best we can
+$web-css-reset: true !default;
+
+// Structural HTML components
+$web-wrappers: true !default;
+
+// Conventional helper classes
+$web-helpers: true !default;
+
+// Default typography
+$web-base-typography: true !default;
+
+// Navigation
+$web-masthead: true !default;
+$web-search: true !default;
+$web-nav-bar: true !default;
+$web-footer: true !default;
+$web-accordion: true !default;
+
+// Book parts
+$web-cover: true !default;
+$web-previous-publications-page: true !default;
+$web-title-pages: true !default;
+$web-copyright-page: true !default;
+$web-dedications: true !default;
+$web-epigraphs: true !default;
+$web-toc: true !default;
+
+// Book-feature classes
+$web-bibliographies: true !default;
+$web-boxes: true !default;
+$web-buttons: true !default;
+$web-code: true !default;
+$web-dialogue: true !default;
+$web-figures: true !default;
+$web-highlighter: true !default;
+$web-glossaries: true !default;
+$web-index: true !default;
+$web-maths: true !default;
+$web-notes: true !default;
+$web-openers: true !default;
+$web-pullquotes: true !default;
+$web-sources: true !default;
+$web-tables: true !default;
+$web-letters: true !default;
+$web-verse: true !default;
+$web-video: true !default;
+$web-pagination: true !default;
+$web-questions: true !default;
+$web-select-questions: true !default;
+
+// Docs
+$web-docs: true !default;
+
+// Type-control classes
+$web-smallcaps: true !default;
+$web-fitting: true !default;  // E.g. tracking and shrinking
+
+// Controls
+$web-controls: true !default;
+$web-language-select: true !default;
+$web-annotator: true !default;
+
+// Logic (if this then that)
+$web-reset-sequences: true !default; // This should stay last in the @import list
+
+@mixin sidenote() {
+  font-family: $font-text-secondary;
+  clear: both;
+  min-width: 5em;
+  margin: 0 0 0.5em;
+  padding: $line-height-default / 2;
+  text-indent: 0;
+  font-size: 1em * $font-size-smaller;
+  line-height: $line-height-default * $font-size-smaller;
+  font-style: inherit;
+  background-color: white;
+  position: relative;
+  // Sidenotes only float to the right on screens
+  // larger than the smallest break point
+  @media only screen and (min-width: $break-width-small) {
+      float: right;
+      margin: 0 0 0.5em 0.5em;
+      max-width: 10em;
+  }
+  @media only screen and (min-width: $break-width-large) {
+      margin: 0 -12em ($line-height-default / 2) 2em;
+  }
+
+  // Don't text-indent paragraphs that follow sidenotes that follow a heading.
+  // We allow for up to three sidenotes between the heading and paragraph.
+  h1 + & + p,
+  h2 + & + p,
+  h3 + & + p,
+  h4 + & + p,
+  h5 + & + p,
+  h6 + & + p,
+  h1 + & + & + p,
+  h2 + & + & + p,
+  h3 + & + & + p,
+  h4 + & + & + p,
+  h5 + & + & + p,
+  h6 + & + & + p,
+  h1 + & + & + & + p,
+  h2 + & + & + & + p,
+  h3 + & + & + & + p,
+  h4 + & + & + & + p,
+  h5 + & + & + & + p,
+  h6 + & + & + & + p {
+      text-indent: 0;
+  }
+  // Unless we're spacing paras, add an indent
+  // on paras that follow sidenotes that follow paras.
+  p + & + p {
+      text-indent: $paragraph-indent;
+  }
+  @if $spaced-paras {
+      p + & + p {
+          text-indent: 0;
+      }
+  }
+  // If sidenotes are blockquotes, the text will be in a p,
+  // so inherit appearance from .sidenote, not p
+  & p {
+      line-height: inherit;
+      color: inherit;
+  }
+  // Some sidenotes are inside boxes and need different margins
+  .box & {
+      margin-right: -13.25em;
+  }
+  @media only screen and (max-width: $break-width-small) {
+      .box & {
+          margin-right: inherit;
+      }
+  }
+}
+$web-notes: true !default;
+@if $web-notes {
+
+    // Single sidenote
+    .sidenote {
+        @include sidenote();
+    }
+
+    // Footnotes section
+    .footnotes {
+      margin: ($line-height-default * 2) 0 0 0;
+      padding: $line-height-default 0;
+      border-top: $rule-thickness solid $color-light;
+      color: $color-mid;
+    }
+    .footnotes p {
+        text-indent: 0;
+    }
+
+    // Footnote popups
+    .footnote-detail {
+        // pull footnote-detail out of the doc flow so they hover above text
+        z-index: 1;
+        position: absolute;
+        // look and feel
+        margin-top: $line-height-default;
+        max-width: $max-width-default;
+        margin-left: auto;
+        margin-right: auto;
+        left: $max-width-default * 0.25 / 3;
+        right: $max-width-default * 0.25 / 3;
+        background-color: $color-background;
+        font-family: $font-text-secondary;
+        font-size: $font-size-default;
+        line-height: $line-height-default;
+        border: 0.2em solid $color-accent;
+        padding: ($line-height-default / 2);
+        box-shadow: 1px 2px 7px grey;
+        border-radius: $box-border-radius;
+        p {
+            margin-bottom: 0;
+        }
+        // When footnotes are in sidenotes, let them be wider
+        .sidenote.contains-footnote & {
+            left: 0;
+            right: 0;
+        }
+    }
+
+    .footnotes {
+        color: $color-text-secondary;
+    }
+
+    // .footnote-detail {
+    //     .reversefootnote {
+    //         @include button-close($color-accent);
+    //         border: 0;
+    //         color: white;
+    //         font-size: 1em;
+    //         line-height: 1;
+    //         padding: 0.15em 0.1em 0em 0.1em; // override button-close padding
+    //         position: absolute;
+    //         right: -($line-height-default / 2);
+    //         top: -($line-height-default / 2);
+    //         &:before {
+    //             content: $nav-bar-close;
+    //             display: inline-block;
+    //             width: 1em;
+    //             position: relative;
+    //             top: -0.1em;
+    //         }
+    //         // When a footnote is used twice in a doc,
+    //         // hide the second reverse footnote in popups, which
+    //         // breaks the 'close' action of footnote popups.
+    //         & + .reversefootnote {
+    //             display: none;
+    //         }
+    //     }
+    // }
+
+    // Prevent footnote references from disappearing below the fixed nav bar when linked to.
+    sup:target {
+        padding-top: 3.5em;
+    }
+
+    // .bottom {} // Only used for print output, ignored for screen.
+
 }
 
 @import "shared.scss";

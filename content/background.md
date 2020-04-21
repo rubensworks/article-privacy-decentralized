@@ -104,4 +104,8 @@ Pattern Based Access Control is a flexible means to specify the triples that can
 
 Encryption Based Access Control involves encrypting RDF fragments (i.e. subjects, predicates, objects, graphs or some combination thereof) with an encryption key, such that only those that have the key are permitted to access the data, thus serving as both an authentication and an authorisation mechanism. Existing proposals involve using [symmetric encryption](cite:cites kasten2013towards), [public-key encryption](cite:cites giereth2005partial), or [functional encryption](cite:cites fernandez2017self) to generate RDF ciphers.
 
+*Remove SHACL stuff*{:.sidenote}
+
 In this paper we discuss how pattern based access control policies specified using shapes languages such as [SHACL](cite:cites spec:shacl) can provide support for expressive access control policies beyond the simple file based access control currently used in Solid, and demonstrate how existing encryption mechanisms can be used to create privacy-preserving aggregation.
+{: style="border: 0px solid #FF0000; border-right-width: 5px; border-radius: 3px"}
+
