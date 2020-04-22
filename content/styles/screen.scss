@@ -411,7 +411,7 @@ $font-text-secondary: "Source Sans Pro" !default;
 // and don't use percentages, which will break layouts computed by multiplying this value.
 $font-size-default: 1.2em !default;
 $line-height-default: 1.5em !default;
-$font-size-smaller: 0.7 !default; // How much smaller than font-size-default for features like sidenotes and footers?
+$font-size-smaller: 0.9 !default; // How much smaller than font-size-default for features like sidenotes and footers?
 $font-size-bigger: 2 !default; // How many times bigger than font-size-default for features like headings and pullquotes?
 
 // Do you want space between paragraphs, rather than a text-indent? true or false

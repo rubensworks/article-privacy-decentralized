@@ -204,7 +204,10 @@ Web Identity and Discovery, is a mechanism used to uniquely identify and authent
 
 #### Access Control Enforcement
 
+*remove SHACL stuff and introduce general approach instead*{:.sidenote}
+
 For enforcement purposes the simple access control lists are translated into SHACL shapes that allow for constraining, i.e., shaping and (i) the **agents/party** whose requests the policy applies to; (ii) the **action/mode** that is permitted to be performed on the resource; and (iii) the **resources** that can be accessed/should be returned,
+{:.sidebar-comment}
 
 <!-- <figure id="figure-request-processing">
 <img src="img/request-processing.svg" alt="[Shape-based access control]" style="width: 40%; display: block; margin: auto;"  class="figure-width-half">
@@ -217,73 +220,7 @@ A policy `p ∈ P` is applicable for a request `(i, a, q)` if the request confor
 SIMON: Change this figure and the example so that it aligns with the use case scenario
 {:.todo} -->
 
-<figure id="figure-acl-graph" markdown="block" style="background: #FFFFFF">
 
-~~~turtle
-@prefix acl: <http://www.w3.org/ns/auth/acl#> .
-@prefix foaf: <http://xmlns.com/foaf/0.1/> .
-@prefix sh: <http://www.w3.org/ns/shacl#> .
-
-<#authorization1>
-    a               acl:Authorization;
-    acl:accessTo    <https://bob.example.com/docs/friends-file>;
-    acl:mode        acl:Read;
-    acl:agentClass  [
-        a rdfs:Class, sh:NodeShape;
-        sh:property [
-            sh:path [ sh:inversePath [ sh:alternativePath ( foaf:member vcard:hasMember ) ] ] ;
-            sh:hasValue <https://bob.example.com/work-groups#Friends> ;
-        ] ;
-        sh:property [
-            sh:path foaf:knows;
-            sh:in (<https://alice.example.com/profile/card#me>
-                   <https://carol.example.com/profile/card#me>)
-        ]
-    ] ;
-
-<https://bob.example.com/work-groups#Friends>
-    a                vcard:Group;
-    vcard:hasMember  <https://alice.example.com/profile/card#me> .
-
-<https://alice.example.com/profile/card#me>
-    foaf:knows <https://carol.example.com/profile/card#me> .
-~~~
-
-<figcaption markdown="block">
-ACL Rule using SHACL to specify applicable subjects
-</figcaption>
-</figure>
-
-<!--
-
-<http://bob.pod/share/policy>
-    a sh:NodeShape ;
-    sh:rule [
-        a sh:SPARQLRule ;
-        sh:construct """
-            CONSTRUCT {
-                ?s ?p ?o
-            } WHERE {
-                GRAPH <http://bob.pod/share/file1> {
-                    ?s ?p ?o
-                }
-            }
-        """ ;
-        sh:condition [
-            sh:property [
-                sh:path odrl:assignee ; # the requesting agent
-                sh:node [
-                    a sh:PropertyShape ;
-                    sh:path [ sh:inversePath foaf:member ] ;
-                    sh:hasValue <http://bob.pod/friends> ;
-                ] ;
-            ] ;
-            sh:property [
-                sh:path odrl:action ; # the requested mode of access
-                sh:hasValue acl:Read ;
-            ] ;
-        ] ;
-    ] ; -->
 
 <!--
 This allows for expressing more fine-grained access control policies, such as:

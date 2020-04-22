@@ -107,5 +107,4 @@ Encryption Based Access Control involves encrypting RDF fragments (i.e. subjects
 *Remove SHACL stuff*{:.sidenote}
 
 In this paper we discuss how pattern based access control policies specified using shapes languages such as [SHACL](cite:cites spec:shacl) can provide support for expressive access control policies beyond the simple file based access control currently used in Solid, and demonstrate how existing encryption mechanisms can be used to create privacy-preserving aggregation.
-{: style="border: 0px solid #FF0000; border-right-width: 5px; border-radius: 3px"}
-
+{:.sidebar-comment}

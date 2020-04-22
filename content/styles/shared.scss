@@ -37,6 +37,12 @@ del.comment {
   }
 }
 
+.sidebar-comment {
+  border: 0px solid #FF0000;
+  border-right-width: 5px;
+  border-radius: 3px
+}
+
 .spelling {
   text-decoration: underline wavy red;
 }

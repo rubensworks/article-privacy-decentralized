@@ -88,7 +88,7 @@ Although in our example we consider one aggregator, in practise multiple aggrega
 <!-- This aggregation process will be explained in more detail in [](#framework-aggregation). -->
 
 A client-side query engine can make use of the combined summary provided by the aggregator to perform source selection before query execution, i.e., reduce the number of sources to be queried. Thus the combined summaries serve to determine the data sources that contain _relevant_ and _accessible_ data.
-Finally, the data sources take care of the access control enforcement at query time, by taking into account permissions and prohibitions specified via access control policies.
+Finally, the data sources take care of the access control enforcement at query time, by taking into account permissions specified in terms of authorisation rules.
 
 <!-- For each source, it should do this by testing the summary for its query using its authentication key.
 If the test is true, then the client should consider this source as valid target it can query.
@@ -145,14 +145,19 @@ Since we are considering private data, these summaries need to be privacy-preser
 which means that only people with the appropriate access rights can determine the presence of data.
 The first step is to create a map of keys to quads based on existing access policies, using the algorithm outlined in [](#key-generation-algorithm). Here we assume that pod owners already have a set of access control policies that govern access to quads stored in theirs pods.
 
-<figure id="key-generation-algorithm" class="listing">
+*s/list/set/ ? or does order matter?*{:.sidenote}
+
+<figure id="key-generation-algorithm" class="sidebar-comment listing">
 ````/code/key-generation-algorithm.txt````
 <figcaption markdown="block">
 Algorithm for generating keys for quads based on existing access policies, with `MapInitialize` for initializing a map between quads and keys, `GenerateKey` which generates a key for a quad based on a policy, and `AddKey` which adds a key to a map.
 </figcaption>
 </figure>
 
+*one-to-one mapping between a policy and access keys? wouldn't this imply that for each quad there's a unique key **and** a unique policy?*{:.sidenote}
+
 There is a one to one mapping between access policies that are used for policy enforcement at query time, and access keys that are used to create privacy-preserving summaries that are needed to optimize federated querying.
+{:.sidebar-comment}
 
 ### Summary Creation Algorithm
 {:#framework-summary-creation}
@@ -300,19 +305,19 @@ and some sources may not be aggregated at all.
 For these cases, extensions to this algorithm will be needed,
 which we consider out-of-scope for this work.
 
-### Access Control Algorithm
+### Access Control
 {:#framework-access-control}
 
 {:.comment data-author="RT"}
 It is not clear to me if this section is talking about the client-side part (clients sends auth query to the server), or the server-side part (server checks client auth, and only emits quads that are authorized for this auth).
-We might even want to create two seperate dedicated sections for this.
+We might even want to create two separate dedicated sections for this.
 
-#### Client-Side Access Control
+#### Client-Side Access Control (Authentication)
 
 Once the client has obtained the list of sources that it needs to query, the next step is to execute the query against each source.
 Here there is a need for access control enforcement, such that it is possible to check that a client does in fact possess the credentials necessary to execute the request.
 
-#### Server-side Access Control
+#### Server-side Access Control (Authorization)
 
 In the proposed algorithm a map relating quads to policies and keys is used to identify access policies that govern a particular query. We assume that there may be multiple policies that govern a particular quad and thus envisage a simple conflict resolution strategy whereby either prohibitions override permissions or visa versa. The algorithm stops as soon as it finds a policy that permits the given query to be executed and returns the results of the query execution.
 

@@ -89,9 +89,9 @@ should we move the rules from below the profile to above of it, surrounded by an
 - `Alice ∈ Acquaintances`<sub>`C`</sub>`, Friends`<sub>`C`</sub>`⊆ Acquaintances`<sub>`C`</sub>`⊆ Everyone`
 - `{s | s ∈ Everyone} ⊆ ε ∧ ε ⊆ {s | s ∈ Everyone}` ?
 
+*update rules*{:.sidenote}
 
-
-<figure id="figure-use-case">
+<figure id="figure-use-case" class="sidebar-comment">
 <img src="img/use-case.svg" alt="[Personal Address Book]" class="figure-width-twothird">
 <figcaption markdown="block">
 Overview of the personalized address book use case where Alice, Bob and Carol each have separate data pods.
@@ -102,9 +102,9 @@ and dashed lines indicate data links.
 </figcaption>
 </figure>
 
-
-
 For this use case, we consider the following example queries:
+
+*replace justifications with references to Authorization Rules*{:.sidenote}
 
 1. **Alice wants to send an email to everyone she knows.**
    <br />
@@ -126,6 +126,7 @@ For this use case, we consider the following example queries:
    Dave is not able to read the telephone number of Bob or Carol.
    Because Bob's telephone number is readable for friends (_Dave ∉ R3<sub>B</sub>_),
    but Carol's telephone number is only readable for her friends (_Dave ∉ R3<sub>C</sub>_).
+{:.sidebar-comment}
 
 SABRINA check use case and examples are aligned
 {:.todo}
