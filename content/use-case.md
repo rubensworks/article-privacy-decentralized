@@ -39,29 +39,43 @@ where the members of each group can be configured for each pod:
 
 {::options parse_block_html="false" /} -->
 
-
+*kinda unsure which notation we should use and how to format this paragraph nicely<br/><br/>Bob: Alice a friend <br/>{Alice} $$\subseteq S_F\subseteq S_A\subseteq S_E$$
+<br/><br/>
+Carol: Alice an acquaintance <br/>Alice $$\in S_A$$*{:.sidenote}
 
 [](#figure-use-case) shows a detailed overview of this use case.
 Alice uses the `/contacts` file in her pod to list everyone that she knows using their WebID,
 which point to the profiles of the respective people.
 The profiles of Bob and Carol both contain their name, email and telephone number,
 which are readable for select people.
-Bob is quite liberal, and allows everyone (_R1<sub>B</sub>_) to read both his name and email.
-His telephone number is however only readable for friends (_R3<sub>B</sub>_).
-Bob considers Alice a friend (_R1<sub>B</sub>_, _R2<sub>B</sub>_, _R3<sub>B</sub>_).
-Carol only allows her name to be read by the public (_R1<sub>C</sub>_),
-her email is only readable by acquaintances (_R2<sub>C</sub>_),
-and her telephone number by friends (_R3<sub>C</sub>_).
-Carol considers Alice an acquaintance (_R1<sub>C</sub>_, _R2<sub>C</sub>_).
-
-{:.comment data-author="SS"}
-should we move the rules from below the profile to above of it, surrounded by an `Access Policy` block like in [](#figure-request-processing)?
+Bob is quite liberal, and allows everyone ($$S_E$$) to read both his name and email ($$\langle\{s\;\vert\;s \in S_E\}, read, \{o\;\vert\;o \in Profile_B \wedge o \subseteq \{\mathbin{:}name, \mathbin{:}email\}\}\rangle$$).
+His telephone number is however only readable for friends ($$\langle\{s\;\vert\;s \in S_F\}, read, \{o\;\vert\;o \in Profile_B \wedge o \subseteq\{\mathbin{:}telephone\}\}\rangle$$).
+Bob considers Alice a friend ({Alice} $$\subseteq S_F\subseteq S_A\subseteq S_E$$).
+Carol only allows her name to be read by the public ($$\langle\{s\;\vert\;s \in S_E\}, read, \{o\;\vert\;o \in Profile_C \wedge o \subseteq \{\mathbin{:}name\}\}\rangle$$),
+her email is only readable by acquaintances ($$\langle\{s\;\vert\;s \in S_A\}, read, \{o\;\vert\;o \in Profile_C \wedge o \subseteq \{\mathbin{:}email\}\}\rangle$$),
+and her telephone number by friends ($$\langle\{s\;\vert\;s \in S_F\}, read, \{o\;\vert\;o \in Profile_C \wedge o \subseteq \{\mathbin{:}telephone\}\}\rangle$$).
+Carol considers Alice an acquaintance (Alice $$\in S_A$$, Alice $$\notin S_F$$, Alice $$\in S_E$$).
+{:.sidebar-comment}
 
 
+*- update rules <br/><br/>- Alice's Address Book, as well as Bob's and Carol's respective profiles are considered being "Files" in our terminology, right? if yes, why are they coloured differently and why do profiles have the same color as summaries? imo, we should use colors of core components like summaries/pods/.. for the respective components only. <br/><br/>- should we move the rules from below the profile to above of it, surrounded by an `Access Policy` block like in [](#figure-request-processing)?*{:.sidenote}
+
+<figure id="figure-use-case" class="sidebar-comment">
+<img src="img/use-case.svg" alt="[Personal Address Book]" class="figure-width-twothird">
+<figcaption markdown="block">
+Overview of the personalized address book use case where Alice, Bob and Carol each have separate data pods.
+Alice has an address book that contains links to the profiles of Bob and Carol.
+All triples in each profile are annotated with a role for users that can read that triple.
+Full lines indicate data reading by people,
+and dashed lines indicate data links.
+</figcaption>
+</figure>
+
+<!--
 
 **Bob is quite liberal, and allows everyone to read both his name and email.**
 
-- \$$r1_B = \langle\{s \vert s \in S_E\}, read, \{o \vert o \in File_C \wedge o \subseteq \{name, email\}\}\rangle$$
+- \$$r1_B = \langle\{s\;\vert\;s \in S_E\}, read, \{o\;\vert\;o \in File_B \wedge o \subseteq \{name, email\}\}\rangle$$
 
 **His telephone number is however only readable for friends.**
 
@@ -69,8 +83,10 @@ should we move the rules from below the profile to above of it, surrounded by an
 
 **Bob considers Alice a friend**
 
-- `Alice ∈ Friends`<sub>`B`</sub>`, Friends`<sub>`B`</sub>`⊆ Acquaintances`<sub>`B`</sub>`⊆ Everyone`
-- `{s | s ∈ Everyone} ⊆ ε ∧ ε ⊆ {s | s ∈ Everyone}` ?
+- `Alice ∈ S`<sub>`F`</sub>`, S`<sub>`F`</sub>`⊆ S`<sub>`A`</sub>`⊆ S`<sub>`E`</sub>
+- `Alice ∈ S`<sub>`F`</sub>`, Alice ∈ S`<sub>`A`</sub>`, Alice ∈ S`<sub>`E`</sub>
+- `{Alice} ⊆ S`<sub>`F`</sub>` ⊆ S`<sub>`A`</sub>`⊆ S`<sub>`E`</sub>
+
 
 **Carol allows only her name to be read by the public**
 
@@ -86,21 +102,8 @@ should we move the rules from below the profile to above of it, surrounded by an
 
 **Carol considers Alice a acquaintance**
 
-- `Alice ∈ Acquaintances`<sub>`C`</sub>`, Friends`<sub>`C`</sub>`⊆ Acquaintances`<sub>`C`</sub>`⊆ Everyone`
-- `{s | s ∈ Everyone} ⊆ ε ∧ ε ⊆ {s | s ∈ Everyone}` ?
-
-*update rules*{:.sidenote}
-
-<figure id="figure-use-case" class="sidebar-comment">
-<img src="img/use-case.svg" alt="[Personal Address Book]" class="figure-width-twothird">
-<figcaption markdown="block">
-Overview of the personalized address book use case where Alice, Bob and Carol each have separate data pods.
-Alice has an address book that contains links to the profiles of Bob and Carol.
-All triples in each profile are annotated with a role for users that can read that triple.
-Full lines indicate data reading by people,
-and dashed lines indicate data links.
-</figcaption>
-</figure>
+- Alice $$\in S_A\subseteq S_E$$
+- Alice $$\notin S_F$$, Alice $$\in S_A$$, Alice $$\in S_E$$ -->
 
 For this use case, we consider the following example queries:
 
