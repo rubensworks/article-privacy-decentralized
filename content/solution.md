@@ -12,7 +12,10 @@ We assume that pod owners need to be able to specify access control policies tha
 
 - **No data leaking**: Access restricted data must not be available to those who are not authorised to access it.
 
+*in [](#figure-use-case) we say **"All triples in each profile are annotated with a role for users that can read that triple."** -> would we still need 3 separate files for differentiating between access rights in that case?*{:.sidenote}
+
 From a policy specification perspective, our pod owners (Alice, Bob, and Carol) could create three separate files that are used to distinguish between data that is accessible by: _everyone_, _acquaintances_, and _friends_. In such a scenario, authorisations could abstractly be represented as lists of _roles_, _access rights_, and _pods_, such that:
+{:.sidebar-comment}
 
 - Rule _R1<sub>C</sub>_, a _permission_ which states that everyone has read access to the name property, is represented as `<everyone, read access, everyone file>`, where name is stored in the everyone file.
 
@@ -194,8 +197,9 @@ or based on the current location of the user.
 
 ### Query Execution
 
-Once the query engine has identified the data sources that could potentially contribute results to their query, the query engine needs to authenticate to the server(s) and execute the query or parts thereof. In turn the server is responsible for authenticating the requested, enforcing access control, and executing the query or parts thereof. Concretely, we address the following core requirement:
+Once the query engine has identified the data sources that could potentially contribute results to their query, the query engine needs to authenticate to the server(s) and execute the query or parts thereof. In turn the server is responsible for authenticating the request, enforcing access control, and executing the query or parts thereof. Concretely, we address the following core requirements:
 
+- **Authentication** It must be possible for the data source to verify the integrity of the requesting party.
 - **Access control enforcement** It must be possible for the data source to limit query results based on a set of access policies.
 
 #### Authentication
@@ -204,9 +208,9 @@ Web Identity and Discovery, is a mechanism used to uniquely identify and authent
 
 #### Access Control Enforcement
 
-*remove SHACL stuff and introduce general approach instead*{:.sidenote}
+*move [](#figure-request-processing) back to this section again? also, not sure what to discuss here without SHACL specifics.. Discussing e.g., shape-based/quadpattern-based (SHACL/SHEX) access modes in .acl files.?*{:.sidenote}
 
-For enforcement purposes the simple access control lists are translated into SHACL shapes that allow for constraining, i.e., shaping and (i) the **agents/party** whose requests the policy applies to; (ii) the **action/mode** that is permitted to be performed on the resource; and (iii) the **resources** that can be accessed/should be returned,
+For enforcement purposes, we envision a mechanism that translates access policies (i.e. sets of authorisations) into constraints (e.g., Data shapes like [SHACL](cite:cites spec:shacl)) against which requests and respective query results are then validated against.
 {:.sidebar-comment}
 
 <!-- <figure id="figure-request-processing">
