@@ -17,11 +17,29 @@ We assume that pod owners need to be able to specify access control policies tha
 From a policy specification perspective, our pod owners (Alice, Bob, and Carol) could create three separate files that are used to distinguish between data that is accessible by: _everyone_, _acquaintances_, and _friends_. In such a scenario, authorisations could abstractly be represented as lists of _roles_, _access rights_, and _pods_, such that:
 {:.sidebar-comment}
 
-- Rule _R1<sub>C</sub>_, a _permission_ which states that everyone has read access to the name property, is represented as `<everyone, read access, everyone file>`, where name is stored in the everyone file.
+- Authorisation Rule _R1<sub>C</sub>_, a _permission_ which states that everyone has read access to the name property, is represented as `<everyone, read access, everyone file>`, where name is stored in the everyone file.
 
-- Rule _R2<sub>C</sub>_, which states that acquaintances have read access to the e-mail property, is represented as `<acquaintances, read access, acquaintances file>`, where e-mail is stored in the acquaintances file.
+- Authorisation Rule _R2<sub>C</sub>_, which states that acquaintances have read access to the e-mail property, is represented as `<acquaintances, read access, acquaintances file>`, where e-mail is stored in the acquaintances file.
 
-- Rule _R3<sub>C</sub>_, which states that friends have read access to the telephone number property, is represented as `<friends, read access, friends file>`, where the telephone number is stored in the friends file.
+- Authorisation Rule _R3<sub>C</sub>_, which states that friends have read access to the telephone number property, is represented as `<friends, read access, friends file>`, where the telephone number is stored in the friends file.
+
+More formally, we consider
+
+<figure id="def-authorisation" class="definition"  markdown="1">
+<figcaption markdown="block">
+Authorisation
+</figcaption>
+An **Authorisation** $$r \in R$$ is represented as a tuple $$r = \langle s, a, o\rangle$$, where $$s$$ represents the subjects to whom the rule applies to, $$a$$ denotes the granted access right, and $$o$$ specifies the resources subjects $$s$$ can exercise access right $$a$$ over.
+</figure>
+
+<figure id="def-policy" class="definition"  markdown="1">
+<figcaption markdown="block">
+Access Policy
+</figcaption>
+An **Access Policy** $$P$$ is represented as a set of authorisations $$P \subseteq R$$
+</figure>
+
+
 
 {::options parse_block_html="true" /}
 

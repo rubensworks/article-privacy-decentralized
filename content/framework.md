@@ -325,21 +325,6 @@ Client-side algorithm for querying query-relevant sources.
 </figcaption>
 </figure>
 
-<!-- More formally, we consider
-
-<figure id="def-authorisation" class="definition"  markdown="1">
-<figcaption markdown="block">
-Authorisation
-</figcaption>
-An **Authorisation** $$r \in R$$ is represented as a tuple $$r = \langle s, a, o\rangle$$, where $$s$$ represents the subjects to whom the rule applies to, $$a$$ denotes the granted access right, and $$o$$ specifies the resources subjects $$s$$ can exercise access right $$a$$ over.
-</figure>
-
-<figure id="def-policy" class="definition"  markdown="1">
-<figcaption markdown="block">
-Access Policy
-</figcaption>
-An **Access Policy** $$P$$ is represented as a set of authorisations $$P \subseteq R$$
-</figure> -->
 
 {:.comment data-author="RT"}
 It is not clear to me if this section is talking about the client-side part (clients sends auth query to the server), or the server-side part (server checks client auth, and only emits quads that are authorized for this auth).
@@ -349,11 +334,11 @@ We might even want to create two separate dedicated sections for this.
 
 In the proposed algorithm a map relating quads to policies and keys is used to identify access policies that govern a particular query. We assume that there may be multiple policies that govern a particular quad and thus envisage a simple conflict resolution strategy whereby either prohibitions override permissions or visa versa. The algorithm stops as soon as it finds a policy that permits the given query to be executed and returns the results of the query execution.
 
-<figure id="figure-request-processing">
+<figure id="figure-request-processing" class="figure">
 <img src="img/request-processing.svg" alt="[Shape-based access control]" style="width: 40%; display: block; margin: auto;"  class="figure-width-half">
 <figcaption markdown="block">
 A server validates requests `r ∈ R` with `r = ⟨i, a, q⟩` consisting of the requester's client identification `i`, the requested access mode `a`, and a quad pattern query `q`, against a set of _applicable_ access control policies `P'⊆ P`.
-A policy `p ∈ P` with `p = ⟨s, a, o⟩` is _applicable_ to a request `r ∈ R` if the request conforms to the shape; policy `p` was specified against.
+A policy `p ∈ P'` with `p = ⟨s, a, o⟩` is _applicable_ to a request `r ∈ R` if the request conforms to the shape; policy `p` was specified against.
 </figcaption>
 </figure>
 
