@@ -1,8 +1,7 @@
-FUNCTION ProcessRequest(c, q, QPK, cr)
+FUNCTION ProcessRequest(c, q, QPK)
   INPUT:
     client credentials c
     query q
-    a conflict resolution strategy cr
     QPK a hashmap relating quads to policies and keys
   OUTPUT:
     query results R
@@ -10,7 +9,7 @@ R = {}
 FOREACH p in GetPolicies(QPK, c, q)
   IF p.type = prohibition & cr = prohibition_overrides
     break
-  ELSE  
+  ELSE
     R = ExecuteQueryWithAccessControl(c, q, p)
     break
 RETURN R

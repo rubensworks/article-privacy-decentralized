@@ -111,7 +111,7 @@ Thus we consider the following key requirements:
 <!--, where `Σ.c` and `Σ'.c` denote existing summaries, `q` denotes a quad, `q.c` denotes a quad component, `p` denotes a given access policy, `k` denotes a given access key, `u` denotes the URI for the data source, `a` denotes a mode of access, and `R` denotes query execution results:-->
 
 1. **No data leaking**:
-   Access restricted data must not be available to those who are not authorised to access it. <!--Implementations for `GenerateKey(q,p)` and `AddKey(qpk, q, p, k)` are required to generated a key for a given access policy and create a map of quads, policies and keys.-->
+   Access restricted data must not be available to those who are not authorised to access it. <!--Implementations for `GenerateKey(q,p)` and `AddKey(QPK, q, p, k)` are required to generated a key for a given access policy and create a map of quads, policies and keys.-->
 2. **Privacy-preserving summary creation**:
    It must be possible to add values to summaries by access key and file URI.
    <!--An implementation for `SummaryAdd(Σ.c, q.c, k, u)` is required to create the individual summaries,
@@ -145,7 +145,7 @@ Since we are considering private data, these summaries need to be privacy-preser
 which means that only people with the appropriate access rights can determine the presence of data.
 The first step is to create a map of keys to quads based on existing access policies, using the algorithm outlined in [](#key-generation-algorithm). Here we assume that pod owners already have a set of access control policies that govern access to quads stored in theirs pods.
 
-*s/list/set/ ? or does order matter?*{:.sidenote}
+_s/list/set/ ? or does order matter? it shouldn't as we go over each policy (and generate an access key?) for each q ∈ Q anyway.._{:.sidenote}
 
 <figure id="key-generation-algorithm" class="sidebar-comment listing">
 ````/code/key-generation-algorithm.txt````
@@ -154,7 +154,7 @@ Algorithm for generating keys for quads based on existing access policies, with 
 </figcaption>
 </figure>
 
-*one-to-one mapping between a policy and access keys? wouldn't this imply that for each quad there's a unique key **and** a unique policy?*{:.sidenote}
+_one-to-one mapping between a policy and access keys? wouldn't this imply that for each quad there's a unique key **and** a unique policy? what if I have more than one policy governing access to a specific triple? this would lead to QPK(q) returning a list of (q,p) tuple?_{:.sidenote}
 
 There is a one to one mapping between access policies that are used for policy enforcement at query time, and access keys that are used to create privacy-preserving summaries that are needed to optimize federated querying.
 {:.sidebar-comment}
@@ -185,6 +185,8 @@ for the given key and file source URI.
 The `SummaryInitialize` and `SummaryAdd` functions that are used in the algorithm depend on the type of summary that is being used.
 A high-level example of this summarization algorithm can be seen in [](#figure-summary-components-privacy).
 
+*What's the signature of QPK? in an earlier version of the algorithm it was `QPK<q,item<p,k>> = MapInitialize()`, which wouldn't work for something like `FOREACH k in QPK(q)` right? If `QPK: Q -> P × K`, i.e. each quad maps to a tuple consisting of a policy p and key k, **then `QPK(q)` would actually return only one element -> the tuple `(p,k)`**.. right?*{:.sidenote}
+
 <figure id="summarization-algorithm" class="listing">
 ````/code/summarization-algorithm.txt````
 <figcaption markdown="block">
@@ -193,12 +195,13 @@ with `SummaryAdd` a summary-type-dependent function for adding a quad component,
 and `SummaryInitialize` a summary-type-dependent function for initializing a new summary.
 </figcaption>
 </figure>
+{:.sidebar comment}
 
 <figure id="figure-summary-components-privacy">
 <img src="img/summary-components-privacy.svg" alt="[Privacy-preserving summarization of a file]" class="figure-width-twothird">
 <figcaption markdown="block">
 Privacy-preserving summarization of all RDF quads (`Q`) within a file (`u`),
-based on a set of quad-dependent keys that are derived using a mapping function `qk`.
+based on a set of quad-dependent keys that are derived using a mapping function `QPK`.
 *Note: The summary values are not necessarily an exact representation of the way the summary is stored,
 these values are merely an indication of what information is used to construct the summary.*
 </figcaption>
@@ -308,14 +311,28 @@ which we consider out-of-scope for this work.
 ### Access Control
 {:#framework-access-control}
 
+Once the client has obtained the list of sources that it needs to query, the next step is to execute the query against each source.
+Here there is a need for access control enforcement, such that it is possible to check that a client does in fact possess the credentials necessary to execute the request.
+
+More formally, we consider
+
+<figure id="def-authorisation" class="definition"  markdown="1">
+<figcaption markdown="block">
+Authorisation
+</figcaption>
+An **Authorisation** $$r \in R$$ is represented as a tuple $$r = \langle s, a, o\rangle$$, where $$s$$ represents the subjects to whom the rule applies to, $$a$$ denotes the granted access right, and $$o$$ specifies the resources subjects $$s$$ can exercise access right $$a$$ over.
+</figure>
+
+<figure id="def-policy" class="definition"  markdown="1">
+<figcaption markdown="block">
+Access Policy
+</figcaption>
+An **Access Policy** $$P$$ is represented as a set of authorisations $$P \subseteq R$$
+</figure>
+
 {:.comment data-author="RT"}
 It is not clear to me if this section is talking about the client-side part (clients sends auth query to the server), or the server-side part (server checks client auth, and only emits quads that are authorized for this auth).
 We might even want to create two separate dedicated sections for this.
-
-#### Client-Side Access Control (Authentication)
-
-Once the client has obtained the list of sources that it needs to query, the next step is to execute the query against each source.
-Here there is a need for access control enforcement, such that it is possible to check that a client does in fact possess the credentials necessary to execute the request.
 
 #### Server-side Access Control (Authorization)
 

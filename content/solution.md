@@ -208,10 +208,9 @@ Web Identity and Discovery, is a mechanism used to uniquely identify and authent
 
 #### Access Control Enforcement
 
-*move [](#figure-request-processing) back to this section again? also, not sure what to discuss here without SHACL specifics.. Discussing e.g., shape-based/quadpattern-based (SHACL/SHEX) access modes in .acl files.?*{:.sidenote}
+
 
 For enforcement purposes, we envision a mechanism that translates access policies (i.e. sets of authorisations) into constraints (e.g., Data shapes like [SHACL](cite:cites spec:shacl)) against which requests and respective query results are then validated against.
-{:.sidebar-comment}
 
 <!-- <figure id="figure-request-processing">
 <img src="img/request-processing.svg" alt="[Shape-based access control]" style="width: 40%; display: block; margin: auto;"  class="figure-width-half">

@@ -256,23 +256,9 @@ Authentication is the process of verifying someone is who they say they are and/
 
 Given that WebID is the default authentication mechanism for Solid, in this paper we have elected to use it for the instantiation of the proposed federated querying with policies framework. However it is worth noting that both OpenIDConnect and SSI are both viable alternatives.
 
-### Access Control
+### Authorisation and Access Control
 
-The term authorisation is used to refer to the access control rules that specify that a given subject has access to a given resource. More formally, we consider
-
-<figure id="def-authorisation" class="definition"  markdown="1">
-<figcaption markdown="block">
-Authorisation
-</figcaption>
-An **Authorisation** $$r \in R$$ is represented as a tuple $$r = \langle s, a, o\rangle$$, where $$s$$ represents the subjects to whom the rule applies to, $$a$$ denotes the granted access right, and $$o$$ specifies the resources subjects $$s$$ can exercise access right $$a$$ over.
-</figure>
-
-<figure id="def-policy" class="definition"  markdown="1">
-<figcaption markdown="block">
-Access Policy
-</figcaption>
-An **Access Policy** $$P$$ is represented as a set of authorisations $$P \subseteq R$$
-</figure>
+The term authorisation is used to refer to the access control rules that specify that a given subject has access to a given resource.
 
 In this section we provide a brief overview of three different approaches that can be used to specify authorisation rules.
 
