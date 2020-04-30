@@ -281,6 +281,8 @@ which can be used by the query engine to execute the quad pattern query over.
 In this algorithm, the `SummaryContains` also depends on the type of summary that is being used.
 [](#figure-query-execution) shows an example of how this source selection algorithm can be used in client-side query engines.
 
+*in [](#figure-query-execution) we use `q` to denote a single quad and `Q` for a query.. is `q` now a single quad or a quad pattern query?*{:.sidenote}
+
 <figure id="client-algorithm" class="listing">
 ````/code/client-algorithm.txt````
 <figcaption markdown="block">
@@ -290,6 +292,7 @@ based on a given privacy-preserving summary.
 for a given key and source URI.
 </figcaption>
 </figure>
+{:.sidebar-comment}
 
 <figure id="figure-query-execution">
 <img src="img/query-execution.svg" alt="[Query execution over privacy-preserving summaries]">
@@ -314,7 +317,15 @@ which we consider out-of-scope for this work.
 Once the client has obtained the list of sources that it needs to query, the next step is to execute the query against each source.
 Here there is a need for access control enforcement, such that it is possible to check that a client does in fact possess the credentials necessary to execute the request.
 
-More formally, we consider
+<figure id="client-algorithm" class="listing">
+````/code/request-algorithm.txt````
+<figcaption markdown="block">
+Client-side algorithm for querying query-relevant sources.
+`ExecuteQuery` is a function that executes a query (i.e. request) against a particular source. For access control purposes, a client identification (e.g., WebID) has to be provided by the client together with the respective query.
+</figcaption>
+</figure>
+
+<!-- More formally, we consider
 
 <figure id="def-authorisation" class="definition"  markdown="1">
 <figcaption markdown="block">
@@ -328,7 +339,7 @@ An **Authorisation** $$r \in R$$ is represented as a tuple $$r = \langle s, a, o
 Access Policy
 </figcaption>
 An **Access Policy** $$P$$ is represented as a set of authorisations $$P \subseteq R$$
-</figure>
+</figure> -->
 
 {:.comment data-author="RT"}
 It is not clear to me if this section is talking about the client-side part (clients sends auth query to the server), or the server-side part (server checks client auth, and only emits quads that are authorized for this auth).
