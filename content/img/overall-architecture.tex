@@ -101,10 +101,10 @@
   \node[pod, below = of FE] (POD2) {Pod 2};
   \node[pod, left = of POD2] (POD1) {Pod 1};
   \node[pod, right = of POD2] (POD3) {Pod n};
-  \node[title,font=\sffamily\footnotesize, below=0.5em of POD1] (KPOD1) {$K_1^{Pod_1}\dots K_n^{Pod_1}$};
-  \node[title,font=\sffamily\footnotesize, below=0.5em of POD2] (KPOD2) {$K_1^{Pod_2}\dots K_n^{Pod_2}$};
-  \node[title,font=\sffamily\footnotesize, below=0.5em of POD3] (KPOD3) {$K_1^{Pod_n}\dots K_n^{Pod_n}$};
-  \node[title, below=1em of POD3] (KPOD2) {};
+  % \node[title,font=\sffamily\footnotesize, below=0.5em of POD1] (KPOD1) {$K_1^{Pod_1}\dots K_n^{Pod_1}$};
+  % \node[title,font=\sffamily\footnotesize, below=0.5em of POD2] (KPOD2) {$K_1^{Pod_2}\dots K_n^{Pod_2}$};
+  % \node[title,font=\sffamily\footnotesize, below=0.5em of POD3] (KPOD3) {$K_1^{Pod_n}\dots K_n^{Pod_n}$};
+  % \node[title, below=1em of POD3] (KPOD2) {};
 
 
   \draw[to] (REQUESTER) -- node[midway,above] {query,Keys}  (FE);

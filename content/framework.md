@@ -11,11 +11,9 @@ We put a particular emphasis on three core aspects of the framework:
 
 <!-- ### Privacy-Preserving Federated Querying -->
 
-The proposed privacy-preserving federation architecture is depicted in [](#overall-architecture).
-We first provide a high-level overview of the architecture, and the requirements that guide our proposal. Following on from this we introduce the various algorithms that are needed to enable efficient privacy-preserving federated querying.
+The proposed privacy-preserving federation framework is depicted in [](#overall-architecture).
+We first provide a high-level overview of the framework, and the requirements that guide our proposal. Following on from this we introduce the various algorithms that are needed to enable efficient privacy-preserving federated querying.
 
-{:.comment data-author="SS"}
-Privacy-Preserving Federation **Architecture** or **Framework**?
 
 <figure id="overall-architecture">
 <img src="img/overall-architecture.svg" alt="[Privacy-Preserving Federated Querying Architecture]" class="figure-width-twothird">
@@ -154,7 +152,7 @@ Algorithm for generating keys for quads based on existing access policies, with 
 </figcaption>
 </figure>
 
-_one-to-one mapping between a policy and access keys? wouldn't this imply that for each quad there's a unique key **and** a unique policy? what if I have more than one policy governing access to a specific triple? this would lead to QPK(q) returning a list of (q,p) tuple?_{:.sidenote}
+_one-to-one mapping between a policy and access keys? wouldn't this imply that for each quad there's a unique key **and** a unique policy? what if I have more than one policy governing access to a specific triple? this would lead to QPK(q) returning a list of (k,p) tuple?_{:.sidenote}
 
 There is a one to one mapping between access policies that are used for policy enforcement at query time, and access keys that are used to create privacy-preserving summaries that are needed to optimize federated querying.
 {:.sidebar-comment}
@@ -195,7 +193,7 @@ with `SummaryAdd` a summary-type-dependent function for adding a quad component,
 and `SummaryInitialize` a summary-type-dependent function for initializing a new summary.
 </figcaption>
 </figure>
-{:.sidebar comment}
+{:.sidebar-comment}
 
 <figure id="figure-summary-components-privacy">
 <img src="img/summary-components-privacy.svg" alt="[Privacy-preserving summarization of a file]" class="figure-width-twothird">

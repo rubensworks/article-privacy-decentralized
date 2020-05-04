@@ -1,6 +1,6 @@
 FUNCTION CreateAggregatedSummary(U)
   INPUT:
-    list of sources U
+    set of sources U
   OUTPUT:
     combined summary Σ comprising four parts, one for each quad component: Σ.subject, Σ.predicate, Σ.object, Σ.graph
 FOREACH c in [subject, predicate, object, graph]

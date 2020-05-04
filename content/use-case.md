@@ -43,6 +43,8 @@ where the members of each group can be configured for each pod:
 <br/><br/>
 Carol: Alice an acquaintance <br/>Alice $$\in S_A$$*{:.sidenote}
 
+//TODO: FIX font stuff
+
 [](#figure-use-case) shows a detailed overview of this use case.
 Alice uses the `/contacts` file in her pod to list everyone that she knows using their WebID,
 which point to the profiles of the respective people.
