@@ -15,7 +15,7 @@ some stuff that sounds kinda related to what we propose, especially the CfA Requ
 
 PRM reconciles well known [Customer Relationship Management (CRM)](https://en.wikipedia.org/wiki/Customer_relationship_management) with less known [Vendor Relationship Management (VRM)](https://en.wikipedia.org/wiki/Vendor_relationship_management). In supply chains scenarios, many coops take on customer role in relationship with some coops and vendor role in relationship with others. Peer relationship management attempts to provide all the coops with a way to manage their relationship with other coops no matter which roles they play in any given relationship. In some cases each of two coops can play both roles in their relationship.
 
-In scenario below we will use [Conversation for Action (CfA)](http://conversationsforaction.com/) flow for interactions between coops. In CfA coop playing role of _vendor_ is commonly refered to as **performer**.
+In scenario below we will use [Conversation for Action (CfA)](https://conversationsforaction.com/) flow for interactions between coops. In CfA coop playing role of _vendor_ is commonly refered to as **performer**.
 
 ![](https://i.imgur.com/Urq3oBB.png)
 
@@ -149,11 +149,11 @@ GRAPH <https://acme.example/6800yrn/83009ft>
 ----
 
 <strong>2. Conversation for Action (CfA)</strong>\\
-[http://conversationsforaction.com/](http://conversationsforaction.com/)
+[https://conversationsforaction.com/](https://conversationsforaction.com/)
 
 <details>
 
-![](http://conversationsforaction.com/sites/default/files/loop.jpg){:height="100%" width="100%"}
+![](https://conversationsforaction.com/sites/default/files/loop.jpg){:height="100%" width="100%"}
 
 Each individual workflow is a structure of commitments that constitutes a transaction between two constituencies-- a customer and a performer -- to accomplish a purpose. This purpose will often change and be re-articulated as the two parties work together, develop new insights/learning, and become clearer about what is possible and what is needed.
 
@@ -168,7 +168,7 @@ The structure of commitments of any process within a company can be observed and
 
 <details>
 
-![interaction-diagram](http://researchstudio-sat.github.io/webofneeds/images/interaction-diagram-book.png){:height="100%" width="100%"}
+![interaction-diagram](https://researchstudio-sat.github.io/webofneeds/images/interaction-diagram-book.png){:height="100%" width="100%"}
 
 The Web of Needs is a decentralized infrastructure that allows people to publish documents on the Web which make it possible to contact each other. The document may contain a description of a product or service required or offered, a description of a problem to be solved with the help of others, an invitation to social activities, or anything else users may think of. Some concrete use cases are described here. On the abstract level of description, the document can be said to represent an interest in or a need for some kind of interaction with others.
 
