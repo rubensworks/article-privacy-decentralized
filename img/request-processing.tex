@@ -1,0 +1,141 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+
+
+
+% Page setup
+\usepackage[a4paper,margin=2cm,paperwidth=35cm,paperheight=15cm]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+% Typography
+\usepackage[scaled]{helvet}
+\let\familydefault\sfdefault
+
+\usepackage[usenames,svgnames]{xcolor}
+
+
+\usepackage{tikz,pgfplots}
+\usetikzlibrary{positioning,arrows,intersections,fit,calc}
+\usetikzlibrary{arrows,shapes,positioning,shadows,trees,backgrounds,calc,patterns,decorations.markings,cd}
+% We need layers to draw the block diagram
+\pgfdeclarelayer{background}
+\pgfdeclarelayer{foreground}
+\pgfsetlayers{background,main,foreground}
+
+
+\makeatletter
+\pgfkeys{%
+  /tikz/on layer/.code={
+    \pgfonlayer{#1}\begingroup
+    \aftergroup\endpgfonlayer
+    \aftergroup\endgroup
+  },
+  /tikz/node on layer/.code={
+    \gdef\node@@on@layer{%
+      \setbox\tikz@tempbox=\hbox\bgroup\pgfonlayer{#1}\unhbox\tikz@tempbox\endpgfonlayer\egroup}
+    \aftergroup\node@on@layer
+  },
+  /tikz/end node on layer/.code={
+    \endpgfonlayer\endgroup\endgroup
+  }
+}
+
+\def\node@on@layer{\aftergroup\node@@on@layer}
+\makeatother
+
+
+\makeatletter
+\newcommand{\gettikzxy}[3]{%
+  \tikz@scan@one@point\pgfutil@firstofone#1\relax
+  \edef#2{\the\pgf@x}%
+  \edef#3{\the\pgf@y}%
+}
+\makeatother
+
+
+
+
+\definecolor{colorwhite}    {RGB}{255,255,255}
+\definecolor{colorgray}     {RGB}{150,150,150}
+\definecolor{colorpod}      {RGB}{199,212,104}
+\definecolor{colorfile}     {RGB}{ 79,142,209}
+\definecolor{colorsummary}  {RGB}{143,232,186}
+\definecolor{colortext}     {RGB}{ 29, 29, 27}
+\definecolor{colorkey}      {RGB}{129, 29, 27}
+\definecolor{colorclient}   {RGB}{190, 22, 34}
+\definecolor{colorrepeat}   {RGB}{255,240,240}
+\definecolor{colorwhite}    {RGB}{255,255,255}
+
+
+\usepackage{listings}
+\lstset{%
+  frame            = tb,    % draw frame at top and bottom of code block
+  tabsize          = 1,     % tab space width
+  numbers          = left,  % display line numbers on the left
+  framesep         = 3pt,   % expand outward
+  framerule        = 0.4pt, % expand outward
+  commentstyle     = \color{Green},      % comment color
+  keywordstyle     = \color{blue},       % keyword color
+  stringstyle      = \color{DarkRed},    % string color
+  backgroundcolor  = \color{WhiteSmoke}, % backgroundcolor color
+  showstringspaces = false,              % do not mark spaces in strings
+}
+
+
+\begin{document}
+\pagestyle{empty}
+
+
+\begin{tikzpicture}[
+    node distance = 20em, auto, thick,transform canvas={scale=1},
+    title/.style={text=colortext,font={\Large\itshape}},
+    titlewhite/.style={text=colorwhite,font={\Large\itshape}},
+    to/.style={->,>=stealth',shorten >=1pt,semithick,font=\sffamily\footnotesize},
+    person/.style={text=colorwhite,font={\Large\bfseries}},
+    code/.style={text=colortext,font={}},
+    key/.style={text=colorkey,font={\tiny\itshape}}
+  ]
+  % \begin{scope}[transform shape]
+  \coordinate (center) at (0,0);
+  \coordinate (center_client) at (4,3);
+  \coordinate (center_client2) at (4,4);
+
+  % \node[title,text width=10em] at (center) {0,0};
+  % \node[title,text width=10em] at (center_client) {4,3};
+
+  % \path[every node/.style={font=\sffamily\small}, ->]
+  % 	(1) edge node [pos=0.4, fill=yellow!20] {o$_1$:hasID} (1a)
+  % 	(1) edge node [yshift=0.05cm,fill=yellow!20] {o$_1$:cables} (2)
+  % 	(2) edge node [xshift=0.5cm,fill=yellow!20] {o$_1$:bandwidth} (3)
+  % 	(4) edge node [xshift=0.8cm, fill=yellow!20] {} (2)
+  % 	(5) edge node [xshift=-0.8cm,yshift=-0.1cm, fill=yellow!20] {rdfs:subClassOf} (2);
+
+
+  \node[draw,fill=colorclient,circle,text centered, minimum height=1em] (client) at (center_client)  [titlewhite,align=center, text width=4em] {Client};
+  \node[draw,fill=colorpod,rectangle,below of = client, minimum height=20em, minimum width=25em] (POD) {};
+  \node[below right, text depth=20mm,text height=5mm,,title,text width=10em] at (POD.north west){} ++(1.75,-0.75) node[title,text width=10em] {Pod Alice};
+  \node[draw,dashed,fill=colorrepeat,fill opacity=0.5, text opacity=1,below=4em of POD.north, minimum height=2cm, minimum width=20em] (ACP) {};
+  \node[below right=0.5em and 0em, text depth=20mm,text height=3mm,title,text width=20em] at (ACP.north west){Access Control Policies $P$};
+
+  \node[draw,fill=colorfile,fill opacity=0.5, text opacity=1,below left=3em and -9em of ACP, minimum height=5em, minimum width=9em] (f1) {};
+  \node[below right, text depth=20mm,text height=5mm,title,text width=10em] at (f1.north west){File 1};
+  \node[draw,fill=colorfile, text opacity=1,below right=3em and -9em of ACP, minimum height=5em, minimum width=9em] (f2) {};
+  \node[below right, text depth=20mm,text height=5mm,title,text width=9em] at (f2.north west){File 2};
+
+
+  \draw[->,thick, dashed] (client) -- node[pos=0.4,above, xshift=-20, align=center] {request \\ $(i,a,q)$} (ACP.north);
+  \draw[->,thick,colorclient] (ACP.south) -- node[ fill=colorpod, anchor=center, pos=0.5,font={\Large\bfseries\itshape}] {$\times$} (f1.north);
+  \draw[->,thick] (ACP.south) -- node[pos=0.7,above,font={\Large\bfseries\itshape}] {$\checkmark$} (f2.north);
+
+  \draw[->,thick] (f2.east) -- +(1.5,0) -| +(1.5,0) |- node[pos=0.8,above] {Results} (client.east);
+
+
+  % Arrows between executor and files
+  % \draw[<->,thick,dashed] (2,0.5) -- node[left]{execute $q$} (1,-4);
+  % \draw[->,thick] (2,0.5) -- node[left]{execute $q$} (1,-4);
+
+  % \draw[<->,thick,dashed] (2,0.5) -- node[left]{execute $q$} (12,-4);
+  % \draw[<->,thick,dashed] (2,0.5) -- node[right]{execute $q$} (16.5,-4);
+  % \end{scope}
+\end{tikzpicture}
+\end{document}

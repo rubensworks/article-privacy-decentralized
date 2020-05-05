@@ -1,0 +1,18 @@
+FUNCTION ProcessRequest(i, q, QPK)
+  INPUT:
+    client identification i
+    quad pattern query q
+    QPK a hashmap relating quads to policies and keys
+  OUTPUT:
+    query results R
+R = {}
+// TODO add abstractions
+IF i not verified
+  RETURN {}
+FOREACH p in GetPolicies(QPK, i, q)
+  IF p.type = prohibition & cr = prohibition_overrides
+    break
+  ELSE
+    R = ExecuteQueryWithAccessControl(i, q, p)
+    break
+RETURN R
