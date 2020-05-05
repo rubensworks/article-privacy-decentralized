@@ -1,189 +1,7 @@
 ## Background and Related Work
 {:#background}
 
-Before describing our motivating scenario and introducing our privacy-preserving federation framework, we first present the necessary background information in relation to the Solid platform, federated query processing, approximate membership functions, authentication and access control.
-
-{::options parse_block_html="true" /}
-
-<div class="bs-callout bs-callout-info">
-By browsing through solid github issues (e.g., [solid/authorization-and-access-control-panel#53](https://github.com/solid/authorization-and-access-control-panel/issues/53) [solid/authorization-and-access-control-panel#67](https://github.com/solid/authorization-and-access-control-panel/issues/67?)) and respective  solid ac/auth panel's meeting minutes ([20.04.20](https://github.com/solid/authentication-panel/blob/master/meetings/2019-04-20.md#user-focused-client-constraining-access-control) and [27.04.20](https://github.com/solid/authentication-panel/blob/master/meetings/2019-04-20.md#user-focused-client-constraining-access-control)) I stumbled over a discussion about **User-Focused Client Constraining Access Control** which then led me to
-some stuff that sounds kinda related to what we propose, especially the CfA Request/Accept Policies look quite interesting! what do you think?
-
-  <strong>1. Peer Relationship Management</strong>\\
-  [https://hackmd.io/Yb8qBdIoQROeF32TCa0zTg?view](https://hackmd.io/Yb8qBdIoQROeF32TCa0zTg?view)
-<details>
-
-PRM reconciles well known [Customer Relationship Management (CRM)](https://en.wikipedia.org/wiki/Customer_relationship_management) with less known [Vendor Relationship Management (VRM)](https://en.wikipedia.org/wiki/Vendor_relationship_management). In supply chains scenarios, many coops take on customer role in relationship with some coops and vendor role in relationship with others. Peer relationship management attempts to provide all the coops with a way to manage their relationship with other coops no matter which roles they play in any given relationship. In some cases each of two coops can play both roles in their relationship.
-
-In scenario below we will use [Conversation for Action (CfA)](http://conversationsforaction.com/) flow for interactions between coops. In CfA coop playing role of _vendor_ is commonly refered to as **performer**.
-
-![](https://i.imgur.com/Urq3oBB.png)
-
-On the diagram we can focus on 3 Coops with 2 distinct relationship between them:
-
-- Yoydyne (vendor) -> ACME (customer)
-- ACME (vendor & customer) <-> Sirius (customer & vendor)
-
-Each of those 3 Coops at the same time have number of other relationships with various other coops.
-
-In each of those relationships we can have any number of Confersations for Action happening at any given moment. One simplest CfA would consist of those 4 steps:
-
-- ACME -> Yoyodyne request: 1L glass jars
-- Yoyodyne -> ACME accept: 1L glass jars
-- Yoyodyne -> ACME done: 1L glass jars
-- ACME -> Yoyodyne approve: 1L glass jars
-
-More complex conversations may involve any number of additional steps like: _revise_, _counter_, _revoke_, _request re-do_ etc. On the other hand some conversations may end on second step with _decline_ from vendor/performer or _cancel_ from customer.
-
-Many people can work working in each of those coops. At the same time each person person can work for any number of coops.
-
-## Data requirements
-
-- Each coop has one or more instances of Solid Storage.
-- Each coop publishes all CfA artifacts they create to their storage.
-  - They give read access rights to the other coop which artifact is addressed to. They give those access rights directly to the coop identity.
-  - They notify that coop about new artifact that they now has access to.
-- Each coop keeps in their storage a copy of all the CfA artifacts created by other coops, which they have read access to in all those other coop's storages. Whenever they receive notification an automated service create those copies on behalf of the coop.
-- Each coop manages independently data access for each of the workers. No worker directly accesses data in storage of other coops. They only can access copies in the storage of coop which they work for.
-- Each worker can use PRM applications of their choice running on their personal devices. One person can work for more than one coop and they shouldn't need to switch applications whenever they do PRM related work for a different coop.
-- When when worker relationship betwen person and coop ends. That coop can independently remove that person's access to any data (reminder: agents never authorize workers to access any data in storages of other coops)
-
-### Example
-
-Continuing on example where ACME requests _1L glass jars_ from Yoyodyne.
-
-> _NOTE:_ Code snippets use [TriG](https://www.w3.org/TR/trig/) syntax only to ephasize where LDP RDF Source is stored. Snippets also omit details not relevant to where data gets stored.
-
-#### ACME -> Yoyodyne request: 1L glass jars
-
-ACME creates request and publishes it to their storage:
-
-~~~ turtle
-@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
-@prefix cfa: <https://cfa.example/ns#> .
-
-GRAPH <https://acme.example/6800yrn/tv00vyj>
-{
-<https://acme.example/6800yrn/tv00vyj#it>
-  a cfa:Request ;
-  cfa:inConversation <urn:uuid:e1dc2594-b219-46e5-a850-8dc2db1885f4> ;
-  cfa:customer <https://acme.example/#coop> ;
-  cfa:performer <https://yoyodyne.example/#coop> ;
-  rdf:label "request 1L glass jars" .
-}
-
-~~~
-
-ACME sends Linked Data Notification to Yoyodyne
-
-~~~ turtle
-# TODO
-~~~
-
-Yoyodyne's automated system creates copy of that request in yoyodyne's storage.
-
-> _NOTE:_ That copy will be created in predetermined location for CfA artifacts between Yoyodyne and ACME `https://yoyodyne.example/5f00ken/`, this way workers managing this relationship will have access to that copy.
-
-~~~ turtle
-@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
-@prefix cfa: <https://cfa.example/ns#> .
-
-GRAPH <https://yoyodyne.example/5f00ken/nb00ah3>
-{
-<https://acme.example/6800yrn/tv00vyj#it>
-  a cfa:Request ;
-  cfa:inConversation <urn:uuid:e1dc2594-b219-46e5-a850-8dc2db1885f4> ;
-  cfa:customer <https://acme.example/#coop> ;
-  cfa:performer <https://yoyodyne.example/#coop> ;
-  rdf:label "request 1L glass jars" .
-}
-
-~~~
-
-#### Yoyodyne -> ACME accept: 1L glass jars
-
-~~~ turtle
-@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
-@prefix cfa: <https://cfa.example/ns#> .
-
-GRAPH <https://yoyodyne.example/5f00ken/4j00v5c>
-{
-  <https://yoyodyne.example/5f00ken/4j00v5c#it>
-    a cfa:Accept ;
-    cfa:inConversation <urn:uuid:e1dc2594-b219-46e5-a850-8dc2db1885f4> ;
-    cfa:customer <https://acme.example/#coop> ;
-    cfa:performer <https://yoyodyne.example/#coop> ;
-    rdf:label "request 1L glass jars" .
-}
-
-~~~
-
-Yoyodyne sends Linked Data Notification to ACME
-
-~~~ turtle
-# TODO
-~~~
-
-ACME's automated system creates copy of that acceptance in ACME's storage.
-
-> _NOTE:_ Similar to previous step, ACME stores CfA artifacts between them and Yoyodyne in `https://acme.example/6800yrn/`. This way ACME workers manging its relationship with Yoyodne can access all relevant CfA artifacts.
-
-~~~ turtle
-@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
-@prefix cfa: <https://cfa.example/ns#> .
-
-GRAPH <https://acme.example/6800yrn/83009ft>
-{
-  <https://yoyodyne.example/5f00ken/4j00v5c#it>
-    a cfa:Accept ;
-    cfa:inConversation <urn:uuid:e1dc2594-b219-46e5-a850-8dc2db1885f4> ;
-    cfa:customer <https://acme.example/#coop> ;
-    cfa:performer <https://yoyodyne.example/#coop> ;
-    rdf:label "request 1L glass jars" .
-}
-
-~~~
-
-</details>
-
-----
-
-<strong>2. Conversation for Action (CfA)</strong>\\
-[http://conversationsforaction.com/](http://conversationsforaction.com/)
-
-<details>
-
-![](http://conversationsforaction.com/sites/default/files/loop.jpg){:height="100%" width="100%"}
-
-Each individual workflow is a structure of commitments that constitutes a transaction between two constituencies-- a customer and a performer -- to accomplish a purpose. This purpose will often change and be re-articulated as the two parties work together, develop new insights/learning, and become clearer about what is possible and what is needed.
-
-The structure of commitments of any process within a company can be observed and designed as a collection of interconnected workflows. I called these structures commitment processes to distinguish them from more traditional interpretations of business processes as flows of information, materials and tasks. A commitment process is a network of individual workflows configured to fulfill one of the recurrent commitments or ongoing objectives of an enterprise, such as developing and marketing new offers, delivering offers to customers, or conducting other general operations of the business.
-</details>
-
-----
-
-
-<strong>3. Web of Needs</strong>\\
-[https://github.com/researchstudio-sat/webofneeds](https://github.com/researchstudio-sat/webofneeds)
-
-<details>
-
-![interaction-diagram](http://researchstudio-sat.github.io/webofneeds/images/interaction-diagram-book.png){:height="100%" width="100%"}
-
-The Web of Needs is a decentralized infrastructure that allows people to publish documents on the Web which make it possible to contact each other. The document may contain a description of a product or service required or offered, a description of a problem to be solved with the help of others, an invitation to social activities, or anything else users may think of. Some concrete use cases are described here. On the abstract level of description, the document can be said to represent an interest in or a need for some kind of interaction with others.
-
-As this document or entity is the central and indivisible building block of the system, we refer to it as an atom. Each atom has a globally unique identifier and an owner, i.e., a person or other entity that creates and controls it. When atom owners want to communicate with each other, a connection object is created for each atom involved.
-
-Web of Needs is built out of three main components. Owner applications enable users to create and manage their atom objects. They can be any type of UI application like web applications or mobile apps for example. Owner applications publish atoms as RDF documents to won nodes on the Web. When atoms are published on the Web, independent matching services can crawl them (or subscribe for atom updates at won nodes) and look for suitable matches. A protocol is in place to inform the won nodes and atom owners of possible matches using hint messages. Based on this process atom owners can initiate connections to other atoms and start communication and other transactions.
-
-Anyone can run any of these components. They can all talk to each other.
-</details>
-
-----
-
-</div>
-
-{::options parse_block_html="false" /}
+Before describing our motivating scenario and introducing our privacy-preserving federation framework, we first present the necessary background information in relation to the Solid platform, federated query processing, approximate membership functions, authentication and authorisation.
 
 <!-- the W3C Shapes Constraint Language (SHACL). -->
 
@@ -201,7 +19,7 @@ Solid data pods are assumed to implement the LDP specification to allow read-wri
 Solid also allows non-RDF data, such as plain text or images, to be stored in data pods,
 but these can only be managed through the usual HTTP methods such as GET and PUT.
 The LDN specification, which defines how messages can be sent between two agents as Linked Data, is used to enable pods to communicate with each other.
-Finally using WebID, everyone has a personal online identifier which they can use to _authenticate_ against a data pod, while WAC, is used to specify if they are _authorized_ to read, write, append, or control RDF files.
+Finally using WebID, everyone has a personal online identifier which they can use to _authenticate_ against a data pod, while WAC, is used to specify if they are _authorised_ to read, write, append, or control RDF files.
 
 <!-- Make a simple overview figure of the specs in Solid and how they work together?
 {:.todo} -->
@@ -256,10 +74,9 @@ Authentication is the process of verifying someone is who they say they are and/
 
 Given that WebID is the default authentication mechanism for Solid, in this paper we have elected to use it for the instantiation of the proposed federated querying with policies framework. However it is worth noting that both OpenIDConnect and SSI are both viable alternatives.
 
-### Authorisation and Access Control
+### Authorisation
 
-The term authorisation is used to refer to the access control rules that specify that a given subject has access to a given resource.
-
+Authorisations are access control rules that specify what subjects have access to specific resources.
 In this section we provide a brief overview of three different approaches that can be used to specify authorisation rules.
 
 [Web Access Control (WAC)](cite:cites spec:wac) is an RDF vocabulary and an access control framework, which demonstrates how together WebID and access control policies specified using the WAC vocabulary, can be used to enforce distributed access control. Essentially WAC authorisations grant agents, access to resources. Both [Villata et al.](cite:cites Villata2011) and [Sacco and Passant](cite:cites Sacco2011b) extend the WAC vocabulary to cater for context based access control policies and privacy preferences respectively.
@@ -268,7 +85,7 @@ Pattern-based Access Control is a flexible means to specify the triples that can
 
 Encryption-Based Access Control involves encrypting RDF fragments (i.e. subjects, predicates, objects, graphs or some combination thereof) with an encryption key, such that only those that have the key are permitted to access the data, thus serving as both an authentication and an authorisation mechanism. Existing proposals involve using [symmetric encryption](cite:cites kasten2013towards), [public-key encryption](cite:cites giereth2005partial), or [functional encryption](cite:cites fernandez2017self) to generate RDF ciphers.
 
-_if we remove the SHACL stuff, we don't really add anything to the body of work we've outlined 2 paragraphs earlier (e.g. [Kirrane et al.](cite:cites Kirrane2013)) right?_{:.sidenote}
+_if we remove the SHACL stuff, we don't really add anything to the body of work we've outlined 2 paragraphs earlier (e.g. [Kirrane et al.](cite:cites Kirrane2013)) right? remove this paragraph all together?_{:.sidenote}
 
 In this paper we discuss how pattern-based access control policies expressed in terms of sets of authorisations can provide support for expressive access control policies beyond the simple file-based access control currently used in Solid, and demonstrate how existing encryption mechanisms can be used to create privacy-preserving aggregation.
 {:.sidebar-comment}
