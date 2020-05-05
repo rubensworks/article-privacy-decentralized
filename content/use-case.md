@@ -39,24 +39,19 @@ where the members of each group can be configured for each pod:
 
 {::options parse_block_html="false" /} -->
 
-*kinda unsure which notation we should use and how to format this paragraph nicely<br/><br/>Bob: Alice a friend <br/>{Alice} $$\subseteq S_F\subseteq S_A\subseteq S_E$$
-<br/><br/>
-Carol: Alice an acquaintance <br/>Alice $$\in S_A$$*{:.sidenote}
-
-//TODO: FIX font stuff
+*still not happy about the formatting 😢 looks too thick.. any ideas on how to fix that? @ruben*{:.sidenote}
 
 [](#figure-use-case) shows a detailed overview of this use case.
 Alice uses the `/contacts` file in her pod to list everyone that she knows using their WebID,
 which point to the profiles of the respective people.
 The profiles of Bob and Carol both contain their name, email and telephone number,
 which are readable for select people.
-Bob is quite liberal, and allows everyone ($$S_E$$) to read both his name and email ($$\langle\{s\;\vert\;s \in S_E\}, read, \{o\;\vert\;o \in Profile_B \wedge o \subseteq \{\mathbin{:}name, \mathbin{:}email\}\}\rangle$$).
-His telephone number is however only readable for friends ($$\langle\{s\;\vert\;s \in S_F\}, read, \{o\;\vert\;o \in Profile_B \wedge o \subseteq\{\mathbin{:}telephone\}\}\rangle$$).
-Bob considers Alice a friend ({Alice} $$\subseteq S_F\subseteq S_A\subseteq S_E$$).
-Carol only allows her name to be read by the public ($$\langle\{s\;\vert\;s \in S_E\}, read, \{o\;\vert\;o \in Profile_C \wedge o \subseteq \{\mathbin{:}name\}\}\rangle$$),
-her email is only readable by acquaintances ($$\langle\{s\;\vert\;s \in S_A\}, read, \{o\;\vert\;o \in Profile_C \wedge o \subseteq \{\mathbin{:}email\}\}\rangle$$),
-and her telephone number by friends ($$\langle\{s\;\vert\;s \in S_F\}, read, \{o\;\vert\;o \in Profile_C \wedge o \subseteq \{\mathbin{:}telephone\}\}\rangle$$).
-Carol considers Alice an acquaintance (Alice $$\in S_A$$, Alice $$\notin S_F$$, Alice $$\in S_E$$).
+Bob is quite liberal, and allows everyone (`S`<sub>`E`</sub>) to read both his name and email (`r`<sub>`1`</sub>` = ⟨{s | s ∈ S`<sub>`E`</sub>`}, read, {q | q ∈ Profile`<sub>`B`</sub> `∧ q.predicate ∈ {:name,:email}}⟩`).
+His telephone number is however only readable for friends  (`r`<sub>`2`</sub>` = ⟨{s | s ∈ S`<sub>`F`</sub>`}, read, {q | q ∈ Profile`<sub>`B`</sub> `∧ q.predicate ∈ {:telephone}}⟩`).
+Bob considers Alice a friend (`<https://alice.pods.org/profile#me> ∈ S`<sub>`F`</sub>` ⊆ S`<sub>`A`</sub>` ⊆ S`<sub>`E`</sub>).
+Carol only allows her name to be read by the public (`r`<sub>`3`</sub>` = ⟨{s | s ∈ S`<sub>`E`</sub>`}, read, {q | q ∈ Profile`<sub>`C`</sub> `∧ q.predicate ∈ {:name}}⟩`), her email is only readable by acquaintances (`r`<sub>`4`</sub>` = ⟨{s | s ∈ S`<sub>`A`</sub>`}, read, {q | q ∈ Profile`<sub>`C`</sub> `∧ q.predicate ∈ {:email}}⟩`),
+and her telephone number by friends  (`r`<sub>`5`</sub>` = ⟨{s | s ∈ S`<sub>`F`</sub>`}, read, {q | q ∈ Profile`<sub>`C`</sub> `∧ q.predicate ∈ {:telephone}}⟩`).
+Carol considers Alice an acquaintance (`<https://alice.pods.org/profile#me> ∈ S`<sub>`A`</sub>` ⊆ S`<sub>`E`</sub>).
 {:.sidebar-comment}
 
 
