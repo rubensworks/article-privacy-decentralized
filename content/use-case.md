@@ -39,20 +39,53 @@ where the members of each group can be configured for each pod:
 
 {::options parse_block_html="false" /} -->
 
-*still not happy about the formatting 😢 looks too thick.. any ideas on how to fix that? @ruben*{:.sidenote}
+*still not happy about the formatting 😢  any ideas on how to fix that? @ruben*{:.sidenote}
 
 [](#figure-use-case) shows a detailed overview of this use case.
 Alice uses the `/contacts` file in her pod to list everyone that she knows using their WebID,
 which point to the profiles of the respective people.
 The profiles of Bob and Carol both contain their name, email and telephone number,
 which are readable for select people.
-Bob is quite liberal, and allows everyone (`S`<sub>`E`</sub>) to read both his name and email (`r`<sub>`1`</sub>` = ⟨{s | s ∈ S`<sub>`E`</sub>`}, read, {q | q ∈ Profile`<sub>`B`</sub> `∧ q.predicate ∈ {:name,:email}}⟩`).
-His telephone number is however only readable for friends  (`r`<sub>`2`</sub>` = ⟨{s | s ∈ S`<sub>`F`</sub>`}, read, {q | q ∈ Profile`<sub>`B`</sub> `∧ q.predicate ∈ {:telephone}}⟩`).
-Bob considers Alice a friend (`<https://alice.pods.org/profile#me> ∈ S`<sub>`F`</sub>` ⊆ S`<sub>`A`</sub>` ⊆ S`<sub>`E`</sub>).
-Carol only allows her name to be read by the public (`r`<sub>`3`</sub>` = ⟨{s | s ∈ S`<sub>`E`</sub>`}, read, {q | q ∈ Profile`<sub>`C`</sub> `∧ q.predicate ∈ {:name}}⟩`), her email is only readable by acquaintances (`r`<sub>`4`</sub>` = ⟨{s | s ∈ S`<sub>`A`</sub>`}, read, {q | q ∈ Profile`<sub>`C`</sub> `∧ q.predicate ∈ {:email}}⟩`),
-and her telephone number by friends  (`r`<sub>`5`</sub>` = ⟨{s | s ∈ S`<sub>`F`</sub>`}, read, {q | q ∈ Profile`<sub>`C`</sub> `∧ q.predicate ∈ {:telephone}}⟩`).
-Carol considers Alice an acquaintance (`<https://alice.pods.org/profile#me> ∈ S`<sub>`A`</sub>` ⊆ S`<sub>`E`</sub>).
 {:.sidebar-comment}
+
+
+Bob is quite liberal, and allows everyone (_S<sub>E</sub>_) to read both his name and email:
+
+<em>r<sub>1</sub> = ⟨{s | s ∈ S<sub>E</sub>}, read, {q | q ∈ Profile<sub>B</sub> ∧ q.predicate ∈ {:name,:email}}⟩</em>
+{: style="text-align: center"}
+
+His telephone number is however only readable for friends:
+
+<em>r<sub>2</sub> = ⟨{s | s ∈ S<sub>F</sub>}, read, {q | q ∈ Profile<sub>B</sub> ∧ q.predicate ∈ {:telephone}}⟩</em>
+{: style="text-align: center"}
+
+Bob considers Alice a friend:
+
+_`<https://alice.pods.org/profile#me>` ∈ S<sub>F</sub> ⊆ S<sub>A</sub> ⊆ S<sub>E</sub>_
+{: style="text-align: center"}
+
+Carol only allows her name to be read by the public:
+
+<em>r<sub>3</sub> = ⟨{ s | s ∈ S<sub>E</sub>}, read, {q | q ∈ Profile<sub>C</sub> ∧ q.predicate ∈ {:name}}⟩</em>
+{: style="text-align: center"}
+
+Her email is readable by acquaintances:
+
+<em>r<sub>4</sub> = ⟨{ s | s ∈ S<sub>A</sub>}, read, {q | q ∈ Profile<sub>C</sub> ∧ q.predicate ∈ {:email}}⟩</em>
+{: style="text-align: center"}
+
+And her telephone number by friends:
+
+<em>r<sub>5</sub> = ⟨{ s | s ∈ S<sub>F</sub> }, read, { q | q ∈ Profile<sub>C</sub> ∧ q.predicate ∈ {:telephone}}⟩</em>
+{: style="text-align: center"}
+
+Carol considers Alice an acquaintance:
+
+_`<https://alice.pods.org/profile#me>` ∈ S<sub>A</sub> ⊆ S<sub>E</sub>_
+{: style="text-align: center"}
+
+
+
 
 
 *- update rules <br/><br/>- Alice's Address Book, as well as Bob's and Carol's respective profiles are considered being "Files" in our terminology, right? if yes, why are they coloured differently and why do profiles have the same color as summaries? imo, we should use colors of core components like summaries/pods/.. for the respective components only. <br/><br/>- should we move the rules from below the profile to above of it, surrounded by an `Access Policy` block like in [](#figure-request-processing)?*{:.sidenote}
