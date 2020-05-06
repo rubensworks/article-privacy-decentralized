@@ -59,7 +59,7 @@
 \definecolor{colorgray}     {RGB}{150,150,150}
 \definecolor{colorpod}      {RGB}{199,212,104}
 \definecolor{colorfile}     {RGB}{ 79,142,209}
-\definecolor{colorsummary}  {RGB}{143,232,186}
+
 \definecolor{colortext}     {RGB}{ 29, 29, 27}
 \definecolor{colorkey}      {RGB}{129, 29, 27}
 \definecolor{colorclient}   {RGB}{190, 22, 34}
@@ -114,16 +114,16 @@
   \node[draw,fill=colorclient,circle,text centered, minimum height=1em] (client) at (center_client)  [titlewhite,align=center, text width=4em] {Client};
   \node[draw,fill=colorpod,rectangle,below of = client, minimum height=20em, minimum width=25em] (POD) {};
   \node[below right, text depth=20mm,text height=5mm,,title,text width=10em] at (POD.north west){} ++(1.75,-0.75) node[title,text width=10em] {Pod Alice};
-  \node[draw,dashed,fill=colorrepeat,fill opacity=0.5, text opacity=1,below=4em of POD.north, minimum height=2cm, minimum width=20em] (ACP) {};
-  \node[below right=0.5em and 0em, text depth=20mm,text height=3mm,title,text width=20em] at (ACP.north west){Access Control Policies $P$};
+  \node[draw,dashed,fill=colorrepeat,fill opacity=0.5, text opacity=1,below=4em of POD.north, minimum height=2cm, minimum width=21em] (ACP) {};
+  \node[below right=0.5em and 0em, text depth=20mm,text height=3mm,title,text width=20em] at (ACP.north west){Access Control Policies {\footnotesize $QPK(q).p$}};
 
-  \node[draw,fill=colorfile,fill opacity=0.5, text opacity=1,below left=3em and -9em of ACP, minimum height=5em, minimum width=9em] (f1) {};
+  \node[draw,fill=colorfile, text opacity=1,below left=3em and -9em of ACP, minimum height=5em, minimum width=9em] (f1) {};
   \node[below right, text depth=20mm,text height=5mm,title,text width=10em] at (f1.north west){File 1};
   \node[draw,fill=colorfile, text opacity=1,below right=3em and -9em of ACP, minimum height=5em, minimum width=9em] (f2) {};
   \node[below right, text depth=20mm,text height=5mm,title,text width=9em] at (f2.north west){File 2};
 
 
-  \draw[->,thick, dashed] (client) -- node[pos=0.4,above, xshift=-20, align=center] {request \\ $(i,a,q)$} (ACP.north);
+  \draw[->,thick, dashed] (client) -- node[pos=0.4,above, xshift=-20, align=center] {request \\ $(i,q)$} (ACP.north);
   \draw[->,thick,colorclient] (ACP.south) -- node[ fill=colorpod, anchor=center, pos=0.5,font={\Large\bfseries\itshape}] {$\times$} (f1.north);
   \draw[->,thick] (ACP.south) -- node[pos=0.7,above,font={\Large\bfseries\itshape}] {$\checkmark$} (f2.north);
 

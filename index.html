@@ -762,7 +762,7 @@ A policy <code>p ∈ P'</code> with <code>p = ⟨s, a, o⟩</code> is <em>applic
 </figure>
 
         <figure id="access-control-algorithm" class="listing">
-<pre><code>FUNCTION ProcessRequest(i, q, QPK)
+<pre><code>FUNCTION ExecuteQuery(i, q, QPK)
 </code><code>  INPUT:
 </code><code>    client identification i
 </code><code>    quad pattern query q
@@ -770,19 +770,17 @@ A policy <code>p ∈ P'</code> with <code>p = ⟨s, a, o⟩</code> is <em>applic
 </code><code>  OUTPUT:
 </code><code>    query results R
 </code><code>R = {}
-</code><code>// TODO add abstractions
 </code><code>IF i not verified
 </code><code>  RETURN {}
-</code><code>FOREACH p in GetPolicies(QPK, i, q)
-</code><code>  IF p.type = prohibition &amp; cr = prohibition_overrides
-</code><code>    break
-</code><code>  ELSE
-</code><code>    R = ExecuteQueryWithAccessControl(i, q, p)
-</code><code>    break
+</code><code>p = QPK(q).p
+</code><code>IF ! AllowedAccess(p, i, q)
+</code><code>  RETURN {}
+</code><code>ELSE
+</code><code>  R = ExecuteQueryWithAccessControl(i, q, p)
 </code><code>RETURN R
 </code></pre>
 <figcaption>
-            <p><span class="label">Listing 6:</span> An algorithm that takes the requesters credentials, the requested access right, a quad pattern, and a policy, and returns the query execution results. The algorithm is composed of an <code>AllowedAccess</code> function that checks if access is permitted, and an <code>ExecuteQueryWithAccessControl</code> function that executes a query and adds the result to the result list.</p>
+            <p><span class="label">Listing 6:</span> An algorithm that takes the requesters credentials, a quad pattern, and a policy, and returns the query execution results. The algorithm is composed of an <code>AllowedAccess</code> function that checks if access is permitted, and an <code>ExecuteQueryWithAccessControl</code> function that executes a query and adds the result to the result list.</p>
           </figcaption>
 </figure>
 
