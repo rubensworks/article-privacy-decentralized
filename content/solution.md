@@ -12,7 +12,7 @@ We assume that pod owners need to be able to specify access control policies tha
 
 - **No data leaking**: Access restricted data must not be available to those who are not authorised to access it.
 
-*in [](#figure-use-case) we say **"All triples in each profile are annotated with a role for users that can read that triple."** -> would we still need 3 separate files for differentiating between access rights in that case?*{:.sidenote}
+*do we need this here? imo we should either (i) remove this part in favour of the stuff we discussed in the uc section [](#figure-use-case) or (ii) move the detailed authorisation rules from the uc section to this one*{:.sidenote}
 
 From a policy specification perspective, our pod owners (Alice, Bob, and Carol) could create three separate files that are used to distinguish between data that is accessible by: _everyone_, _acquaintances_, and _friends_. In such a scenario, authorisations could abstractly be represented as lists of _roles_, _access rights_, and _pods_, such that:
 {:.sidebar-comment}
@@ -23,7 +23,7 @@ From a policy specification perspective, our pod owners (Alice, Bob, and Carol) 
 
 - Authorisation Rule _R3<sub>C</sub>_, which states that friends have read access to the telephone number property, is represented as `<friends, read access, friends file>`, where the telephone number is stored in the friends file.
 
-More formally, we consider
+<!-- More formally, we consider
 
 <figure id="def-authorisation" class="definition"  markdown="1">
 <figcaption markdown="block">
@@ -37,13 +37,11 @@ An **Authorisation** $$r \in R$$ is represented as a tuple $$r = \langle s, a, o
 Access Policy
 </figcaption>
 An **Access Policy** $$P$$ is represented as a set of authorisations $$P \subseteq R$$
-</figure>
+</figure> -->
 
+<!-- {::options parse_block_html="true" /} -->
 
-
-{::options parse_block_html="true" /}
-
-<div class="bs-callout bs-callout-info">
+<!-- <div class="bs-callout bs-callout-info">
   <strong>Representation </strong>
 
 Should we follow a similar representation as in [](#use-case)? e.g.:
@@ -64,7 +62,7 @@ would provide access to more information than intended (only read access to tele
 
 </div>
 
-{::options parse_block_html="false" /}
+{::options parse_block_html="false" /} -->
 
 <!-- - Rule _R1<sub>C</sub>_, a _permission_ which states that everyone has read access to the name property, is represented as `<everyone, read access, everyone file>`, where name is stored in the everyone file.
 
@@ -75,7 +73,11 @@ would provide access to more information than intended (only read access to tele
 
 In order to support privacy-preserving summaries, there is a need to generate access keys for both the acquaintances and the friends files, such that the summary generation process does not work with plain text attributes but rather cipher text. Given that data in the everyone file is public by default, no key is needed.
 
+oooh.. do we actually mean 1:1 mapping between keys and policies, thus 1:n mapping between keys and authorisations? i.e., each file as a key, a policy, and n authorisations all ∈ the file's policy?
+{:.sidenote}
+
 In this paper we propose that there is a one-to-one mapping between protected (i.e. non public files) and access keys that are used to create data summaries. Our initial proposal makes use of simple symmetric keys, however for more complex scenarios both attribute-based encryption and/or key derivation algorithms could be use to provide support for more complex access policies.
+{:.sidebar-comment}
 
 When to comes to policy management, there is a need to ensure that (i) access keys are tightly bound to access policies, and (ii) said keys are distributed to authorised individuals (i.e. acquaintances and friends). In order to revoke access to a particular individual one would need to regenerate the keys and redistribute them to authorised individuals.
 
