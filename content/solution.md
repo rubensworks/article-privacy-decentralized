@@ -226,11 +226,27 @@ Once the query engine has identified the data sources that could potentially con
 
 Web Identity and Discovery, is a mechanism used to uniquely identify and authenticate a person, company, organisation or other entity, by means of a URI. Essentially a WebID is a HTTP URI that should: (i) be under the control of the entity it describes; (ii) be linkable on the web; (iii) describe the entity is represents; (iv) enable authentication and access control; (v) respect the privacy of the entity it describes; (v) rely solely on HTTP and semantic Web technologies. A description of the agent is provided in an RDF document, known as a WebID profile, which can be dereferenced using 303 or Hash URIs. The WebID-TLS protocol (where TLS stands for Transport Layer Security) specifies how together the WebID profile and public key certificates, can be used to authenticate users. The user places their WebID profile document URI in the _Subject Alternative Names_ field of their certificate. Once the certificate has been generated the user adds the public key details to their WebID profile document. A service wishing to authenticate the user, needs to verify that the public key of the certificate it receives matches the public key specified in the WebID profile.
 
-#### Access Control Enforcement
+#### Authorization
 
+For access control purposes, we envision a mechanism that translates access policies (i.e. sets of authorisations) into constraints (e.g., Data shapes like [SHACL](cite:cites spec:shacl)) against which requests and respective query results can then be validated against.
 
-
-For enforcement purposes, we envision a mechanism that translates access policies (i.e. sets of authorisations) into constraints (e.g., Data shapes like [SHACL](cite:cites spec:shacl)) against which requests and respective query results are then validated against.
+~~~ turtle
+<http://alice.pod/policy:88>
+    a odrl:Policy ;
+    odrl:permission [
+        odrl:target [
+            a odrl:AssetCollection ;
+            odrl:source <http://alice.pod/share/photoAnnotations/> ;
+            odrl:refinement [
+                a sh:NodeShape ;
+                sh:pattern "public" ;
+                sh:flags   "i" .
+            ]
+        ]
+        odrl:action acl:Read;
+    ] .
+~~~
+allow read access to all _public_ URIs of `<http://alice.pod/share/photoAnnotations/>`
 
 <!-- <figure id="figure-request-processing">
 <img src="img/request-processing.svg" alt="[Shape-based access control]" style="width: 40%; display: block; margin: auto;"  class="figure-width-half">
