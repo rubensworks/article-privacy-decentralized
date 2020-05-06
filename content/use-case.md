@@ -88,7 +88,7 @@ _`<https://alice.pods.org/profile#me>` ∈ S<sub>A</sub> ⊆ S<sub>E</sub>_
 <figcaption markdown="block">
 Overview of the personalized address book use case where Alice, Bob and Carol each have separate data pods.
 Alice has an address book that contains links to the profiles of Bob and Carol.
-All triples in each profile are annotated with a role for users that can read that triple.
+All triples in each profile are annotated with the respective authorisation rule they are affected by.
 Full lines indicate data reading by people,
 and dashed lines indicate data links.
 </figcaption>

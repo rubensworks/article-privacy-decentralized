@@ -143,9 +143,8 @@ Since we are considering private data, these summaries need to be privacy-preser
 which means that only people with the appropriate access rights can determine the presence of data.
 The first step is to create a map of keys to quads based on existing access policies, using the algorithm outlined in [](#key-generation-algorithm). Here we assume that pod owners already have a set of access control policies that govern access to quads stored in theirs pods.
 
-_s/list/set/ ? or does order matter? it shouldn't as we go over each policy (and generate an access key?) for each q ∈ Q anyway.._{:.sidenote}
 
-<figure id="key-generation-algorithm" class="sidebar-comment listing">
+<figure id="key-generation-algorithm" class="listing">
 ````/code/key-generation-algorithm.txt````
 <figcaption markdown="block">
 Algorithm for generating keys for quads based on existing access policies, with `MapInitialize` for initializing a map between quads and keys, `GenerateKey` which generates a key for a quad based on a policy, and `AddKey` which adds a key to a map.
@@ -183,7 +182,7 @@ for the given key and file source URI.
 The `SummaryInitialize` and `SummaryAdd` functions that are used in the algorithm depend on the type of summary that is being used.
 A high-level example of this summarization algorithm can be seen in [](#figure-summary-components-privacy).
 
-*What's the signature of QPK? in an earlier version of the algorithm it was `QPK<q,item<p,k>> = MapInitialize()`, which wouldn't work for something like `FOREACH k in QPK(q)` right? If `QPK: Q -> P × K`, i.e. each quad maps to a tuple consisting of a policy p and key k, **then `QPK(q)` would actually return only one element -> the tuple `(p,k)`**.. right?*{:.sidenote}
+<!-- *What's the signature of QPK? in an earlier version of the algorithm it was `QPK<q,item<p,k>> = MapInitialize()`, which wouldn't work for something like `FOREACH k in QPK(q)` right? If `QPK: Q -> P × K`, i.e. each quad maps to a tuple consisting of a policy p and key k, **then `QPK(q)` would actually return only one element -> the tuple `(p,k)`**.. right?*{:.sidenote} -->
 
 <figure id="summarization-algorithm" class="listing">
 ````/code/summarization-algorithm.txt````
@@ -193,7 +192,7 @@ with `SummaryAdd` a summary-type-dependent function for adding a quad component,
 and `SummaryInitialize` a summary-type-dependent function for initializing a new summary.
 </figcaption>
 </figure>
-{:.sidebar-comment}
+
 
 <figure id="figure-summary-components-privacy">
 <img src="img/summary-components-privacy.svg" alt="[Privacy-preserving summarization of a file]" class="figure-width-twothird">
@@ -279,7 +278,6 @@ which can be used by the query engine to execute the quad pattern query over.
 In this algorithm, the `SummaryContains` also depends on the type of summary that is being used.
 [](#figure-query-execution) shows an example of how this source selection algorithm can be used in client-side query engines.
 
-*in [](#figure-query-execution) we use `q` to denote a single quad and `Q` for a query.. is `q` now a single quad or a quad pattern query?*{:.sidenote}
 
 <figure id="client-algorithm" class="listing">
 ````/code/client-algorithm.txt````
@@ -290,7 +288,6 @@ based on a given privacy-preserving summary.
 for a given key and source URI.
 </figcaption>
 </figure>
-{:.sidebar-comment}
 
 <figure id="figure-query-execution">
 <img src="img/query-execution.svg" alt="[Query execution over privacy-preserving summaries]">
