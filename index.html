@@ -1037,9 +1037,27 @@ or based on the current location of the user.</p>
 
         <p>Web Identity and Discovery, is a mechanism used to uniquely identify and authenticate a person, company, organisation or other entity, by means of a URI. Essentially a WebID is a HTTP URI that should: (i) be under the control of the entity it describes; (ii) be linkable on the web; (iii) describe the entity is represents; (iv) enable authentication and access control; (v) respect the privacy of the entity it describes; (v) rely solely on HTTP and semantic Web technologies. A description of the agent is provided in an RDF document, known as a WebID profile, which can be dereferenced using 303 or Hash URIs. The WebID-TLS protocol (where TLS stands for Transport Layer Security) specifies how together the WebID profile and public key certificates, can be used to authenticate users. The user places their WebID profile document URI in the <em>Subject Alternative Names</em> field of their certificate. Once the certificate has been generated the user adds the public key details to their WebID profile document. A service wishing to authenticate the user, needs to verify that the public key of the certificate it receives matches the public key specified in the WebID profile.</p>
 
-        <h4 id="access-control-enforcement">Access Control Enforcement</h4>
+        <h4 id="authorization">Authorization</h4>
 
-        <p>For enforcement purposes, we envision a mechanism that translates access policies (i.e. sets of authorisations) into constraints (e.g., Data shapes like <a property="schema:citation http://purl.org/spar/cito/cites" href="https://www.w3.org/TR/shacl/">SHACL</a> <span class="references">[<a href="#ref-36">36</a>]</span>) against which requests and respective query results are then validated against.</p>
+        <p>For access control purposes, we envision a mechanism that translates access policies (i.e. sets of authorisations) into constraints (e.g., Data shapes like <a property="schema:citation http://purl.org/spar/cito/cites" href="https://www.w3.org/TR/shacl/">SHACL</a> <span class="references">[<a href="#ref-36">36</a>]</span>) against which requests and respective query results can then be validated against.</p>
+
+        <div class="language-turtle highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="nl">&lt;http://alice.pod/policy:88&gt;</span><span class="w">
+    </span><span class="k">a</span><span class="w"> </span><span class="nn">odrl:</span><span class="n">Policy</span><span class="w"> </span><span class="p">;</span><span class="w">
+    </span><span class="nn">odrl:</span><span class="n">permission</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="nn">odrl:</span><span class="n">target</span><span class="w"> </span><span class="p">[</span><span class="w">
+            </span><span class="k">a</span><span class="w"> </span><span class="nn">odrl:</span><span class="n">AssetCollection</span><span class="w"> </span><span class="p">;</span><span class="w">
+            </span><span class="nn">odrl:</span><span class="n">source</span><span class="w"> </span><span class="nl">&lt;http://alice.pod/share/photoAnnotations/&gt;</span><span class="w"> </span><span class="p">;</span><span class="w">
+            </span><span class="nn">odrl:</span><span class="n">refinement</span><span class="w"> </span><span class="p">[</span><span class="w">
+                </span><span class="k">a</span><span class="w"> </span><span class="nn">sh:</span><span class="n">NodeShape</span><span class="w"> </span><span class="p">;</span><span class="w">
+                </span><span class="nn">sh:</span><span class="n">pattern</span><span class="w"> </span><span class="s">"public"</span><span class="w"> </span><span class="p">;</span><span class="w">
+                </span><span class="nn">sh:</span><span class="n">flags</span><span class="w">   </span><span class="s">"i"</span><span class="w"> </span><span class="p">.</span><span class="w">
+            </span><span class="p">]</span><span class="w">
+        </span><span class="p">]</span><span class="w">
+        </span><span class="nn">odrl:</span><span class="n">action</span><span class="w"> </span><span class="nn">acl:</span><span class="n">Read</span><span class="p">;</span><span class="w">
+    </span><span class="p">]</span><span class="w"> </span><span class="p">.</span><span class="w">
+</span></code></pre></div>        </div>
+        <p>allow read access to all <em>public</em> URIs of <code>&lt;http://alice.pod/share/photoAnnotations/&gt;</code></p>
 
         <!-- <figure id="figure-request-processing">
 <img src="img/request-processing.svg" alt="[Shape-based access control]" style="width: 40%; display: block; margin: auto;"  class="figure-width-half">
