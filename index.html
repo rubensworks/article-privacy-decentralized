@@ -257,35 +257,28 @@ which point to the profiles of the respective people.
 The profiles of Bob and Carol both contain their name, email and telephone number,
 which are readable for select people.</p>
 
-        <p>Bob is quite liberal, and allows everyone (<em>S<sub>E</sub></em>) to read both his name and email:</p>
-
+        <p id="r1">Bob is quite liberal, and allows everyone (<em>S<sub>E</sub></em>) to read both his name and email:</p>
         <p style="text-align: center"><em>r<sub>1</sub> = ⟨{s | s ∈ S<sub>E</sub>}, read, {q | q ∈ Profile<sub>B</sub> ∧ q.predicate ∈ {:name,:email}}⟩</em></p>
 
-        <p>His telephone number is however only readable for friends:</p>
-
+        <p id="r2">His telephone number is however only readable for friends:</p>
         <p style="text-align: center"><em>r<sub>2</sub> = ⟨{s | s ∈ S<sub>F</sub>}, read, {q | q ∈ Profile<sub>B</sub> ∧ q.predicate ∈ {:telephone}}⟩</em></p>
 
         <p>Bob considers Alice a friend:</p>
 
         <p style="text-align: center"><em><code>&lt;https://alice.pods.org/profile#me&gt;</code> ∈ S<sub>F</sub> ⊆ S<sub>A</sub> ⊆ S<sub>E</sub></em></p>
 
-        <p>Carol only allows her name to be read by the public:</p>
-
+        <p id="r3">Carol only allows her name to be read by the public:</p>
         <p style="text-align: center"><em>r<sub>3</sub> = ⟨{ s | s ∈ S<sub>E</sub>}, read, {q | q ∈ Profile<sub>C</sub> ∧ q.predicate ∈ {:name}}⟩</em></p>
 
-        <p>Her email is readable by acquaintances:</p>
-
+        <p id="r4">Her email is readable by acquaintances:</p>
         <p style="text-align: center"><em>r<sub>4</sub> = ⟨{ s | s ∈ S<sub>A</sub>}, read, {q | q ∈ Profile<sub>C</sub> ∧ q.predicate ∈ {:email}}⟩</em></p>
 
-        <p>And her telephone number by friends:</p>
-
+        <p id="r5">And her telephone number by friends:</p>
         <p style="text-align: center"><em>r<sub>5</sub> = ⟨{ s | s ∈ S<sub>F</sub> }, read, { q | q ∈ Profile<sub>C</sub> ∧ q.predicate ∈ {:telephone}}⟩</em></p>
 
         <p>Carol considers Alice an acquaintance:</p>
 
         <p style="text-align: center"><em><code>&lt;https://alice.pods.org/profile#me&gt;</code> ∈ S<sub>A</sub> ⊆ S<sub>E</sub></em></p>
-
-        <p><em class="sidenote">- update rules <br><br>- Alice’s Address Book, as well as Bob’s and Carol’s respective profiles are considered being “Files” in our terminology, right? if yes, why are they coloured differently and why do profiles have the same color as summaries? imo, we should use colors of core components like summaries/pods/.. for the respective components only. <br><br>- should we move the rules from below the profile to above of it, surrounded by an <code>Access Policy</code> block like in <a href="#figure-request-processing">Fig. 11</a>?</em></p>
 
         <figure id="figure-use-case" class="sidebar-comment">
 <img src="img/use-case.svg" alt="[Personal Address Book]" class="figure-width-twothird">
@@ -334,33 +327,31 @@ and dashed lines indicate data links.</p>
 
         <p>For this use case, we consider the following example queries:</p>
 
-        <p><em class="sidenote">replace justifications with references to Authorization Rules</em></p>
-
-        <ol class="sidebar-comment">
+        <ol>
           <li>
 <strong>Alice wants to send an email to everyone she knows.</strong>
 <br>
 Alice is able to read the email of both Bob and Carol.
-Because Bob’s email is readable for everyone (<em>Alice ∈ R1<sub>B</sub></em>),
-and Carol’s email is readable for acquaintances (<em>Alice ∈ R2<sub>C</sub></em>).</li>
+Because Bob’s email is readable for everyone (<a href="#r1">r1</a>),
+and Carol’s email is readable for acquaintances (<a href="#r4">r4</a>).</li>
           <li>
 <strong>Alice wants to call everyone she knows.</strong>
 <br>
 Alice is able to read the telephone number of Bob, but not Carol.
-Because Bob’s telephone number is readable for friends (<em>Alice ∈ R3<sub>B</sub></em>),
-but Carol’s telephone number is only readable for her friends (<em>Alice ∉ R2<sub>C</sub></em>).</li>
+Because Bob’s telephone number is readable for friends (<a href="#r2">r2</a>),
+but Carol’s telephone number is only readable for her friends (<a href="#r5">r5</a>).</li>
           <li>
 <strong>Dave wants to send an email to everyone Alice knows.</strong>
 <br>
 Dave is able to read the email of Bob, but not Carol.
-Because Bob’s email is readable for everyone (<em>Dave ∈ R1<sub>B</sub></em>),
-and Carol’s email is only readable for acquaintances (<em>Dave ∉ R2<sub>C</sub></em>).</li>
+Because Bob’s email is readable for everyone (<a href="#r1">r1</a>),
+and Carol’s email is only readable for acquaintances (<a href="#r4">r4</a>).</li>
           <li>
 <strong>Dave wants to call everyone Alice knows.</strong>
 <br>
 Dave is not able to read the telephone number of Bob or Carol.
-Because Bob’s telephone number is readable for friends (<em>Dave ∉ R3<sub>B</sub></em>),
-but Carol’s telephone number is only readable for her friends (<em>Dave ∉ R3<sub>C</sub></em>).</li>
+Because Bob’s telephone number is readable for friends (<a href="#r2">r2</a>),
+but Carol’s telephone number is only readable for her friends (<a href="#r5">r5</a>).</li>
         </ol>
 
         <p class="todo">SABRINA check use case and examples are aligned</p>
