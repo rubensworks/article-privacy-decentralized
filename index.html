@@ -285,7 +285,7 @@ which are readable for select people.</p>
 <figcaption>
             <p><span class="label">Fig. 1:</span> Overview of the personalized address book use case where Alice, Bob and Carol each have separate data pods.
 Alice has an address book that contains links to the profiles of Bob and Carol.
-All triples in each profile are annotated with a role for users that can read that triple.
+All triples in each profile are annotated with the respective authorisation rule they are affected by.
 Full lines indicate data reading by people,
 and dashed lines indicate data links.</p>
           </figcaption>
@@ -511,9 +511,7 @@ Since we are considering private data, these summaries need to be privacy-preser
 which means that only people with the appropriate access rights can determine the presence of data.
 The first step is to create a map of keys to quads based on existing access policies, using the algorithm outlined in <a href="#key-generation-algorithm">Listing 1</a>. Here we assume that pod owners already have a set of access control policies that govern access to quads stored in theirs pods.</p>
 
-        <p><em class="sidenote">s/list/set/ ? or does order matter? it shouldn’t as we go over each policy (and generate an access key?) for each q ∈ Q anyway..</em></p>
-
-        <figure id="key-generation-algorithm" class="sidebar-comment listing">
+        <figure id="key-generation-algorithm" class="listing">
 <pre><code>FUNCTION CreateAccessKeys(Q, P)
 </code><code>  INPUT:
 </code><code>    set of quads Q
@@ -560,9 +558,9 @@ for the given key and file source URI.
 The <code>SummaryInitialize</code> and <code>SummaryAdd</code> functions that are used in the algorithm depend on the type of summary that is being used.
 A high-level example of this summarization algorithm can be seen in <a href="#figure-summary-components-privacy">Fig. 5</a>.</p>
 
-        <p><em class="sidenote">What’s the signature of QPK? in an earlier version of the algorithm it was <code>QPK&lt;q,item&lt;p,k&gt;&gt; = MapInitialize()</code>, which wouldn’t work for something like <code>FOREACH k in QPK(q)</code> right? If <code>QPK: Q -&gt; P × K</code>, i.e. each quad maps to a tuple consisting of a policy p and key k, <strong>then <code>QPK(q)</code> would actually return only one element -&gt; the tuple <code>(p,k)</code></strong>.. right?</em></p>
+        <!-- *What's the signature of QPK? in an earlier version of the algorithm it was `QPK<q,item<p,k>> = MapInitialize()`, which wouldn't work for something like `FOREACH k in QPK(q)` right? If `QPK: Q -> P × K`, i.e. each quad maps to a tuple consisting of a policy p and key k, **then `QPK(q)` would actually return only one element -> the tuple `(p,k)`**.. right?*{:.sidenote} -->
 
-        <figure id="summarization-algorithm" class="listing sidebar-comment">
+        <figure id="summarization-algorithm" class="listing">
 <pre><code>FUNCTION CreatePrivacyPreservingSummary(Q, u, QPK)
 </code><code>  INPUT:
 </code><code>    set of quads Q
@@ -679,9 +677,7 @@ which can be used by the query engine to execute the quad pattern query over.
 In this algorithm, the <code>SummaryContains</code> also depends on the type of summary that is being used.
 <a href="#figure-query-execution">Fig. 7</a> shows an example of how this source selection algorithm can be used in client-side query engines.</p>
 
-        <p><em class="sidenote">in <a href="#figure-query-execution">Fig. 7</a> we use <code>q</code> to denote a single quad and <code>Q</code> for a query.. is <code>q</code> now a single quad or a quad pattern query?</em></p>
-
-        <figure id="client-algorithm" class="listing sidebar-comment">
+        <figure id="client-algorithm" class="listing">
 <pre><code>FUNCTION SelectSources(q, K, Σ, U)
 </code><code>  INPUT:
 </code><code>    quad pattern query q
