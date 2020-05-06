@@ -340,6 +340,6 @@ A policy `p ∈ P'` with `p = ⟨s, a, o⟩` is _applicable_ to a request `r ∈
 <figure id="access-control-algorithm" class="listing">
 ````/code/access-control-algorithm.txt````
 <figcaption markdown="block">
-An algorithm that takes the requesters credentials, the requested access right, a quad pattern, and a policy, and returns the query execution results. The algorithm is composed of an `AllowedAccess` function that checks if access is permitted, and an `ExecuteQueryWithAccessControl` function that executes a query and adds the result to the result list.
+An algorithm that takes the requesters credentials, a quad pattern, and a policy, and returns the query execution results. The algorithm is composed of an `AllowedAccess` function that checks if access is permitted, and an `ExecuteQueryWithAccessControl` function that executes a query and adds the result to the result list.
 </figcaption>
 </figure>
