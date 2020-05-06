@@ -756,8 +756,7 @@ We might even want to create two separate dedicated sections for this.</p>
         <figure id="figure-request-processing" class="figure">
 <img src="img/request-processing.svg" alt="[Shape-based access control]" style="width: 40%; display: block; margin: auto;" class="figure-width-half">
 <figcaption>
-            <p><span class="label">Fig. 11:</span> A server validates requests <code>r ∈ R</code> with <code>r = ⟨i, a, q⟩</code> consisting of the requester’s client identification <code>i</code>, the requested access mode <code>a</code>, and a quad pattern query <code>q</code>, against a set of <em>applicable</em> access control policies <code>P'⊆ P</code>.
-A policy <code>p ∈ P'</code> with <code>p = ⟨s, a, o⟩</code> is <em>applicable</em> to a request <code>r ∈ R</code> if the request conforms to the shape; policy <code>p</code> was specified against.</p>
+            <p><span class="label">Fig. 11:</span> A server validates requests <code>r ∈ R</code> with <code>r = ⟨i, q⟩</code> consisting of the requester’s client identification <code>i</code> and a quad pattern query <code>q</code> against a set of <em>applicable</em> access control policies <code>QPK(q).p</code></p>
           </figcaption>
 </figure>
 
@@ -804,7 +803,7 @@ A policy <code>p ∈ P'</code> with <code>p = ⟨s, a, o⟩</code> is <em>applic
 <strong>No data leaking</strong>: Access restricted data must not be available to those who are not authorised to access it.</li>
         </ul>
 
-        <p><em class="sidenote">in <a href="#figure-use-case">Fig. 1</a> we say <strong>“All triples in each profile are annotated with a role for users that can read that triple.”</strong> -&gt; would we still need 3 separate files for differentiating between access rights in that case?</em></p>
+        <p><em class="sidenote">do we need this here? imo we should either (i) remove this part in favour of the stuff we discussed in the uc section <a href="#figure-use-case">Fig. 1</a> or (ii) move the detailed authorisation rules from the uc section to this one</em></p>
 
         <p class="sidebar-comment">From a policy specification perspective, our pod owners (Alice, Bob, and Carol) could create three separate files that are used to distinguish between data that is accessible by: <em>everyone</em>, <em>acquaintances</em>, and <em>friends</em>. In such a scenario, authorisations could abstractly be represented as lists of <em>roles</em>, <em>access rights</em>, and <em>pods</em>, such that:</p>
 
@@ -820,47 +819,46 @@ A policy <code>p ∈ P'</code> with <code>p = ⟨s, a, o⟩</code> is <em>applic
           </li>
         </ul>
 
-        <p>More formally, we consider</p>
+        <!-- More formally, we consider
 
-        <figure id="def-authorisation" class="definition">
-          <figcaption>
-            <p><span class="label">Fig. 9:</span> Authorisation</p>
-          </figcaption>
-          <p>An <strong>Authorisation</strong> <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>r</mi><mo>∈</mo><mi>R</mi></mrow><annotation encoding="application/x-tex">r \in R</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.00773em;">R</span></span></span></span> is represented as a tuple <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>r</mi><mo>=</mo><mo stretchy="false">⟨</mo><mi>s</mi><mo separator="true">,</mo><mi>a</mi><mo separator="true">,</mo><mi>o</mi><mo stretchy="false">⟩</mo></mrow><annotation encoding="application/x-tex">r = \langle s, a, o\rangle</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">⟨</span><span class="mord mathdefault">s</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">a</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">o</span><span class="mclose">⟩</span></span></span></span>, where <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi></mrow><annotation encoding="application/x-tex">s</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">s</span></span></span></span> represents the subjects to whom the rule applies to, <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi></mrow><annotation encoding="application/x-tex">a</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">a</span></span></span></span> denotes the granted access right, and <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>o</mi></mrow><annotation encoding="application/x-tex">o</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">o</span></span></span></span> specifies the resources subjects <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi></mrow><annotation encoding="application/x-tex">s</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">s</span></span></span></span> can exercise access right <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi></mrow><annotation encoding="application/x-tex">a</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">a</span></span></span></span> over.</p>
-        </figure>
+<figure id="def-authorisation" class="definition"  markdown="1">
+<figcaption markdown="block">
+Authorisation
+</figcaption>
+An **Authorisation** $$r \in R$$ is represented as a tuple $$r = \langle s, a, o\rangle$$, where $$s$$ represents the subjects to whom the rule applies to, $$a$$ denotes the granted access right, and $$o$$ specifies the resources subjects $$s$$ can exercise access right $$a$$ over.
+</figure>
 
-        <figure id="def-policy" class="definition">
-          <figcaption>
-            <p><span class="label">Fig. 10:</span> Access Policy</p>
-          </figcaption>
-          <p>An <strong>Access Policy</strong> <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi></mrow><annotation encoding="application/x-tex">P</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.13889em;">P</span></span></span></span> is represented as a set of authorisations <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo>⊆</mo><mi>R</mi></mrow><annotation encoding="application/x-tex">P \subseteq R</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8193em;vertical-align:-0.13597em;"></span><span class="mord mathdefault" style="margin-right:0.13889em;">P</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">⊆</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.00773em;">R</span></span></span></span></p>
-        </figure>
+<figure id="def-policy" class="definition"  markdown="1">
+<figcaption markdown="block">
+Access Policy
+</figcaption>
+An **Access Policy** $$P$$ is represented as a set of authorisations $$P \subseteq R$$
+</figure> -->
 
-        <div class="bs-callout bs-callout-info">
-          <p><strong>Representation </strong></p>
+        <!-- {::options parse_block_html="true" /} -->
 
-          <p>Should we follow a similar representation as in <a href="#use-case">Section 3</a>? e.g.:</p>
+        <!-- <div class="bs-callout bs-callout-info">
+  <strong>Representation </strong>
 
-          <p>Rule <em>R1<sub>C</sub></em>, a <em>permission</em> which states that everyone has read access to the name property where name is stored in the everyone file, is represented as:</p>
+Should we follow a similar representation as in [](#use-case)? e.g.:
 
-          <ul>
-            <li>
-<code>r1 = ⟨{s | s ∈ Everyone}, read, {name}⟩</code><br>
-or maybe even</li>
-            <li>
-<code>r1 = ⟨{s | s ∈ Everyone}, read, {o | o ∈ File</code><sub><code>Everyone</code></sub><code>∧ o ⊆ name}⟩</code>
-</li>
-          </ul>
+Rule _R1<sub>C</sub>_, a _permission_ which states that everyone has read access to the name property where name is stored in the everyone file, is represented as:
 
-          <p>otherwise - unless the friends file already contains only those triples that can be read by <strong>all</strong> friends - a rule like:</p>
+- `r1 = ⟨{s | s ∈ Everyone}, read, {name}⟩`\\
+  or maybe even
+- `r1 = ⟨{s | s ∈ Everyone}, read, {o | o ∈ File`<sub>`Everyone`</sub>`∧ o ⊆ name}⟩`
 
-          <p style="padding-left:1em;">
-<em>friends have read access to the telephone number property, is represented as <code>&lt;friends, read access, friends file&gt;</code>, where the telephone number is stored in the friends file.</em>
+otherwise - unless the friends file already contains only those triples that can be read by **all** friends - a rule like:
+
+<p style="padding-left:1em;">
+_friends have read access to the telephone number property, is represented as `<friends, read access, friends file>`, where the telephone number is stored in the friends file._
 </p>
 
-          <p>would provide access to more information than intended (only read access to telephone number property should be provided, not read access to the entire friends file)</p>
+would provide access to more information than intended (only read access to telephone number property should be provided, not read access to the entire friends file)
 
-        </div>
+</div>
+
+{::options parse_block_html="false" /} -->
 
         <!-- - Rule _R1<sub>C</sub>_, a _permission_ which states that everyone has read access to the name property, is represented as `<everyone, read access, everyone file>`, where name is stored in the everyone file.
 
@@ -871,7 +869,9 @@ or maybe even</li>
 
         <p>In order to support privacy-preserving summaries, there is a need to generate access keys for both the acquaintances and the friends files, such that the summary generation process does not work with plain text attributes but rather cipher text. Given that data in the everyone file is public by default, no key is needed.</p>
 
-        <p>In this paper we propose that there is a one-to-one mapping between protected (i.e. non public files) and access keys that are used to create data summaries. Our initial proposal makes use of simple symmetric keys, however for more complex scenarios both attribute-based encryption and/or key derivation algorithms could be use to provide support for more complex access policies.</p>
+        <p class="sidenote">oooh.. do we actually mean 1:1 mapping between keys and policies, thus 1:n mapping between keys and authorisations? i.e., each file as a key, a policy, and n authorisations all ∈ the file’s policy?</p>
+
+        <p class="sidebar-comment">In this paper we propose that there is a one-to-one mapping between protected (i.e. non public files) and access keys that are used to create data summaries. Our initial proposal makes use of simple symmetric keys, however for more complex scenarios both attribute-based encryption and/or key derivation algorithms could be use to provide support for more complex access policies.</p>
 
         <p>When to comes to policy management, there is a need to ensure that (i) access keys are tightly bound to access policies, and (ii) said keys are distributed to authorised individuals (i.e. acquaintances and friends). In order to revoke access to a particular individual one would need to regenerate the keys and redistribute them to authorised individuals.</p>
 
