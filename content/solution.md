@@ -1,7 +1,7 @@
 ## Challenges and Opportunities
 {:#solution}
 
-When it comes to access policy specification, summarisation generation and maintenance, source selection, and access control enforcement, there are a number of open challenges and opportunities that need to be addressed.
+When it comes to access policy specification, summarisation generation and maintenance, source selection, and access control enforcement there are several open challenges and opportunities.
 
 ### Access Policy Specification
 
@@ -17,7 +17,7 @@ When to comes to policy management, there is a need to ensure that (i) access ke
 
 ### Summary Generation and Maintenance
 
-The technical requirements for enabling federated querying in an efficient manner through privacy-preserving aggregators are mainly driven by the summarisation technology. In this context symmetric keys are used to create privacy-preserving summaries that do not leak access restricted data. In the following, we discuss the role played by Bloom filters when it comes to constructing privacy-preserving data summaries. Subsequently, we highlight challenges related to parameter handling and source-aggregator communication.
+The technical requirements for enabling federated querying in an efficient manner through privacy-preserving aggregators are mainly driven by the summarisation technology. In this context symmetric keys are used to create privacy-preserving summaries that do not leak access restricted data.
 
 We consider Approximate Membership Functions (AMFs), such as Bloom filters, being
 one possible candidate for such summaries that meet the following requirements:
@@ -38,14 +38,13 @@ The main advantage of using AMFs such as Bloom filters is that all of the perfor
 
 #### Parameter Handling
 
-When using AMFs, it is important to take account that these have certain parameters,
-and that all operations must be known before any operation can be done with them.
+When using AMFs, it is important to consider that certain parameters need to be configured,
+and that all operations must be known before they can be operationalised.
 For example, for Bloom filters the parameters are the number of hashes and bits.
 These parameters and the number of entries all impact the false positive error rate.
-Concretely, these parameters have to be identical before AMFs can be combined within an aggregator,
-and they have to be known before a client can make use of them.
+Concretely, the parameters used to setup individual summaries need to be identical such that they can be combined by an aggregator.
 
-In a decentralised environment, it is however difficult to reach a consensus between all parties to use fixed parameters.
+In a decentralised environment, it is however difficult to reach a consensus between all parties with respect to fixed parameters.
 Furthermore, since the number of values within an AMF has an impact on the error rate,
 it is sometimes even required to use different parameters for different numbers of entries.
 As such, no single set of AMF parameters should be used.
@@ -63,7 +62,7 @@ For this, some kind of parameter negotiation may be required between the aggrega
 #### Maintenance of Summaries within Sources
 
 Since the creation of an AMF for a file can become expensive,
-sources need be intelligent on when these AMFs are created.
+sources may decide to adopt different maintenance strategies.
 Within this work, we discuss four approaches:
 
 1. **Eager AMF creation.**:
@@ -114,7 +113,7 @@ For instance, Bloom filters allow data to be appended, but not removed.
 #### Source-Aggregator Communication
 
 Different _push_ and _pull_ based techniques can be used to trigger aggregated summary creation.
-Push based techniques require the aggregators to _subscribe_ to the sources, after which the sources could _notify_ the aggregators upon any change, after which the aggregators could restart aggregated summary creation.
+Push based techniques require the aggregators to _subscribe_ to the sources, and the sources could _notify_ the aggregators upon any change, at which point the aggregators could restart the aggregated summary creation process.
 Pull based techniques require the aggregator to periodically poll the applicable sources,
 which could be done efficiently by sending `HEAD` requests and checking the last modification date of the files or summaries in the response headers.
 Once the aggregator detects a change in one of the sources, the aggregated summary creation could restart.
@@ -142,11 +141,9 @@ From a source selection perspective, we address the following core requirement:
 
 One open challenge will be to investigate how this file-based source selection method could be combined and enhanced
 by existing source selection methods for SPARQL endpoints, such as [Hibiscus](cite:cites hibiscus) and [Splendid](cite:cites splendid).
-Another open challenge is to determine the applicable aggregators within a client.
+Another open challenge is the automatic discovery of applicable aggregators by clients.
 For now, we assume that clients will have zero or more preconfigured links to certain aggregators,
-such as an aggregator for a person's family, or an employee's company.
-In future work, more elaborate aggregator discovery mechanisms should be investigated,
-where for example an aggregator is discovered based on the topic of a certain query,
+such as an aggregator for a person's family, or an employee's company. More elaborate aggregator discovery mechanisms should be investigated, where for example an aggregator is discovered based on the topic of a certain query,
 or based on the current location of the user.
 
 ### Query Execution
@@ -174,7 +171,7 @@ Web Identity and Discovery, is a mechanism used to uniquely identify and authent
 
 #### Authorisation
 
-For access control purposes, we envision a mechanism that translates access policies (i.e. sets of authorisations) into constraints (e.g., Data shapes like [SHACL](cite:cites spec:shacl)) against which requests and respective query results can then be validated against. The following policy could be used to allow read access to all _public_ URIs of `<http://alice.pod/share/photoAnnotations/>`
+For access control purposes, we envision a mechanism that translates access policies (i.e. sets of authorisations) into constraints (e.g., data shapes like [SHACL](cite:cites spec:shacl)) against which requests and respective query results can then be validated against. The following policy could be used to allow read access to all _public_ URIs of `<http://alice.pod/share/photoAnnotations/>`
 
 ~~~ turtle
 <http://alice.pod/policy:88>
@@ -192,3 +189,5 @@ For access control purposes, we envision a mechanism that translates access poli
         odrl:action acl:Read;
     ] .
 ~~~
+
+One of the key challenges relates to the management of access control policies and the associated access keys. Additionally, there is a need to investigate the overhead associated with increasingly granular access control policies (e.g., file based, pattern based, quad based).   

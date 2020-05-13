@@ -1,22 +1,23 @@
-## Privacy-Preserving Federation Framework
+## Efficient Privacy-Preserving Federated Querying
 {:#framework}
 
-The goal of the proposed privacy-preserving federation framework, which is depicted in [](#overall-architecture), is to provide a high level overview of the components needed to support privacy-preserving querying within decentralised environments.
+The goal of the proposed efficient privacy-preserving federated query execution framework, which is depicted in [](#overall-architecture), is to provide a high level overview of the components needed to support privacy-preserving querying within decentralised environments.
 
 <figure id="overall-architecture">
 <img src="img/overall-architecture.svg" alt="[Privacy-Preserving Federated Querying Architecture]" class="figure-width-twothird">
 <figcaption markdown="block">
-The proposed Privacy-Preserving Federation Framework is composed of four core entities, namely requesters, query engines, aggregators, and pods.
+The proposed efficient privacy-preserving federated query execution framework is composed of four core entities, namely requesters, query engines, aggregators, and pods.
 </figcaption>
 </figure>
 
-### A High Level Overview of the Proposed Framework
+### Using Data Summaries for Efficient Querying
 
-Based on our use case from [](#use-case), we assume that multiple data pods exist, each potentially containing multiple privacy-constrained files.
+Based on the use case scenario presented in [](#use-case), we assume that multiple data pods exist, each potentially containing multiple privacy-constrained files.
 If clients want to read the contents of these files,
 they have to authenticate themselves to the respective data pod servers. Depending on each file's access control policy, the client may be authorised to read the full file contents or parts of it.
+
 Since realistic decentralised environments could easily contain hundreds or thousands of files,
-it can become inefficient for the client to query each of them.
+it would be inefficient for the client to query each of them.
 For this reason, we make make use of the [_data summaries_](cite:cites summaries) concept
 in order to reduce the number of sources that need to be queried by the client.
 We assume that each data pod exposes a data summary for each separate file, which is subsequently aggregated by third-party aggregators, as depicted in [](#figure-privacy-federation-architecture). The figure provides an overview of a privacy-preserving federation with six access restricted sources and privacy-preserving summaries,
@@ -28,7 +29,6 @@ and a third-party aggregator that combines these summaries in a privacy-preservi
 High level overview of individual and combined data summaries.
 </figcaption>
 </figure>
-
 
 Since files may contain private data, these data summaries must be _privacy-preserving_,
 i.e., they must not allow access restricted data to be leaked to unauthorised individuals. In the proposed framework, access policies are represented as access keys and these keys are taken into account by the summary generation algorithm.
@@ -58,11 +58,13 @@ Although in our example we consider one aggregator, in practise multiple aggrega
 A client-side query engine can make use of the combined summary provided by the aggregator to perform source selection before query execution, i.e., reduce the number of sources to be queried. Thus the combined summaries serve to determine the pods that contain _relevant_ and _accessible_ data.
 Finally, the pods take care of the access control enforcement at query time, by taking into account permissions specified in terms of authorisation rules.
 
+### Technical Requirements
+
 The main technical requirements are derived from the fact that our architecture needs to support efficient privacy-preserving query execution over personal data that is distributed across many sources.
 
-1. **No data leaking.**:
+1. **No data leaking.**
    Access restricted data must not be available to those who are not authorised to access it.
-2. **Privacy-preserving summary creation.**:
+2. **Privacy-preserving summary creation.**
    It must be possible to add values to summaries by access key and file URI.
 3. **Summary combinations.**
    It must be possible to combine two summaries,
@@ -75,7 +77,7 @@ The main technical requirements are derived from the fact that our architecture 
 
 ### Core Functions of the Framework
 
-The proposed privacy-preserving federation framework is composed of a set of abstract algorithms that are needed in order to realise the proposed privacy-preserving federation framework. The abstract nature of the framework is reflective of the fact that each algorithm could be implemented in a variety of ways.
+The proposed framework is composed of a set of abstract algorithms that are needed in order to realise the proposed privacy-preserving federation framework. The abstract nature of the framework is reflective of the fact that each algorithm could be implemented in a variety of ways.
 
 #### Access Key Creation Algorithm
 

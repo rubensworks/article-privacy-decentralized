@@ -34,7 +34,7 @@ and maintain [_data summaries_](cite:cites summaries,summaries_heritage), could 
 Query engines could use these summaries as an index structure that enables them to identify the sources that are needed to answer specific queries,
 which reduces the range of sources that need to be queried.
 
-In the context of this work, we extend existing query optimisation approaches by introducing an framework for privacy-preserving aggregation.
+In the context of this work, we extend existing query optimisation approaches by introducing an framework for efficient privacy-preserving federated query execution.
 
 ### Approximate Membership Functions
 
@@ -54,7 +54,7 @@ such as [reducing the number of expensive I/O operations](cite:cites bloomIO) du
 and [reducing the number of HTTP requests for Triple Pattern Fragments](cite:cites tpf_amf).
 In the context of federated querying, the [SPARQL ASK response has been enhanced with Bloom filters to share a summary of the matching results](cite:cites bloomsparqlask), which allows overlaps between different sources to be identified.
 
-In the proposed privacy-preserving federation framework, Bloom filters are used to encode encrypted triple components that are available within each source, and aggregators are responsible for aggregating privacy-preserving summaries for several Solid data pods.
+In the proposed efficient privacy-preserving federated query execution framework, Bloom filters are used to encode encrypted triple components that are available within each source, and aggregators are responsible for aggregating privacy-preserving summaries for several Solid data pods.
 
 ### Access Control
 

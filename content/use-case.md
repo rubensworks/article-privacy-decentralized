@@ -1,7 +1,7 @@
-## Use Case Scenario
+## Motivating Use Case Scenario
 {: #use-case}
 
-Before presenting our privacy-preserving federation framework we first provide a high level overview of the personalised address book use case scenario used to guide our work.
+Before presenting our efficient privacy-preserving federated query execution framework we first provide a high level overview of the personalised address book use case scenario used to guide our work.
 Following the Solid design principles, address books are merely lists of WebIDs, and the actual contact details are stored in the respective contacts' pod.
 To keep this use case simple, we assume an address book of Alice that contains two contacts: Bob and Carol.
 In practise, such an address book could contain many more contacts.
@@ -17,7 +17,7 @@ where the members of each group can be configured for each pod:
 - $$S_A$$: Acquaintances ($$S_A \subseteq S_E$$)
 - $$S_F$$: Friends ($$S_F \subseteq S_A$$)
 
-The following statements indicate that Carol considers Alice to be an acquaintance, and Bob considers Alice as a friend:
+Assertions, of the following form, could be used to indicate that Carol considers Alice to be an acquaintance, and Bob considers Alice as a friend:
 
 _`<https://alice.pods.org/profile#me>` ∈ S<sub>A</sub> ⊆ S<sub>E</sub>_
 {: style="text-align: center"}
@@ -35,7 +35,7 @@ An overview of the proposed personalised address book use case scenario.
 </figure>
 
 Alice uses the `/contacts` file in her pod to list everyone that she knows using WebIDs that point to the profiles of the respective people.
-The profiles of Bob and Carol both contain their name, email and telephone number, which are readable for select people. Access control rules in the form of <em> <subject, access rights, resource></em> tuples represent the various access control policies:
+The profiles of Bob and Carol both contain their name, email and telephone number, which are readable for select people. Access control rules in the form of <em> <subject, access rights, resource></em> tuples can bed used by Bob and Carol to restrict access to data stored in their respective pods:
 
 Bob is quite liberal, and allows everyone (_S<sub>E</sub>_) to read both his name and email:
 {: #r1}

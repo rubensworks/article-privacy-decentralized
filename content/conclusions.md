@@ -1,23 +1,6 @@
 ## Conclusions
 {:#conclusions}
 
-In this paper, we introduced our vision of a high-level framework
-to optimise federated querying within decentralised environments
-over data that is protected by some access control policy.
-For this, we introduce the use of theoretical privacy-preserving summaries.
-This framework serves as a basis for future work into the areas of decentralisation, querying and access control.
+In this paper, we propose a framework for privacy-preserving querying within decentralised environments where distributed data sources are governed by one or more access control policies. The proposed framework, which is built around the notion of privacy-preserving summaries, serves as a basis for exploring and comparing alternative strategies for efficient querying with access control. As a first step, we discuss a possible instantiation of this framework which uses Bloom filters for creating privacy-preserving summaries over encrypted data, and highlight several open research challenges and opportunities.
 
-To offer suggestions for future research, we discuss possible instantiations of this framework,
-where we for instance discuss Bloom filters as a technique for privacy-preserving summaries.
-In future work, we will investigate these Bloom filters in more depth,
-and evaluate their implementation into decentralised environments in terms of performance and security.
-Additionally, we will further investigate how identity management can be managed effectively and efficiently within decentralised environments.
-Finally, we will implement and evaluate the performance of shape-based access control.
-
-If we want to move more towards a truly decentralised Web,
-but still want maintain our current applications that are primarily centralised,
-we will need novel techniques for achieving the same levels of user-perceived performance.
-Our work provides a basis for this,
-where we focus on improving performance when querying over large amounts of personal decentralised data.
-However, this work is merely a starting point for the creation of more concrete techniques
-for optimising querying over personal data within decentralised environments.
+In future work, we will evaluate the use of Bloom filters for privacy-preserving federated querying both in terms of performance and privacy preservation. Additionally, we will investigate how access control policies and access keys can be managed effectively and efficiently in a decentralised Web based ecosystem such as Solid.
