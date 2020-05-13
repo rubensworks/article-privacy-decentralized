@@ -1,10 +1,7 @@
-## A Possible Instantiation
+## Challenges and Opportunities
 {:#solution}
 
-In this section, we present an instantiation of the proposed framework and identify challenges that need to be addressed, placing a particular focus on techniques for access policy specification, summarization generation and maintenance, and access control enforcement.
-
-ALL: We should revisit our use case scenario here
-{:.todo}
+When it comes to access policy specification, summarisation generation and maintenance, source selection, and access control enforcement, there are a number of open challenges and opportunities that need to be addressed.
 
 ### Access Policy Specification
 
@@ -12,97 +9,30 @@ We assume that pod owners need to be able to specify access control policies tha
 
 - **No data leaking**: Access restricted data must not be available to those who are not authorised to access it.
 
-*do we need this here? imo we should either (i) remove this part in favour of the stuff we discussed in the uc section [](#figure-use-case) or (ii) move the detailed authorisation rules from the uc section to this one*{:.sidenote}
-
-From a policy specification perspective, our pod owners (Alice, Bob, and Carol) could create three separate files that are used to distinguish between data that is accessible by: _everyone_, _acquaintances_, and _friends_. In such a scenario, authorisations could abstractly be represented as lists of _roles_, _access rights_, and _pods_, such that:
-{:.sidebar-comment}
-
-- Authorisation Rule _R1<sub>C</sub>_, a _permission_ which states that everyone has read access to the name property, is represented as `<everyone, read access, everyone file>`, where name is stored in the everyone file.
-
-- Authorisation Rule _R2<sub>C</sub>_, which states that acquaintances have read access to the e-mail property, is represented as `<acquaintances, read access, acquaintances file>`, where e-mail is stored in the acquaintances file.
-
-- Authorisation Rule _R3<sub>C</sub>_, which states that friends have read access to the telephone number property, is represented as `<friends, read access, friends file>`, where the telephone number is stored in the friends file.
-
-<!-- More formally, we consider
-
-<figure id="def-authorisation" class="definition"  markdown="1">
-<figcaption markdown="block">
-Authorisation
-</figcaption>
-An **Authorisation** $$r \in R$$ is represented as a tuple $$r = \langle s, a, o\rangle$$, where $$s$$ represents the subjects to whom the rule applies to, $$a$$ denotes the granted access right, and $$o$$ specifies the resources subjects $$s$$ can exercise access right $$a$$ over.
-</figure>
-
-<figure id="def-policy" class="definition"  markdown="1">
-<figcaption markdown="block">
-Access Policy
-</figcaption>
-An **Access Policy** $$P$$ is represented as a set of authorisations $$P \subseteq R$$
-</figure> -->
-
-<!-- {::options parse_block_html="true" /} -->
-
-<!-- <div class="bs-callout bs-callout-info">
-  <strong>Representation </strong>
-
-Should we follow a similar representation as in [](#use-case)? e.g.:
-
-Rule _R1<sub>C</sub>_, a _permission_ which states that everyone has read access to the name property where name is stored in the everyone file, is represented as:
-
-- `r1 = ⟨{s | s ∈ Everyone}, read, {name}⟩`\\
-  or maybe even
-- `r1 = ⟨{s | s ∈ Everyone}, read, {o | o ∈ File`<sub>`Everyone`</sub>`∧ o ⊆ name}⟩`
-
-otherwise - unless the friends file already contains only those triples that can be read by **all** friends - a rule like:
-
-<p style="padding-left:1em;">
-_friends have read access to the telephone number property, is represented as `<friends, read access, friends file>`, where the telephone number is stored in the friends file._
-</p>
-
-would provide access to more information than intended (only read access to telephone number property should be provided, not read access to the entire friends file)
-
-</div>
-
-{::options parse_block_html="false" /} -->
-
-<!-- - Rule _R1<sub>C</sub>_, a _permission_ which states that everyone has read access to the name property, is represented as `<everyone, read access, everyone file>`, where name is stored in the everyone file.
-
-
-- Rule _R2<sub>C</sub>_, which states that acquaintances have read access to the e-mail property, is represented as `<acquaintances, read access, acquaintances file>`, where e-mail is stored in the acquaintances file.
-
-- Rule _R3<sub>C</sub>_, which states that friends have read access to the telephone number property, is represented as `<friends, read access, friends file>`, where the telephone number is stored in the friends file. -->
-
 In order to support privacy-preserving summaries, there is a need to generate access keys for both the acquaintances and the friends files, such that the summary generation process does not work with plain text attributes but rather cipher text. Given that data in the everyone file is public by default, no key is needed.
 
-oooh.. do we actually mean 1:1 mapping between keys and policies, thus 1:n mapping between keys and authorisations? i.e., each file as a key, a policy, and n authorisations all ∈ the file's policy?
-{:.sidenote}
-
-In this paper we propose that there is a one-to-one mapping between protected (i.e. non public files) and access keys that are used to create data summaries. Our initial proposal makes use of simple symmetric keys, however for more complex scenarios both attribute-based encryption and/or key derivation algorithms could be use to provide support for more complex access policies.
-{:.sidebar-comment}
+In this paper, we propose that there is a many to many mapping between quads and policies and a one to one mapping between access policies (enforced at query times) and access keys (used to create privacy preserving data summaries). Our initial proposal makes use of simple symmetric keys, however for more complex scenarios both attribute-based encryption and/or key derivation algorithms could be use to provide support for more complex access policies.
 
 When to comes to policy management, there is a need to ensure that (i) access keys are tightly bound to access policies, and (ii) said keys are distributed to authorised individuals (i.e. acquaintances and friends). In order to revoke access to a particular individual one would need to regenerate the keys and redistribute them to authorised individuals.
 
 ### Summary Generation and Maintenance
 
-The technical requirements for enabling federated querying in an efficient manner through privacy-preserving aggregators are mainly driven by the summarization technology. In this context symmetric keys are used to create privacy-preserving summaries that do not leak access restricted data. In the following, we discuss the role played by Bloom filters when it comes to constructing privacy-preserving data summaries. Subsequently, we highlight challenges related to parameter handling and source-aggregator communication.
-
-#### Constructing Privacy-Preserving Data Summaries
+The technical requirements for enabling federated querying in an efficient manner through privacy-preserving aggregators are mainly driven by the summarisation technology. In this context symmetric keys are used to create privacy-preserving summaries that do not leak access restricted data. In the following, we discuss the role played by Bloom filters when it comes to constructing privacy-preserving data summaries. Subsequently, we highlight challenges related to parameter handling and source-aggregator communication.
 
 We consider Approximate Membership Functions (AMFs), such as Bloom filters, being
 one possible candidate for such summaries that meet the following requirements:
 
-- **No data leaking**:
+- **No data leaking.**:
   Values in Bloom filters are hashed, which can not be reversed.
-- **Value additions**:
+
+- **Value additions.**:
   Additions to Bloom filters are possible by inserting a bit string.
   `SummaryInitialize() = 0` and
   `SummaryAdd(Σ.c, q.c, k, u) = Σ.c | (q.c & k) | u`
-- **Summary combinations**
+
+- **Summary combinations.**
   Bloom filters can be combined by `OR`-ing them.
   `SummaryCombine(Σ.c, Σ'.c) = Σ.c | Σ'.c`.
-- **Authorized membership checking**
-  Membership in Bloom filters can be tested by hashing the value,
-  and checking its membership inside the filter.
-  `SummaryContains(Σ.c, q.c, k, u) = Σ.c[(q.c & k) | u]`.
 
 The main advantage of using AMFs such as Bloom filters is that all of the performance-critical operations on summaries (adding, combining, membership checking) can happen very efficiently, as these are essentially just bitwise operations.
 
@@ -115,7 +45,7 @@ These parameters and the number of entries all impact the false positive error r
 Concretely, these parameters have to be identical before AMFs can be combined within an aggregator,
 and they have to be known before a client can make use of them.
 
-In a decentralized environment, it is however difficult to reach a consensus between all parties to use fixed parameters.
+In a decentralised environment, it is however difficult to reach a consensus between all parties to use fixed parameters.
 Furthermore, since the number of values within an AMF has an impact on the error rate,
 it is sometimes even required to use different parameters for different numbers of entries.
 As such, no single set of AMF parameters should be used.
@@ -136,36 +66,36 @@ Since the creation of an AMF for a file can become expensive,
 sources need be intelligent on when these AMFs are created.
 Within this work, we discuss four approaches:
 
-1. **Eager AMF creation**:
+1. **Eager AMF creation.**:
    <br />
    For each file, an AMF is created as soon as a change occurs in the file.
-   This ensures that the AMFs are always synchronized with the state of the files,
+   This ensures that the AMFs are always synchronised with the state of the files,
    and requests for AMFs will always return instantly.
    The downside of this approach is that frequently changing files may cause more AMF updates than needed,
    even when certain AMFs may not be used that often.
-2. **Transient AMF creation**:
+2. **Transient AMF creation.**:
    <br />
    When the AMF of a file is requested, it is created on-the-fly.
    This means that the server does not store any AMFs physically,
    but only constructs them when needed.
-   The advantages of this is that AMFs are always synchronized with the state of the files.
+   The advantages of this is that AMFs are always synchronised with the state of the files.
    The main disadvantage is that requests for AMFs are slowed down by AMF creation time,
    which may be significant for larger files.
-3. **Lazy AMF creation**:
+3. **Lazy AMF creation.**:
    <br />
    This approach combines the two previous approaches.
    Each AMF will only be created and stored from the moment that it is requested.
    From the moment that a file change is detected, the stored AMF is invalidated,
    which will cause a recalculation when it will be requested again.
-   The advantages of this approach are that AMFs are always synchronized with the state of the files,
+   The advantages of this approach are that AMFs are always synchronised with the state of the files,
    and that even when files change frequently, no unneeded AMF creations will occur.
    The downside is that requests for AMFs are sometimes slowed down by AMF creation time.
-4. **Periodic AMF creation**:
+4. **Periodic AMF creation.**:
    <br />
    This approach involves creating AMFs for files at a following a certain frequency,
    for example each hour, or each day.
    The advantage of this approach is that requests for AMFs will always return instantly.
-   The downsides are that AMFs may not always be synchronized with the state of the files,
+   The downsides are that AMFs may not always be synchronised with the state of the files,
    and that more AMF updates occur than needed.
 
 In practise, we expect that different approaches may be valuable for different types of use cases.
@@ -173,12 +103,10 @@ For example, for sources that contain static or slowly changing files,
 the eager and periodic approaches may be beneficial.
 But for sources that contain very volatile files,
 the transient and lazy approaches may work better.
-
 Furthermore, some of these approaches may be combined with each other.
 For example, the lazy approach could be combined with the periodic approach
 so that for small files the regular lazy approach is followed,
 but for larger files, AMFs are periodically created to avoid slowing down requests for these AMFs.
-
 One open challenge for volatile files is to investigate incremental AMF creation approaches
 where only small parts of the data is added or removed.
 For instance, Bloom filters allow data to be appended, but not removed.
@@ -194,10 +122,9 @@ Once the aggregator detects a change in one of the sources, the aggregated summa
 
 ### Source Selection
 
-As discussed in [](#framework-client), a client-side query engine can make use of the aggregator's summary to perform source selection,
+In the proposed framework, a client-side query engine can make use of the aggregator's summary to perform source selection,
 in order to reduce the number of sources that are being consulted by this engine.
-
-As the discussed summaries allow source selection based on quad patterns instead of full SPARQL queries,
+As these summaries allow source selection based on quad patterns instead of full SPARQL queries,
 source selection can be pushed down into the query plan,
 which allows quad patterns in the query to be executed over a different range of sources.
 Furthermore, instead of applying source selection before query execution,
@@ -205,9 +132,16 @@ this allows source selection to optionally happen adaptively during query execut
 following the federation algorithm of [Triple Pattern Fragments](cite:cites ldf).
 A hybrid approach where source selection happens both before and during query execution could be investigated.
 
+From a source selection perspective, we address the following core requirement:
+
+- **Authorized membership checking.**
+  Membership in Bloom filters can be tested by hashing the value,
+  and checking its membership inside the filter.
+  `SummaryContains(Σ.c, q.c, k, u) = Σ.c[(q.c & k) | u]`.
+
+
 One open challenge will be to investigate how this file-based source selection method could be combined and enhanced
 by existing source selection methods for SPARQL endpoints, such as [Hibiscus](cite:cites hibiscus) and [Splendid](cite:cites splendid).
-
 Another open challenge is to determine the applicable aggregators within a client.
 For now, we assume that clients will have zero or more preconfigured links to certain aggregators,
 such as an aggregator for a person's family, or an employee's company.
@@ -217,18 +151,30 @@ or based on the current location of the user.
 
 ### Query Execution
 
-Once the query engine has identified the data sources that could potentially contribute results to their query, the query engine needs to authenticate to the server(s) and execute the query or parts thereof. In turn the server is responsible for authenticating the request, enforcing access control, and executing the query or parts thereof. Concretely, we address the following core requirements:
+Since file-based APIs are the basis for data retrieval on the Web as prescribed by the HTTP protocol,
+we assume this as a starting point for federated querying in decentralised environments.
+Furthermore, we consider quad pattern-based access to file sources instead of more complex [SPARQL queries](cite:cites spec:sparqllang).
+This is because triple and quad patterns are the fundamental elements of SPARQL queries,
+and any SPARQL query can be decomposed into multiple smaller quad pattern queries.
+For example, client-side query engines such as [Comunica](cite:cites comunica) decompose any SPARQL query
+into a sequence of quad pattern queries for evaluation against heterogeneous sources,
+where the results of these quad pattern queries are joined together locally.
+More complex SPARQL features such as `FILTER` and aggregates are fully handled client-side.
+Although intelligent clients could detect more expressive interfaces such as
+[SPARQL endpoints](cite:cites spec:sparqlprot) and [Triple Pattern Fragments](cite:cites ldf) interfaces,
+and make use of them during query execution, we consider this out-of-scope for this work.
 
-- **Authentication** It must be possible for the data source to verify the integrity of the requesting party.
-- **Access control enforcement** It must be possible for the data source to limit query results based on a set of access policies.
+Once the query engine has identified the data sources that could potentially contribute results to their query, the query engine needs to authenticate to the server(s) and execute the query or parts thereof. In turn the server is responsible for authenticating the request, enforcing access control, and executing the query or parts thereof. Concretely, we address the following core requirement:
+
+- **Query Execution with Access control.** It must be possible for the data source to verify the integrity of the requesting party and for the data source to limit query results based on a set of access policies.
 
 #### Authentication
 
 Web Identity and Discovery, is a mechanism used to uniquely identify and authenticate a person, company, organisation or other entity, by means of a URI. Essentially a WebID is a HTTP URI that should: (i) be under the control of the entity it describes; (ii) be linkable on the web; (iii) describe the entity is represents; (iv) enable authentication and access control; (v) respect the privacy of the entity it describes; (v) rely solely on HTTP and semantic Web technologies. A description of the agent is provided in an RDF document, known as a WebID profile, which can be dereferenced using 303 or Hash URIs. The WebID-TLS protocol (where TLS stands for Transport Layer Security) specifies how together the WebID profile and public key certificates, can be used to authenticate users. The user places their WebID profile document URI in the _Subject Alternative Names_ field of their certificate. Once the certificate has been generated the user adds the public key details to their WebID profile document. A service wishing to authenticate the user, needs to verify that the public key of the certificate it receives matches the public key specified in the WebID profile.
 
-#### Authorization
+#### Authorisation
 
-For access control purposes, we envision a mechanism that translates access policies (i.e. sets of authorisations) into constraints (e.g., Data shapes like [SHACL](cite:cites spec:shacl)) against which requests and respective query results can then be validated against.
+For access control purposes, we envision a mechanism that translates access policies (i.e. sets of authorisations) into constraints (e.g., Data shapes like [SHACL](cite:cites spec:shacl)) against which requests and respective query results can then be validated against. The following policy could be used to allow read access to all _public_ URIs of `<http://alice.pod/share/photoAnnotations/>`
 
 ~~~ turtle
 <http://alice.pod/policy:88>
@@ -246,32 +192,3 @@ For access control purposes, we envision a mechanism that translates access poli
         odrl:action acl:Read;
     ] .
 ~~~
-allow read access to all _public_ URIs of `<http://alice.pod/share/photoAnnotations/>`
-
-<!-- <figure id="figure-request-processing">
-<img src="img/request-processing.svg" alt="[Shape-based access control]" style="width: 40%; display: block; margin: auto;"  class="figure-width-half">
-<figcaption markdown="block">
-A server matches requests consisting of a client identification `i`, the requested access mode `a`, and a quad pattern query `q`, against a set of access control policies `P`.
-A policy `p ∈ P` is applicable for a request `(i, a, q)` if the request conforms to the shape; policy `p` was specified against.
-</figcaption>
-</figure>
-
-SIMON: Change this figure and the example so that it aligns with the use case scenario
-{:.todo} -->
-
-
-
-<!--
-This allows for expressing more fine-grained access control policies, such as:
-* As outlined in [](cite:cites desiss:shapes), shapes languages such as [SHACL](cite:cites spec:shacl), specifically address the need to constrain the data in a graph to a certain shape
-* shapes (SHACL/ShEx) and [using shapes for Web APIs](cite:cites hypermedia_shapes)
-* (shacl-spec): validation-based (~filter) and (shacl note): filter/rule-based (related https://github.com/solid/data-interoperability-panel/issues/34)
-{:.todo}
--->
-
-<!--
-* Data owners are responsible for enforcing access control (as opposed to other approaches where federation engine takes care of that). We assume that access control is already taken care of at the (client-side) federation engine.
-* Build on Solid's WebID-OIDC for auth, and WAC for access control.
-* Allow shape-based/quadpattern-based (SHACL/SHEX) access modes in .acl files. (advantage of shapes is that fewer keys may be needed, which reduces the complexity of key mgmt) (motivation for keys is that Solid is going to use it for data validation: https://github.com/solid/data-interoperability-panel/blob/b2591bf2f8808972e5459db2aa4ac8d9854f5b5e/data-validation/use-cases.md)
-* Right now, we do it role-based, but it could be attribute-based as well.
-{:.todo} -->
