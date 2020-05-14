@@ -1,7 +1,7 @@
 ## Challenges and Opportunities
 {:#solution}
 
-When it comes to access policy specification, summarisation generation and maintenance, source selection, and access control enforcement there are several open challenges and opportunities.
+When it comes to access policy specification, summarisation generation and maintenance, source selection, and access control enforcement there are several open challenges and opportunities, which we discuss hereafter.
 
 ### Access Policy Specification
 
@@ -11,7 +11,10 @@ We assume that pod owners need to be able to specify access control policies tha
 
 In order to support privacy-preserving summaries, there is a need to generate access keys for both the acquaintances and the friends files, such that the summary generation process does not work with plain text attributes but rather cipher text. Given that data in the everyone file is public by default, no key is needed.
 
-In this paper, we propose that there is a many to many mapping between quads and policies and a one to one mapping between access policies (enforced at query times) and access keys (used to create privacy preserving data summaries). Our initial proposal makes use of simple symmetric keys, however for more complex scenarios both attribute-based encryption and/or key derivation algorithms could be use to provide support for more complex access policies.
+{:.todo}
+What is the *the everyone file*? Typo?
+
+In this paper, we propose that there is a many to many mapping between quads and policies and a one to one mapping between access policies (enforced at query time) and access keys (used to create privacy preserving data summaries). Our initial proposal makes use of simple symmetric keys, however for more complex scenarios both attribute-based encryption and/or key derivation algorithms could be use to provide support for more complex access policies.
 
 When to comes to policy management, there is a need to ensure that (i) access keys are tightly bound to access policies, and (ii) said keys are distributed to authorised individuals (i.e. acquaintances and friends). In order to revoke access to a particular individual one would need to regenerate the keys and redistribute them to authorised individuals.
 
@@ -22,10 +25,10 @@ The technical requirements for enabling federated querying in an efficient manne
 We consider Approximate Membership Functions (AMFs), such as Bloom filters, being
 one possible candidate for such summaries that meet the following requirements:
 
-- **No data leaking.**:
+- **No data leaking.**
   Values in Bloom filters are hashed, which can not be reversed.
 
-- **Value additions.**:
+- **Value additions.**
   Additions to Bloom filters are possible by inserting a bit string.
   `SummaryInitialize() = 0` and
   `SummaryAdd(Σ.c, q.c, k, u) = Σ.c | (q.c & k) | u`
@@ -65,14 +68,14 @@ Since the creation of an AMF for a file can become expensive,
 sources may decide to adopt different maintenance strategies.
 Within this work, we discuss four approaches:
 
-1. **Eager AMF creation.**:
+1. **Eager AMF creation.**
    <br />
    For each file, an AMF is created as soon as a change occurs in the file.
    This ensures that the AMFs are always synchronised with the state of the files,
    and requests for AMFs will always return instantly.
    The downside of this approach is that frequently changing files may cause more AMF updates than needed,
    even when certain AMFs may not be used that often.
-2. **Transient AMF creation.**:
+2. **Transient AMF creation.**
    <br />
    When the AMF of a file is requested, it is created on-the-fly.
    This means that the server does not store any AMFs physically,
@@ -80,7 +83,7 @@ Within this work, we discuss four approaches:
    The advantages of this is that AMFs are always synchronised with the state of the files.
    The main disadvantage is that requests for AMFs are slowed down by AMF creation time,
    which may be significant for larger files.
-3. **Lazy AMF creation.**:
+3. **Lazy AMF creation.**
    <br />
    This approach combines the two previous approaches.
    Each AMF will only be created and stored from the moment that it is requested.
@@ -89,7 +92,7 @@ Within this work, we discuss four approaches:
    The advantages of this approach are that AMFs are always synchronised with the state of the files,
    and that even when files change frequently, no unneeded AMF creations will occur.
    The downside is that requests for AMFs are sometimes slowed down by AMF creation time.
-4. **Periodic AMF creation.**:
+4. **Periodic AMF creation.**
    <br />
    This approach involves creating AMFs for files at a following a certain frequency,
    for example each hour, or each day.
@@ -161,13 +164,16 @@ Although intelligent clients could detect more expressive interfaces such as
 [SPARQL endpoints](cite:cites spec:sparqlprot) and [Triple Pattern Fragments](cite:cites ldf) interfaces,
 and make use of them during query execution, we consider this out-of-scope for this work.
 
-Once the query engine has identified the data sources that could potentially contribute results to their query, the query engine needs to authenticate to the server(s) and execute the query or parts thereof. In turn the server is responsible for authenticating the request, enforcing access control, and executing the query or parts thereof. Concretely, we address the following core requirement:
+Once the query engine has identified the data sources that could potentially contribute results to their query, the query engine needs to authenticate the user to the server(s) and execute the query or parts thereof. In turn the server is responsible for authenticating the request, enforcing access control, and executing the query or parts thereof. Concretely, we address the following core requirement:
 
 - **Query Execution with Access control.** It must be possible for the data source to verify the integrity of the requesting party and for the data source to limit query results based on a set of access policies.
 
 #### Authentication
 
-Web Identity and Discovery, is a mechanism used to uniquely identify and authenticate a person, company, organisation or other entity, by means of a URI. Essentially a WebID is a HTTP URI that should: (i) be under the control of the entity it describes; (ii) be linkable on the web; (iii) describe the entity is represents; (iv) enable authentication and access control; (v) respect the privacy of the entity it describes; (v) rely solely on HTTP and semantic Web technologies. A description of the agent is provided in an RDF document, known as a WebID profile, which can be dereferenced using 303 or Hash URIs. The WebID-TLS protocol (where TLS stands for Transport Layer Security) specifies how together the WebID profile and public key certificates, can be used to authenticate users. The user places their WebID profile document URI in the _Subject Alternative Names_ field of their certificate. Once the certificate has been generated the user adds the public key details to their WebID profile document. A service wishing to authenticate the user, needs to verify that the public key of the certificate it receives matches the public key specified in the WebID profile.
+WebID, is a mechanism used to uniquely identify and authenticate a person, company, organisation or other entity, by means of a URI. Essentially a WebID is a HTTP URI that should: (i) be under the control of the entity it describes; (ii) be linkable on the web; (iii) describe the entity is represents; (iv) enable authentication and access control; (v) respect the privacy of the entity it describes; (v) rely solely on HTTP and semantic Web technologies. A description of the agent is provided in an RDF document, known as a WebID profile, which can be dereferenced using 303 or Hash URIs. The WebID-TLS protocol (where TLS stands for Transport Layer Security) specifies how together the WebID profile and public key certificates, can be used to authenticate users. The user places their WebID profile document URI in the _Subject Alternative Names_ field of their certificate. Once the certificate has been generated the user adds the public key details to their WebID profile document. A service wishing to authenticate the user, needs to verify that the public key of the certificate it receives matches the public key specified in the WebID profile.
+
+{:.todo}
+Can the paragraph above be removed? It seems to exist in the background section already.
 
 #### Authorisation
 

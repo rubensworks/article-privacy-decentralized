@@ -2,7 +2,7 @@ FUNCTION CreateAggregatedSummary(U)
   INPUT:
     U: set of sources
   OUTPUT:
-    Σ: combined summary comprising four parts, one for each quad component: Σ.subject, Σ.predicate, Σ.object, Σ.graph
+    Σ: combined summary containing: Σ.subject, Σ.predicate, Σ.object, Σ.graph
 FOREACH c in [subject, predicate, object, graph]
   Σ.c = SummaryInitialize()
 FOREACH u in U

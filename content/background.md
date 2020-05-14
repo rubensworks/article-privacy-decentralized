@@ -21,7 +21,7 @@ however these can only be managed through the usual HyperText Transfer Protocol 
 The LDN specification, which defines how messages can be sent between two agents as Linked Data, is used to enable pods to communicate with each other.
 Finally using WebID, everyone has a personal online identifier that they can use to _authenticate_ against a data pod. While, in turn WAC is used to specify rules that determine if agents and applications are _authorised_ to read, write, append, or control RDF files.
 
-The framework described in this paper discusses how Solid could be extended with efficient privacy-preserving federated query evaluation over many Solid data pods.
+The framework described in this paper discusses how Solid could be extended to enable efficient privacy-preserving federated query evaluation over many Solid data pods.
 
 ### Federated Query Processing
 
@@ -43,7 +43,7 @@ Given that AMFs are probabilistic, they may produce false positives, but they al
 Since AMFs are typically much smaller than a full dataset,
 they are a valuable method for pre-filtering when querying.
 [_Bloom filters_](cite:cites bloomfilter) are one example of an AMF technique.
-A Bloom filter is a bitmap, and a predetermined set of hash functions.
+A Bloom filter consists of a bitmap, and a predetermined set of hash functions.
 To construct a Bloom filter, each element is run through these hash functions to produce a bit vector,
 and all of these vectors are `OR`-ed into the bitmap.
 To test the membership of an element, the same hash functions are applied, and their binary membership is tested.
@@ -63,4 +63,8 @@ who you say you are). Whereas, authorisation is the process of granting or denyi
 From an authentication perspective, [Web Identity and Discovery (WebID)](cite:cites spec:webid) is a HTTP URI used to uniquely identify and [authenticate an agent (i.e. person, company, organization, or other entity)](cite:cites Sambra2014). A description of the agent is provided in an RDF document, known as a dereferencable WebID profile. The agent places the URI for their WebID profile document in the Subject Alternative Names field of their certificate. Once the certificate has been generated the user adds the public key details to their [WebID profile document](cite:cites Inkster2014). A service wishing to authenticate the user, needs to verify that the public key of the certificate it receives matches the public key specified in the [WebID profile](cite:cites Hollenbach2009). [OpenID Connect](cite:cites OpenIDConnect) is an industry standard authentication protocol, which enables applications to delegate responsibility for authentication to third party identity providers. One of the primary benefits being the ability to connect to multiple sites using the same login credentials. A comprehensive security analysis of the protocol is provided by [Fett et al.](cite:cites fett2017web).
 [Web Access Control (WAC)](cite:cites spec:wac) is an RDF vocabulary and an access control framework, which demonstrates how together WebID and access control policies specified using the WAC vocabulary, can be used to enforce distributed access control. Essentially WAC authorisations grant agents, access to resources. [Villata et al.](cite:cites Villata2011) and [Sacco and Passant](cite:cites Sacco2011b) extend the WAC vocabulary to cater for context based access control policies and privacy preferences respectively. Alternatively, [Encryption-Based Access Control](cite:cites fernandez2017self) involves encrypting RDF fragments (i.e. subjects, predicates, objects, graphs or some combination thereof) with an encryption key, such that only those that have the key are permitted to access the data, thus serving as both an authentication and an authorisation mechanism. Existing proposals involve using [symmetric encryption](cite:cites kasten2013towards), [public-key encryption](cite:cites giereth2005partial), or [functional encryption](cite:cites fernandez2017self) to generate RDF ciphers.
 
-In this paper, encryption mechanisms are used to create privacy-preserving aggregation, whereas access control policies are used to restrict access to data at query time. Here, we assume that there is a one to one mapping between encryption keys and authorisations.
+{:.todo}
+WebID-TLS is still mentioned above, even though it is deprecated.
+It should be removed in favor of WebID-OIDC.
+
+In this paper, encryption mechanisms are used to create privacy-preserving aggregations, whereas access control policies are used to restrict access to data at query time. Here, we assume that there is a one to one mapping between encryption keys and authorisations.

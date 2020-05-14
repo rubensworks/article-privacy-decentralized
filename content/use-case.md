@@ -1,7 +1,7 @@
 ## Motivating Use Case Scenario
 {: #use-case}
 
-Before presenting our efficient privacy-preserving federated query execution framework we first provide a high level overview of the personalised address book use case scenario used to guide our work.
+Before presenting our privacy-preserving federated query execution framework we first provide a high level overview of a personalised address book use case scenario used to guide our work.
 Following the Solid design principles, address books are merely lists of WebIDs, and the actual contact details are stored in the respective contacts' pod.
 To keep this use case simple, we assume an address book of Alice that contains two contacts: Bob and Carol.
 In practise, such an address book could contain many more contacts.
@@ -10,7 +10,7 @@ so that everyone is able to see everyone she knows,
 albeit without necessarily having access to everyone's private contact details as these are controlled via separate access control policies.
 We also consider Dave as a fourth person that has no relationship with anyone else.
 
-For the sake of simplicity, we consider three hierarchical subject groups per pod,
+For the sake of simplicity, we consider three hierarchical subject access groups per pod,
 where the members of each group can be configured for each pod:
 
 - $$S_E$$: Everyone (without authentication)
@@ -30,12 +30,13 @@ The data stored in Alices, Bobs and Carols pods, and the various access control 
 <figure id="figure-use-case">
 <img src="img/use-case.svg" alt="[Personal Address Book]" class="figure-width-twothird">
 <figcaption markdown="block">
-An overview of the proposed personalised address book use case scenario.
+An overview of the proposed personalised address book use case scenario,
+in which Alice and Bob attempt to query over Alices address book.
 </figcaption>
 </figure>
 
 Alice uses the `/contacts` file in her pod to list everyone that she knows using WebIDs that point to the profiles of the respective people.
-The profiles of Bob and Carol both contain their name, email and telephone number, which are readable for select people. Access control rules in the form of <em> <subject, access rights, resource></em> tuples can bed used by Bob and Carol to restrict access to data stored in their respective pods:
+The profiles of Bob and Carol both contain their name, email and telephone number, which are readable for select people. Access control rules in the form of <em>&lt;subject, access rights, resource&gt;</em> tuples can be used by Bob and Carol to restrict access to data stored in their respective pods:
 
 Bob is quite liberal, and allows everyone (_S<sub>E</sub>_) to read both his name and email:
 {: #r1}
@@ -80,9 +81,9 @@ For this use case, we consider the following example queries:
    <br />
    Dave is able to read the email of Bob, but not Carol.
    Because Bob's email is readable for everyone ([_r1_](#r1)),
-   and Carol's email is only readable for acquaintances ([_r4_](#r4)).
+   but Carol's email is only readable for acquaintances ([_r4_](#r4)).
 4. **Dave wants to call everyone Alice knows.**
    <br />
    Dave is not able to read the telephone number of Bob or Carol.
    Because Bob's telephone number is readable for friends ([_r2_](#r2)),
-   but Carol's telephone number is only readable for her friends ([_r5_](#r5)).
+   and Carol's telephone number is only readable for her friends ([_r5_](#r5)).

@@ -14,7 +14,7 @@ The proposed efficient privacy-preserving federated query execution framework is
 
 Based on the use case scenario presented in [](#use-case), we assume that multiple data pods exist, each potentially containing multiple privacy-constrained files.
 If clients want to read the contents of these files,
-they have to authenticate themselves to the respective data pod servers. Depending on each file's access control policy, the client may be authorised to read the full file contents or parts of it.
+they have to authenticate themselves to the respective data pod servers. Depending on each file's access control policy, the client may be authorised to read the full file contents, parts of it, or not at all.
 
 Since realistic decentralised environments could easily contain hundreds or thousands of files,
 it would be inefficient for the client to query each of them.
@@ -32,11 +32,11 @@ High level overview of individual and combined data summaries.
 
 Since files may contain private data, these data summaries must be _privacy-preserving_,
 i.e., they must not allow access restricted data to be leaked to unauthorised individuals. In the proposed framework, access policies are represented as access keys and these keys are taken into account by the summary generation algorithm.
-Pods can generate these summaries lazily on demand, either periodically or upon file changes.
+Pods could generate these summaries lazily on demand, periodically or upon file changes.
 Following the approach from [Vander Sande et al.](cite:cites tpf_amf),
-each summary consists of 4 parts, corresponding to the 4 components in RDF quads,
-as illustrated in [](#figure-summary-components). The summary contains 4 parts, corresponding to all subjects, predicates, objects and graphs in the file.
-*Note: The summary values are not necessarily an exact representation of the way the summary is stored,
+each summary consists of 4 parts, corresponding to the 4 components in RDF quads (subjects, predicates, objects and graphs),
+as illustrated in [](#figure-summary-components).
+*Note: The example summary values are not necessarily an exact representation of the way the summary is stored,
 these values are merely an indication of what information is used to construct the summary.*
 
 <figure id="figure-summary-components">
@@ -81,12 +81,13 @@ The proposed framework is composed of a set of abstract algorithms that are need
 
 #### Access Key Creation Algorithm
 
-The first step is to create a map of access keys to quads based on existing access policies, using the algorithm outlined in [](#key-generation-algorithm). Here we assume that pod owners already have a set of access control policies that govern access to quads stored in theirs pods. Although there is a many to many mapping between quads and policies, there is a one to one mapping between access policies that are used for policy enforcement at query time, and access keys that are used to create privacy-preserving summaries that are needed to optimise federated querying.
+As a prerequisite for encoding access into summaries,
+the first step is to create a map of access keys to quads based on existing access policies, using the algorithm outlined in [](#key-generation-algorithm). Here we assume that pod owners already have a set of access control policies that govern access to quads stored in theirs pods. Although there is a many to many mapping between quads and policies, there is a one to one mapping between access policies that are used for policy enforcement at query time, and access keys that are used to create privacy-preserving summaries that are needed to optimise federated querying.
 
 <figure id="key-generation-algorithm" class="listing">
 ````/code/key-generation-algorithm.txt````
 <figcaption markdown="block">
-Algorithm for generating keys for quads based on existing access policies, with `GenerateKey` which generates a key for a quad based on a policy, and `AddKey` which adds a key to a map.
+Algorithm for generating keys for quads based on existing access policies, with `GenerateKey` that generates a key for a quad based on a policy, and `AddKey` that adds a key to a map.
 </figcaption>
 </figure>
 
@@ -166,8 +167,11 @@ or the aggregator can periodically scan the files or its summaries for changes.
 
 Assuming we have an aggregator exposing a summary over a set of sources,
 we introduce the algorithm in [](#client-algorithm) where a client-side query engine can make use of an aggregator's summary
-to reduce the number of sources the client should query over, i.e., to _source selection_.
-As input, this algorithm assumes a quad pattern query,
+to reduce the number of sources the client should query over, i.e., to perform _source selection_.
+In this case, we only consider quad pattern queries,
+because they form the foundation of more expressive SPARQL queries,
+and [query engines typically decompose SPARQL query into several smaller quad pattern queries through a query planner](cite:cites comunica).
+As input, our algorithm assumes a quad pattern query,
 the list of access keys provided by the user,
 and the summary and list of sources it obtained from an aggregator.
 Based on these inputs, the client will iterate over all non-variable quad components
@@ -218,7 +222,7 @@ which we consider out-of-scope for this work.
 #### Client-side Query Execution Algorithm
 {:#framework-access-control-client}
 
-Once the client has obtained the list of sources that it needs to query, the next step is to execute the query against each source.
+Once the client has obtained the list of sources that it needs to query for a given quad pattern, the next step is to execute the query against each source.
 The client uses the sources returned by the aggregator to execute queries against the various pods using the algorithm outlined in [](#client-query-algorithm).
 The algorithm takes as input a client identification (e.g., WebID), a quad pattern query, and the set of sources returned by the source selection algorithm. Individual queries are executed against each of the sources and the aggregated results are returned to the client.
 
