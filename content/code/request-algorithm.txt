@@ -1,10 +1,10 @@
 FUNCTION QuerySources(i, q, U)
   INPUT:
-    client identification i
-    quad pattern query q
-    list of sources U
+    i: client identification
+    q: quad pattern query
+    U: list of sources
   OUTPUT:
-    query results R
+    R: query results
 R = {}
 FOREACH u in U
   R = R ∪ ExecuteQuery(i, q, u)
