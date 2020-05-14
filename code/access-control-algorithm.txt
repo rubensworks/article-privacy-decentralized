@@ -1,10 +1,10 @@
 FUNCTION ExecuteQuery(i, q, QPK)
   INPUT:
-    client identification i
-    quad pattern query q
-    QPK a hashmap relating quads to policies and keys
+    i: client identification
+    q: quad pattern query
+    QPK: hashmap relating quads to policies and keys
   OUTPUT:
-    query results R
+    R: query results
 R = {}
 IF i not verified
   RETURN {}
