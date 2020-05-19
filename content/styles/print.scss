@@ -1,6 +1,6 @@
-@import "lncs.scss";
-@import "shared.scss";
-@import "shared_override.scss";
+@import 'lncs.scss';
+@import 'shared.scss';
+@import 'shared_override.scss';
 
 .figure-width-twothird {
   height: auto;
@@ -13,7 +13,11 @@
 }
 
 header {
-  .actions, .context {
+  .actions,
+  .context {
     display: none;
   }
+}
+pre {
+  overflow: hidden;
 }
