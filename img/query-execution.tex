@@ -2,7 +2,7 @@
 \usepackage[utf8]{inputenc}
 
 % Page setup
-\usepackage[a4paper,margin=2cm,paperwidth=35cm,paperheight=15cm]{geometry}
+\usepackage[a4paper,margin=2cm,paperwidth=35cm,paperheight=20cm]{geometry}
 \usepackage{amsmath}
 
 % Typography
@@ -12,6 +12,19 @@
 \usepackage[usenames,svgnames]{xcolor}
 \usepackage{tikz,pgfplots}
 \usetikzlibrary{positioning,arrows,intersections,calc}
+\usetikzlibrary{fit}
+\makeatletter
+\tikzset{
+  fitting node/.style={
+    inner sep=0pt,
+    fill=none,
+    draw=none,
+    reset transform,
+    fit={(\pgf@pathminx,\pgf@pathminy) (\pgf@pathmaxx,\pgf@pathmaxy)}
+  },
+  reset transform/.code={\pgftransformreset}
+}
+\makeatother
 
 \definecolor{colorwhite}    {RGB}{255,255,255}
 \definecolor{colorgray}     {RGB}{150,150,150}
@@ -27,7 +40,7 @@
 \begin{document}
 \pagestyle{empty}
 \begin{tikzpicture}[
-        node distance = 10em, auto, thick,
+        node distance = 10em, auto, thick,>=latex,
         title/.style={text=colortext,font={\Large\itshape}},
         person/.style={text=colorwhite,font={\Large\bfseries}},
         code/.style={text=colortext,font={}},
@@ -77,37 +90,48 @@
     % Pod Alice
     \draw[fill=colorpod] (-1.5,-7) rectangle (6,-2.5);
     \node[title,text width=10em] at (0.5,-3) {Pod Alice};
-    \draw[fill=colorfile] (-1,-5.5) rectangle (2,-4);
-    \draw[fill=colorsummary] (-1,-5.8) rectangle (2,-5.3);
-    \node[title,text width=10em] at (0.9,-4.5) {File 1};
-    \draw[fill=colorfile] (2.5,-5.5) rectangle (5.5,-4);
-    \draw[fill=colorsummary] (2.5,-5.8) rectangle (5.5,-5.3);
-    \node[title,text width=10em] at (4.4,-4.5) {File 2};
-
+    \draw[fill=colorfile] ([shift={(0,-1)}]-1,-5.5) rectangle ([shift={(0,-1)}]2,-4) node[fitting node] (F1A) {};
+    \draw[fill=colorsummary] ([shift={(0,-1)}]-1,-5.8) rectangle ([shift={(0,-1)}]2,-5.3);
+    \node[title,text width=10em] at ([shift={(0,-1)}]0.9,-4.5) {File 1};
+    \draw[fill=colorfile] ([shift={(0,-1)}]2.5,-5.5) rectangle ([shift={(0,-1)}]5.5,-4) node[fitting node] (F2A) {};
+    \draw[fill=colorsummary] ([shift={(0,-1)}]2.5,-5.8) rectangle ([shift={(0,-1)}]5.5,-5.3);
+    \node[title,text width=10em] at ([shift={(0,-1)}]4.4,-4.5) {File 2};
+    \draw[fill=colorrepeat, dashed, opacity=0.5] ([shift={(1.3,1.2)}]-1,-5.8) rectangle ([shift={(2.3,1.8)}]2,-5.3) node[fitting node] (ACPA) {};
+    \node[code,text width=11em] at ([shift={(1.5,0.5)}]0.9,-4.5) { \emph{Access Control Policies} };
     % Pod Bob
     \draw[fill=colorpod] (6.5,-7) rectangle (14,-2.5);
     \node[title,text width=10em] at (8.5,-3) {Pod Bob};
-    \draw[fill=colorfile] (7,-5.5) rectangle (10,-4);
-    \draw[fill=colorsummary] (7,-5.8) rectangle (10,-5.3);
-    \node[title,text width=10em] at (8.9,-4.5) {File 1};
-    \draw[fill=colorfile] (10.5,-5.5) rectangle (13.5,-4);
-    \draw[fill=colorsummary] (10.5,-5.8) rectangle (13.5,-5.3);
-    \node[title,text width=10em] at (12.4,-4.5) {File 2};
+    \draw[fill=colorfile] ([shift={(0,-1)}]7,-5.5) rectangle ([shift={(0,-1)}]10,-4) node[fitting node] (F1B) {};
+    \draw[fill=colorsummary] ([shift={(0,-1)}]7,-5.8) rectangle ([shift={(0,-1)}]10,-5.3);
+    \node[title,text width=10em] at ([shift={(0,-1)}]8.9,-4.5) {File 1};
+    \draw[fill=colorfile] ([shift={(0,-1)}]10.5,-5.5) rectangle ([shift={(0,-1)}]13.5,-4) node[fitting node] (F2B) {};
+    \draw[fill=colorsummary] ([shift={(0,-1)}]10.5,-5.8) rectangle ([shift={(0,-1)}]13.5,-5.3);
+    \node[title,text width=10em] at ([shift={(0,-1)}]12.4,-4.5) {File 2};
+    \draw[fill=colorrepeat, dashed, opacity=0.5] ([shift={(1.3,1.2)}]7,-5.8) rectangle ([shift={(2.3,1.8)}]10,-5.3) node[fitting node] (ACPB) {};
+    \node[code,text width=11em] at ([shift={(1.5,0.5)}]8.9,-4.5) { \emph{Access Control Policies} };
 
     % Pod Carol
     \draw[fill=colorpod] (14.5,-7) rectangle (22,-2.5);
     \node[title,text width=10em] at (16.5,-3) {Pod Carol};
-    \draw[fill=colorfile] (15,-5.5) rectangle (18,-4);
-    \draw[fill=colorsummary] (15,-5.8) rectangle (18,-5.3);
-    \node[title,text width=10em] at (16.9,-4.5) {File 1};
-    \draw[fill=colorfile] (18.5,-5.5) rectangle (21.5,-4);
-    \draw[fill=colorsummary] (18.5,-5.8) rectangle (21.5,-5.3);
-    \node[title,text width=10em] at (20.4,-4.5) {File 2};
-
+    \draw[fill=colorfile] ([shift={(0,-1)}]15,-5.5) rectangle ([shift={(0,-1)}]18,-4) node[fitting node] (F1C) {};
+    \draw[fill=colorsummary] ([shift={(0,-1)}]15,-5.8) rectangle ([shift={(0,-1)}]18,-5.3);
+    \node[title,text width=10em] at ([shift={(0,-1)}]16.9,-4.5) {File 1};
+    \draw[fill=colorfile] ([shift={(0,-1)}]18.5,-5.5) rectangle ([shift={(0,-1)}]21.5,-4) node[fitting node] (F2C) {};
+    \draw[fill=colorsummary] ([shift={(0,-1)}]18.5,-5.8) rectangle ([shift={(0,-1)}]21.5,-5.3);
+    \node[title,text width=10em] at ([shift={(0,-1)}]20.4,-4.5) {File 2};
+    \draw[fill=colorrepeat, dashed, opacity=0.5] ([shift={(1.3,1.2)}]15,-5.8) rectangle ([shift={(2.3,1.8)}]18,-5.3) node[fitting node] (ACPC) {};
+    \node[code,text width=11em] at ([shift={(1.5,0.5)}]16.9,-4.5) { \emph{Access Control Policies} };
     % Arrows between executor and files
-    \draw[<->,thick,dashed] (2,0.5) -- node[left]{execute $q$} (1,-4);
-    \draw[<->,thick,dashed] (2,0.5) -- node[left]{execute $q$} (12,-4);
-    \draw[<->,thick,dashed] (2,0.5) -- node[right]{execute $q$} (16.5,-4);
+    \draw[<->,thick,dashed] (2,0.5) -- node[left]{execute $q$} (ACPA.north);
+    \draw[<->,thick,dashed] (2,0.5) -- node[left]{execute $q$} (ACPB.north);
+    \draw[<->,thick,dashed] (2,0.5) -- node[right]{execute $q$} (ACPC.west);
+
+    \draw[->,thick,dashed] (ACPA.south) -- (F1A.north);
+    \draw[->,thick,dashed] (ACPA.south) -- (F2A.north);
+    \draw[->,thick,dashed] (ACPB.south) -- (F1B.north);
+    \draw[->,thick,dashed] (ACPB.south) -- (F2B.north);
+    \draw[->,thick,dashed] (ACPC.south) -- (F1C.north);
+    \draw[->,thick,dashed] (ACPC.south) -- (F2C.north);
 
 \end{tikzpicture}
 \end{document}
