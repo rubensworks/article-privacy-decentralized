@@ -60,11 +60,11 @@
     \draw[<-,thick] (-5,1) -- node[midway]{query results $R$} (0.5,1);
 
     % Aggregator
-    \draw[fill=colorpod,dashed] (16,2.5) rectangle (20,4);
+    \draw[fill=colorpod,dashed] (16,2.5) rectangle (20,4)  node[fitting node] (Agg) {};
     \node[title,text width=10em] at (18,3.5) {Aggregator};
 
     % Summary
-    \draw[fill=colorsummary] (9,3) rectangle (14,-0.5);
+    \draw[fill=colorsummary] (9,3) rectangle (14,-0.5) node[fitting node] (AggSum) {};
     \node[title,text width=20em] at (12.5, 2.5) {Aggregated Summary};
     \draw[fill=colorsummary] (9.5,2) rectangle (10.5,0.25);
     \node[code,text width=2em] at (10,1.2) {S1\\S2\\\ldots};
@@ -88,7 +88,7 @@
     \draw[<-,thick] (3,1) -- node[above]{selected sources} (9,1);
 
     % Pod Alice
-    \draw[fill=colorpod] (-1.5,-7) rectangle (6,-2.5);
+    \draw[fill=colorpod] (-1.5,-7) rectangle (6,-2.5) node[fitting node] (PodA) {};
     \node[title,text width=10em] at (0.5,-3) {Pod Alice};
     \draw[fill=colorfile] ([shift={(0,-1)}]-1,-5.5) rectangle ([shift={(0,-1)}]2,-4) node[fitting node] (F1A) {};
     \draw[fill=colorsummary] ([shift={(0,-1)}]-1,-5.8) rectangle ([shift={(0,-1)}]2,-5.3);
@@ -99,7 +99,7 @@
     \draw[fill=colorrepeat, dashed, opacity=0.5] ([shift={(1.3,1.2)}]-1,-5.8) rectangle ([shift={(2.3,1.8)}]2,-5.3) node[fitting node] (ACPA) {};
     \node[code,text width=11em] at ([shift={(1.5,0.5)}]0.9,-4.5) { \emph{Access Control Policies} };
     % Pod Bob
-    \draw[fill=colorpod] (6.5,-7) rectangle (14,-2.5);
+    \draw[fill=colorpod] (6.5,-7) rectangle (14,-2.5) node[fitting node] (PodB) {};
     \node[title,text width=10em] at (8.5,-3) {Pod Bob};
     \draw[fill=colorfile] ([shift={(0,-1)}]7,-5.5) rectangle ([shift={(0,-1)}]10,-4) node[fitting node] (F1B) {};
     \draw[fill=colorsummary] ([shift={(0,-1)}]7,-5.8) rectangle ([shift={(0,-1)}]10,-5.3);
@@ -111,7 +111,7 @@
     \node[code,text width=11em] at ([shift={(1.5,0.5)}]8.9,-4.5) { \emph{Access Control Policies} };
 
     % Pod Carol
-    \draw[fill=colorpod] (14.5,-7) rectangle (22,-2.5);
+    \draw[fill=colorpod] (14.5,-7) rectangle (22,-2.5) node[fitting node] (PodC) {};
     \node[title,text width=10em] at (16.5,-3) {Pod Carol};
     \draw[fill=colorfile] ([shift={(0,-1)}]15,-5.5) rectangle ([shift={(0,-1)}]18,-4) node[fitting node] (F1C) {};
     \draw[fill=colorsummary] ([shift={(0,-1)}]15,-5.8) rectangle ([shift={(0,-1)}]18,-5.3);
@@ -132,6 +132,14 @@
     \draw[->,thick,dashed] (ACPB.south) -- (F2B.north);
     \draw[->,thick,dashed] (ACPC.south) -- (F1C.north);
     \draw[->,thick,dashed] (ACPC.south) -- (F2C.north);
+
+
+    \node[inner sep=0pt, scale=0.05] (lockA) at ([shift={(0,-0.2)}]Agg.west) {\includegraphics{lock.eps}};
+    \node[inner sep=0pt, scale=0.05] (lockB) at ([shift={(0,-0.2)}]AggSum.west) {\includegraphics{lock.eps}};
+
+    % \node[inner sep=0pt, scale=0.05] (lockA) at ([shift={(-0.5,0)}]PodA.north east) {\includegraphics{lock.eps}};
+    % \node[inner sep=0pt, scale=0.05] (lockB) at ([shift={(-0.5,0)}]PodB.north east) {\includegraphics{lock.eps}};
+    % \node[inner sep=0pt, scale=0.05] (lockC) at ([shift={(-0.5,0)}]PodC.north east) {\includegraphics{lock.eps}};
 
 \end{tikzpicture}
 \end{document}

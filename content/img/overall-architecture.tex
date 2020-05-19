@@ -57,11 +57,13 @@
 }
 \makeatother
 \tikzset{every picture/.style={/utils/exec={\sffamily\itshape}}}
+
+
+
+
 \begin{document}
 \pagestyle{empty}
 
-
-% ======================================= V
 
 \begin{tikzpicture}[
     node distance = 10em, auto, thick,
@@ -82,7 +84,7 @@
             text height=\ht\strutbox,text depth=\dp\strutbox,
             draw
           }},
-    source/.style={draw,thick,rounded corners,fill=yellow!20,inner sep=.3cm},
+    source/.style={draw,thick,fill=yellow!20,inner sep=.3cm},
     db/.style={draw,thick,fill=yellow!20},
     process/.style={draw,thick,circle,fill=colorfile},
     sink/.style={source,inner sep=.5cm, minimum height=2cm},
@@ -97,7 +99,7 @@
 
   \node[alice,minimum size=2em] (REQUESTER){Requester};
   \node[sink, fill=colorclient,text=colorwhite, right=of REQUESTER] (FE) {Query \\ Engine};
-  \node[sink, fill=colorpod, right = of FE] (IAM) [align=left] {Aggregator};
+  \node[sink, fill=colorpod,dashed, right = of FE] (IAM) [align=left] {Aggregator};
   \node[pod, below = of FE] (POD2) {Pod 2};
   \node[pod, left = of POD2] (POD1) {Pod 1};
   \node[pod, right = of POD2] (POD3) {Pod n};
@@ -135,6 +137,8 @@
     \node[fill=colorsummary, draw, semithick,rectangle,below= 0.5em of blue2, minimum width=2em, minimum height=1em] (green2) {};
     \node[fill=colorfile, draw, semithick,below left=0.5em and -1em of POD3.west, rectangle,minimum width=2em,minimum height=1em] (blue3) {};
     \node[fill=colorsummary, draw, semithick,rectangle,below= 0.5em of blue3, minimum width=2em, minimum height=1em] (green3) {};
+
+
   \end{scope}
 
 \end{tikzpicture}
