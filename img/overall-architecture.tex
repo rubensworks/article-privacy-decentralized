@@ -23,6 +23,7 @@
 
 \definecolor{colorgray}     {RGB}{150,150,150}
 \definecolor{colorpod}      {RGB}{199,212,104}
+\definecolor{colorpod2}      {RGB}{227, 222, 171}
 \definecolor{colorfile}     {RGB}{ 79,142,209}
 \definecolor{colorsummary}  {RGB}{143,232,186}
 \definecolor{colortext}     {RGB}{ 29, 29, 27}
@@ -70,6 +71,7 @@
     title/.style={text=colortext,font={\Large\itshape}},
     person/.style={text=colorwhite,font={\Large\bfseries}},
     code/.style={text=colortext,font={}},
+        % Client
     key/.style={text=colorkey,font={\tiny\itshape}},
     every matrix/.style={ampersand replacement=\&,column sep=2cm,row sep=2cm ,
         nodes in empty cells},
@@ -97,7 +99,7 @@
   % % Position the nodes using a matrix layout
   % \& \node[datastore] (buffer) {buffer};  \& \\
 
-  \node[alice,minimum size=2em] (REQUESTER){Requester};
+  \node[draw,fill=colorclient,text=colorwhite,circle,minimum size=1em] (REQUESTER){Requester};
   \node[sink, fill=colorclient,text=colorwhite, right=of REQUESTER] (FE) {Query \\ Engine};
   \node[sink, fill=colorpod,dashed, right = of FE] (IAM) [align=left] {Aggregator};
   \node[pod, below = of FE] (POD2) {Pod 2};
@@ -109,21 +111,21 @@
   % \node[title, below=1em of POD3] (KPOD2) {};
 
 
-  \draw[to] (REQUESTER) -- node[midway,above] {query,Keys}  (FE);
-  \draw[to] (FE) -- node[midway,below] {Results} (REQUESTER);
+  \draw[to] (REQUESTER) -- node[midway,above] {query, keys}  (FE);
+  \draw[to] (FE) -- node[midway,below] {results} (REQUESTER);
 
   \draw[to] (IAM) -- node[midway,above] {request} (FE);
-  \draw[to] (FE) -- node[midway,below] {Summaries} (IAM);
+  \draw[to] (FE) -- node[midway,below] {summaries} (IAM);
 
-  \draw[to,>=stealth',shorten >=1pt,semithick,font=\sffamily\footnotesize] (POD1.north) -- node[midway,above,sloped] {query, Credentials} (FE);
-  \draw[to,>=stealth',shorten >=1pt,semithick,font=\sffamily\footnotesize] (FE) -- node[midway,below,sloped] {Results} (POD1.north);
+  \draw[to,>=stealth',shorten >=1pt,semithick,font=\sffamily\footnotesize] (POD1.north) -- node[midway,above,sloped] {query, client identification} (FE);
+  \draw[to,>=stealth',shorten >=1pt,semithick,font=\sffamily\footnotesize] (FE) -- node[midway,below,sloped] {results} (POD1.north);
 
 
-  \draw[to,>=stealth',shorten >=1pt,semithick,font=\sffamily\footnotesize] (POD2.north) -- node[midway,above,sloped] {query, Credentials} (FE);
-  \draw[to,>=stealth',shorten >=1pt,semithick,font=\sffamily\footnotesize] (FE) -- node[midway,above,sloped] {Results} (POD2.north);
+  \draw[to,>=stealth',shorten >=1pt,semithick,font=\sffamily\footnotesize] (POD2.north) -- node[midway,above,sloped] {query, client identification} (FE);
+  \draw[to,>=stealth',shorten >=1pt,semithick,font=\sffamily\footnotesize] (FE) -- node[midway,above,sloped] {results} (POD2.north);
 
-  \draw[to,>=stealth',shorten >=1pt,semithick,font=\sffamily\footnotesize] (POD3.north) -- node[midway,above,sloped] {query, Credentials} (FE);
-  \draw[to,>=stealth',shorten >=1pt,semithick,font=\sffamily\footnotesize] (FE) -- node[midway,below,sloped] {Results} (POD3.north);
+  \draw[to,>=stealth',shorten >=1pt,semithick,font=\sffamily\footnotesize] (POD3.north) -- node[midway,above,sloped] {query, client identification} (FE);
+  \draw[to,>=stealth',shorten >=1pt,semithick,font=\sffamily\footnotesize] (FE) -- node[midway,below,sloped] {results} (POD3.north);
 
 
   \draw[-,>=stealth',shorten >=1pt,semithick,dashed,font=\sffamily\footnotesize] (POD1.north) -- node[midway,sloped] {} (IAM);
@@ -133,11 +135,13 @@
   \begin{scope}[on above layer]
     \node[fill=colorfile, draw, semithick,below left=0.5em and -1em of POD1.west, rectangle,minimum width=2em,minimum height=1em] (blue1) {};
     \node[fill=colorsummary, draw, semithick,rectangle,below= 0.5em of blue1, minimum width=2em, minimum height=1em] (green1) {};
+    \node[fill=colorpod2,  dashed, draw, semithick,rectangle,below = 0em of POD1.north, minimum width=2em, minimum height=1em] (ac1) {};
     \node[fill=colorfile, draw, semithick,below left=0.5em and -1em of POD2.west, rectangle,minimum width=2em,minimum height=1em] (blue2) {};
     \node[fill=colorsummary, draw, semithick,rectangle,below= 0.5em of blue2, minimum width=2em, minimum height=1em] (green2) {};
+    \node[fill=colorpod2,  dashed, draw, semithick,rectangle,below = 0em of POD2.north, minimum width=2em, minimum height=1em] (ac2) {};
     \node[fill=colorfile, draw, semithick,below left=0.5em and -1em of POD3.west, rectangle,minimum width=2em,minimum height=1em] (blue3) {};
     \node[fill=colorsummary, draw, semithick,rectangle,below= 0.5em of blue3, minimum width=2em, minimum height=1em] (green3) {};
-
+    \node[fill=colorpod2,  dashed, draw, semithick,rectangle,below = 0em of POD3.north, minimum width=2em, minimum height=1em] (ac3) {};
 
   \end{scope}
 
