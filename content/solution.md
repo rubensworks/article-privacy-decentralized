@@ -4,6 +4,7 @@
 When it comes to access policy specification, summarisation generation and maintenance, source selection, and access control enforcement there are several open challenges and opportunities, which we discuss hereafter.
 
 ### Access Policy Specification
+{:#policy_spec}
 
 We assume that pod owners need to be able to specify access control policies that can be enforced both from an indexing and also a query processing perspective, taking into consideration the following core requirement:
 
@@ -12,7 +13,7 @@ We assume that pod owners need to be able to specify access control policies tha
 In order to support privacy-preserving summaries, there is a need to generate access keys for both the acquaintances and the friends files, such that the summary generation process does not work with plain text attributes but rather cipher text. Given that data in the everyone file is public by default, no key is needed.
 
 {:.todo}
-What is the *the everyone file*? Typo?
+What is the _the everyone file_? Typo?
 
 In this paper, we propose that there is a many to many mapping between quads and policies and a one to one mapping between access policies (enforced at query time) and access keys (used to create privacy preserving data summaries). Our initial proposal makes use of simple symmetric keys, however for more complex scenarios both attribute-based encryption and/or key derivation algorithms could be use to provide support for more complex access policies.
 
@@ -141,7 +142,6 @@ From a source selection perspective, we address the following core requirement:
   and checking its membership inside the filter.
   `SummaryContains(Σ.c, q.c, k, u) = Σ.c[(q.c & k) | u]`.
 
-
 One open challenge will be to investigate how this file-based source selection method could be combined and enhanced
 by existing source selection methods for SPARQL endpoints, such as [Hibiscus](cite:cites hibiscus) and [Splendid](cite:cites splendid).
 Another open challenge is the automatic discovery of applicable aggregators by clients.
@@ -175,10 +175,18 @@ WebID, is a mechanism used to uniquely identify and authenticate a person, compa
 {:.todo}
 Can the paragraph above be removed? It seems to exist in the background section already.
 
-#### Authorisation
+### Policy Enforcement
 
-For access control purposes, we envision a mechanism that translates access policies (i.e. sets of authorisations) into constraints (e.g., data shapes like [SHACL](cite:cites spec:shacl)) against which requests and respective query results can then be validated against. The following policy could be used to allow read access to all _public_ URIs of `<http://alice.pod/share/photoAnnotations/>`
+One of the key challenges with respect to Access and Usage Control relates to the **enforcement** of authorisations, i.e., policies (cf., [](#policy_spec)) which govern _who_ can do _what_ with _which_ resources under _what_ conditions. Enforcing authorisations means to ensure that data is accessed and used in a manner
+which is compliant with the conditions defined in said policies.
 
+For access control purposes, we envision a mechanism that translates access policies (i.e. sets of authorisations) into constraints (e.g., data shapes like [SHACL](cite:cites spec:shacl)) which requests and respective query results can then be validated against.
+
+Subsequently, the trade-off between granularity of policies (e.g., file-based, pattern-based, quad-based, ...) and associated computational overhead needs to be thoroughly investigated.
+
+<!-- The following policy could be used to allow read access to all _public_ URIs of `<http://alice.pod/share/photoAnnotations/>` -->
+
+<!--
 ~~~ turtle
 <http://alice.pod/policy:88>
     a odrl:Policy ;
@@ -194,6 +202,5 @@ For access control purposes, we envision a mechanism that translates access poli
         ]
         odrl:action acl:Read;
     ] .
-~~~
+~~~ -->
 
-One of the key challenges relates to the management of access control policies and the associated access keys. Additionally, there is a need to investigate the overhead associated with increasingly granular access control policies (e.g., file based, pattern based, quad based).   
