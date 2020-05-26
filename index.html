@@ -15,7 +15,7 @@
   <meta name="citation_author" content="Simon Steyskal" />
   <meta name="citation_author" content="Sabrina Kirrane" />
   
-  <meta name="citation_publication_date" content="2020/05/19" />
+  <meta name="citation_publication_date" content="2020/05/26" />
 </head>
 
 <body prefix="dctypes: http://purl.org/dc/dcmitype/ pimspace: http://www.w3.org/ns/pim/space# rsa: http://www.w3.org/ns/auth/rsa# cert: http://www.w3.org/ns/auth/cert# wgs: http://www.w3.org/2003/01/geo/wgs84_pos# biblio: http://purl.org/net/biblio# bibo: http://purl.org/ontology/bibo/ book: http://purl.org/NET/book/vocab# ov: http://open.vocab.org/terms/ doap: http://usefulinc.com/ns/doap# dbr: http://dbpedia.org/resource/ dbp: http://dbpedia.org/property/ sio: http://semanticscience.org/resource/ opmw: http://www.opmw.org/ontology/ deo: http://purl.org/spar/deo/ doco: http://purl.org/spar/doco/ cito: http://purl.org/spar/cito/ fabio: http://purl.org/spar/fabio/ solid: http://www.w3.org/ns/solid/terms# acl: http://www.w3.org/ns/auth/acl# dio: https://w3id.org/dio# lsc: http://linkedscience.org/lsc/ns#" typeof="schema:CreativeWork sioc:Post prov:Entity lsc:Research">
@@ -611,7 +611,7 @@ In the proposed algorithm a map relating quads to policies and keys is used to i
 
         <p>When it comes to access policy specification, summarisation generation and maintenance, source selection, and access control enforcement there are several open challenges and opportunities, which we discuss hereafter.</p>
 
-        <h3 id="access-policy-specification">Access Policy Specification</h3>
+        <h3 id="policy_spec">Access Policy Specification</h3>
 
         <p>We assume that pod owners need to be able to specify access control policies that can be enforced both from an indexing and also a query processing perspective, taking into consideration the following core requirement:</p>
 
@@ -801,28 +801,34 @@ and make use of them during query execution, we consider this out-of-scope for t
 
         <p class="todo">Can the paragraph above be removed? It seems to exist in the background section already.</p>
 
-        <h4 id="authorisation">Authorisation</h4>
+        <h3 id="policy-enforcement">Policy Enforcement</h3>
 
-        <p>For access control purposes, we envision a mechanism that translates access policies (i.e. sets of authorisations) into constraints (e.g., data shapes like <a property="schema:citation http://purl.org/spar/cito/cites" href="https://www.w3.org/TR/shacl/">SHACL</a> <span class="references">[<a href="#ref-32">32</a>]</span>) against which requests and respective query results can then be validated against. The following policy could be used to allow read access to all <em>public</em> URIs of <code>&lt;http://alice.pod/share/photoAnnotations/&gt;</code></p>
+        <p>One of the key challenges with respect to Access and Usage Control relates to the <strong>enforcement</strong> of authorisations, i.e., policies (cf., <a href="#policy_spec">Subsection 5.1</a>) which govern <em>who</em> can do <em>what</em> with <em>which</em> resources under <em>what</em> conditions. Enforcing authorisations means to ensure that data is accessed and used in a manner
+which is compliant with the conditions defined in said policies.</p>
 
-        <div class="language-turtle highlighter-rouge">
-<div class="highlight"><pre class="highlight"><code><span class="nl">&lt;http://alice.pod/policy:88&gt;</span><span class="w">
-    </span><span class="k">a</span><span class="w"> </span><span class="nn">odrl:</span><span class="n">Policy</span><span class="w"> </span><span class="p">;</span><span class="w">
-    </span><span class="nn">odrl:</span><span class="n">permission</span><span class="w"> </span><span class="p">[</span><span class="w">
-        </span><span class="nn">odrl:</span><span class="n">target</span><span class="w"> </span><span class="p">[</span><span class="w">
-            </span><span class="k">a</span><span class="w"> </span><span class="nn">odrl:</span><span class="n">AssetCollection</span><span class="w"> </span><span class="p">;</span><span class="w">
-            </span><span class="nn">odrl:</span><span class="n">source</span><span class="w"> </span><span class="nl">&lt;http://alice.pod/share/photoAnnotations/&gt;</span><span class="w"> </span><span class="p">;</span><span class="w">
-            </span><span class="nn">odrl:</span><span class="n">refinement</span><span class="w"> </span><span class="p">[</span><span class="w">
-                </span><span class="k">a</span><span class="w"> </span><span class="nn">sh:</span><span class="n">NodeShape</span><span class="w"> </span><span class="p">;</span><span class="w">
-                </span><span class="nn">sh:</span><span class="n">pattern</span><span class="w"> </span><span class="s">"public"</span><span class="w"> </span><span class="p">;</span><span class="w">
-                </span><span class="nn">sh:</span><span class="n">flags</span><span class="w">   </span><span class="s">"i"</span><span class="w"> </span><span class="p">.</span><span class="w">
-            </span><span class="p">]</span><span class="w">
-        </span><span class="p">]</span><span class="w">
-        </span><span class="nn">odrl:</span><span class="n">action</span><span class="w"> </span><span class="nn">acl:</span><span class="n">Read</span><span class="p">;</span><span class="w">
-    </span><span class="p">]</span><span class="w"> </span><span class="p">.</span><span class="w">
-</span></code></pre></div>        </div>
+        <p>For access control purposes, we envision a mechanism that translates access policies (i.e. sets of authorisations) into constraints (e.g., data shapes like <a property="schema:citation http://purl.org/spar/cito/cites" href="https://www.w3.org/TR/shacl/">SHACL</a> <span class="references">[<a href="#ref-32">32</a>]</span>) which requests and respective query results can then be validated against.</p>
 
-        <p>One of the key challenges relates to the management of access control policies and the associated access keys. Additionally, there is a need to investigate the overhead associated with increasingly granular access control policies (e.g., file based, pattern based, quad based).</p>
+        <p>Subsequently, the trade-off between granularity of policies (e.g., file-based, pattern-based, quad-based, …) and associated computational overhead needs to be thoroughly investigated.</p>
+
+        <!-- The following policy could be used to allow read access to all _public_ URIs of `<http://alice.pod/share/photoAnnotations/>` -->
+
+        <!--
+~~~ turtle
+<http://alice.pod/policy:88>
+    a odrl:Policy ;
+    odrl:permission [
+        odrl:target [
+            a odrl:AssetCollection ;
+            odrl:source <http://alice.pod/share/photoAnnotations/> ;
+            odrl:refinement [
+                a sh:NodeShape ;
+                sh:pattern "public" ;
+                sh:flags   "i" .
+            ]
+        ]
+        odrl:action acl:Read;
+    ] .
+~~~ -->
 
       </div>
 </section>
