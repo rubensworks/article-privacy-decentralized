@@ -1,8 +1,6 @@
 FUNCTION ExecuteQuery(i, q, QPK)
   INPUT:
-    i: client identification
-    q: quad pattern query
-    QPK: hashmap relating quads to policies and keys
+    i: client identification, q: quad pattern query, QPK: hashmap relating quads to policies and keys
   OUTPUT:
     R: query results
 R = {}

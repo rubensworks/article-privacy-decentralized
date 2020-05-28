@@ -15,7 +15,7 @@
   <meta name="citation_author" content="Simon Steyskal" />
   <meta name="citation_author" content="Sabrina Kirrane" />
   
-  <meta name="citation_publication_date" content="2020/05/26" />
+  <meta name="citation_publication_date" content="2020/05/28" />
 </head>
 
 <body prefix="dctypes: http://purl.org/dc/dcmitype/ pimspace: http://www.w3.org/ns/pim/space# rsa: http://www.w3.org/ns/auth/rsa# cert: http://www.w3.org/ns/auth/cert# wgs: http://www.w3.org/2003/01/geo/wgs84_pos# biblio: http://purl.org/net/biblio# bibo: http://purl.org/ontology/bibo/ book: http://purl.org/NET/book/vocab# ov: http://open.vocab.org/terms/ doap: http://usefulinc.com/ns/doap# dbr: http://dbpedia.org/resource/ dbp: http://dbpedia.org/property/ sio: http://semanticscience.org/resource/ opmw: http://www.opmw.org/ontology/ deo: http://purl.org/spar/deo/ doco: http://purl.org/spar/doco/ cito: http://purl.org/spar/cito/ fabio: http://purl.org/spar/fabio/ solid: http://www.w3.org/ns/solid/terms# acl: http://www.w3.org/ns/auth/acl# dio: https://w3id.org/dio# lsc: http://linkedscience.org/lsc/ns#" typeof="schema:CreativeWork sioc:Post prov:Entity lsc:Research">
@@ -36,17 +36,13 @@
 
   <ul id="affiliations">
     <li id="idlab">
-<sup>1</sup>IDLab,
-          Department of Electronics and Information Systems,
-          Ghent University – imec,
+<sup>1</sup>IDLab, Ghent University – imec, Belgium,
           ruben.taelman@ugent.be</li>
     <li id="sie">
-<sup>2</sup>Siemens AG Austria,
-          Vienna, Austria,
+<sup>2</sup>Siemens AG Austria, Austria,
           simon.steyskal@siemens.com</li>
     <li id="wu">
-<sup>3</sup>Vienna University of Economics and Business,
-          Vienna, Austria,
+<sup>3</sup>Vienna University of Economics and Business, Austria,
           sabrina.kirrane@wu.ac.at</li>
   </ul>
 
@@ -65,20 +61,19 @@
 <div datatype="rdf:HTML" property="schema:description">
       <h2 property="schema:name">Abstract</h2>
       <!-- Context      -->
-      <p>The Web as we know it is a ubiquitous economic, educational, and collaborative space.
-However, it also serves as a haven for personal information harvesting, disinformation, and political manipulation.
-Existing decentralised Web-based ecosystems, such as Solid,
-aim to combat personal data exploitation on the Web by giving individuals more control over their data.
+      <p>The Web is a ubiquitous economic, educational, and collaborative space.
+However, it also serves as a haven for personal information harvesting.
+Existing decentralised Web-based ecosystems, such as Solid, aim to combat personal data exploitation on the Web by enabling individuals to manage their data in the personal data store of their choice.
 <!-- Need         -->
 Since personal data in these decentralised ecosystems are distributed across many sources,
 there is a need for techniques to support efficient privacy-preserving query execution over personal data stores.
 <!-- Task         -->
 <!-- Object       -->
-Towards this end, in this paper we present a framework for efficient privacy preserving federated querying, and highlight open research challenges and opportunities.
+Towards this end, in this position paper we present a framework for efficient privacy preserving federated querying, and highlight open research challenges and opportunities.
 <!-- Findings     -->
 <!-- Conclusion   -->
 <!-- Perspectives -->
-The overarching aim being to provide a means to position future research into privacy-preserving querying within decentralised environments.</p>
+The overarching goal being to provide a means to position future research into privacy-preserving querying within decentralised environments.</p>
 
     </div>
 </section>
@@ -90,17 +85,14 @@ The overarching aim being to provide a means to position future research into pr
 <div datatype="rdf:HTML" property="schema:description">
         <h2 property="schema:name">Introduction</h2>
 
-        <p>The Web was originally envisaged as a free, non-discriminatory decentralised information space built upon standards and technical specifications.  Although the Web brings major benefits as an economic, educational, and collaborative space, it also serves as a means for personal information harvesting, disinformation, and political manipulation.</p>
-
-        <p>One potential solution to existing personal data harvesting practices is to enable individuals to take more control over who has access to their data in the form of personal data stores. One of the leading efforts in this space is Solid <span class="references">[<a href="#ref-1">1</a>]</span>, which is a decentralised Web based ecosystem that gives people more control over their data by enabling everyone to have a personal <em>data pod</em>, and by providing app developers with the infrastructure needed to develop applications that work over distributed data sources. By decoupling data from applications, individuals are afforded more control over how their personal data are processed. In such a setting, the number of pods that need to be queried could potentially become very large, for instance in the case of a large social network.</p>
+        <p>The Web was originally envisaged as a free, non-discriminatory decentralised information space built upon standards and technical specifications.  Although the Web brings major benefits as an economic, educational, and collaborative space, it also serves as a means for personal information harvesting, disinformation, and political manipulation.
+One potential solution to existing personal data harvesting practices is to enable individuals to take more control over who has access to their data in the form of personal data stores. One of the leading efforts in this space is Solid <span class="references">[<a href="#ref-1">1</a>]</span>, which is a decentralised Web based ecosystem that gives people more control over their data by enabling everyone to have a personal <em>data pod</em>, and by providing app developers with the infrastructure needed to develop applications that work over distributed data sources. By decoupling data from applications, individuals are afforded more control over how their personal data are processed. In such a setting, the number of pods that need to be queried could potentially become very large, for instance in the case of a large social network.</p>
 
         <p>Existing research into data aggregators <span class="references">[<a href="#ref-2">2</a>, <a href="#ref-3">3</a>]</span> could be used to improve query performance by reducing the number of sources that need to be consulted for any given query. However, one of the major limitations of current aggregation techniques, is the fact that they assume that all data is public, which is not realistic in many scenarios (e.g., in a social network context individuals may wish to share a limited amount of data with acquaintances and more data with friends). As such, query execution and aggregation techniques need to be extended to cater for different access policies. Concretely, data providers need to be able to associate access policies with data, and query engines need to be able to authenticate themselves to sources such that only authorised data is returned. Furthermore, since aggregators may be untrusted third-parties, there is a need for privacy-preserving aggregation techniques, such that malicious aggregators are not able to access unauthorised data, but authorised query engines are still able to exploit indexing.</p>
 
         <p>In this paper, we propose a high-level framework that can be used to: (i) optimise federated querying through privacy-preserving aggregation; and (ii) enable federated querying with access control. In addition, we present an instantiation of the proposed framework, and discuss open research challenges and opportunities.</p>
 
-        <p>The remainder of this article is structured as follows: In <a href="#background">Section 2</a> we present relevant background in terms of querying, indexing, and access control.
-In <a href="#use-case">Section 3</a> we introduce the motivating use case that is used to guide our work.  Following on from this our framework is introduced in <a href="#framework">Section 4</a> and the challenges and opportunities of possible instantiations are presented in <a href="#solution">Section 5</a>.
-Finally we conclude the article and discuss future work in <a href="#conclusions">Section 6</a>.</p>
+        <p>The remainder of this article is structured as follows: In <a href="#background">Section 2</a> we present the necessary background and related work. In <a href="#use-case">Section 3</a> we introduce a motivating use case scenario.  Following on from this our framework is introduced in <a href="#framework">Section 4</a> and the challenges and opportunities of possible instantiations are presented in <a href="#solution">Section 5</a>. Finally we conclude the article and discuss future work in <a href="#conclusions">Section 6</a>.</p>
 
       </div>
 </section>
@@ -109,72 +101,46 @@ Finally we conclude the article and discuss future work in <a href="#conclusions
 <div datatype="rdf:HTML" property="schema:description">
         <h2 property="schema:name">Background and Related Work</h2>
 
-        <p>The objective of this section is to present the necessary background and related work on the Solid platform, federated query processing, approximate membership functions, and access control.</p>
+        <p>We start by presenting background and related work on the Solid platform, federated query processing, approximate membership functions, and access control.</p>
 
-        <!-- the W3C Shapes Constraint Language (SHACL). -->
-
-        <h3 id="social-linked-data">Social Linked Data</h3>
-
-        <p>Solid <span class="references">[<a href="#ref-1">1</a>]</span> is a <em>decentralised Web-based ecosystem</em> that decouples <em>data</em> from <em>applications</em>.
+        <p><br>
+<strong>Social Linked Data.</strong>
+Solid <span class="references">[<a href="#ref-1">1</a>]</span> is a <em>decentralised Web-based ecosystem</em> that decouples <em>data</em> from <em>applications</em>.
 With Solid, everyone has their own personal <em>data pod</em>, in which any kind of data can be stored.
-Applications are decoupled from the data, and require permission from individuals in order to access their personal data store.
-Pod owners can decide which agents and applications can read from or write to specific parts of their data store.</p>
+Concretely, Solid makes use of a collection of Web standards and technical specifications, including the Resource Description Framework (RDF) <span class="references">[<a href="#ref-4">4</a>]</span>, the <a property="schema:citation http://purl.org/spar/cito/cites" href="https://www.w3.org/DesignIssues/LinkedData.html">Linked Data stack</a> <span class="references">[<a href="#ref-5">5</a>]</span>, the Linked Data Platform (LDP) <span class="references">[<a href="#ref-6">6</a>]</span>, Linked Data Notifications (LDN) <span class="references">[<a href="#ref-7">7</a>]</span>, WebID <span class="references">[<a href="#ref-8">8</a>]</span>, and <a property="schema:citation http://purl.org/spar/cito/cites" href="https://github.com/solid/web-access-control-spec">Web Access Control (WAC)</a> <span class="references">[<a href="#ref-9">9</a>]</span>.
+The RDF data model together with the Linked Data principles are used to give data a universal meaning, and to allow data to be linked across multiple data pods.
+Solid data pods implement the LDP specification which caters for RDF read-write operations via RESTful Web Application Programming Interfaces (APIs). The LDN specification is used to enable pods to communicate with each other.
+Using WebID, everyone has a personal online identifier that they can use to <em>authenticate</em> against a data pod. While, in turn WAC is used to specify rules that determine if agents and applications are <em>authorised</em> to read, write, append, or control RDF files. The framework described in this paper discusses how Solid could be extended to enable efficient privacy-preserving federated query evaluation over many Solid data pods.</p>
 
-        <p>Solid is not an application or tool, but rather a collection of open standards and conventions.
-Concretely, Solid makes use of a collection of Web standards and technical specifications, including the <a property="schema:citation http://purl.org/spar/cito/cites" href="https://www.w3.org/TR/2014/REC-rdf11-concepts-20140225/">Resource Description Framework (RDF)</a> <span class="references">[<a href="#ref-4">4</a>]</span>, the <a property="schema:citation http://purl.org/spar/cito/cites" href="https://www.w3.org/DesignIssues/LinkedData.html">Linked Data stack</a> <span class="references">[<a href="#ref-5">5</a>]</span>, the <a property="schema:citation http://purl.org/spar/cito/cites" href="https://www.w3.org/TR/ldp/">Linked Data Platform (LDP)</a> <span class="references">[<a href="#ref-6">6</a>]</span>, <a property="schema:citation http://purl.org/spar/cito/cites" href="https://www.w3.org/TR/ldn/">Linked Data Notifications (LDN)</a> <span class="references">[<a href="#ref-7">7</a>]</span>, <a property="schema:citation http://purl.org/spar/cito/cites" href="https://www.w3.org/2005/Incubator/webid/spec/identity/">WebID</a> <span class="references">[<a href="#ref-8">8</a>]</span>, and <a property="schema:citation http://purl.org/spar/cito/cites" href="https://github.com/solid/web-access-control-spec">Web Access Control (WAC)</a> <span class="references">[<a href="#ref-9">9</a>]</span>.
-The RDF data model together with the Linked Data principles are used to give data a universal meaning through Uniform Resource Identifiers (URIs), and to allow data to be linked across multiple data pods.
-Solid data pods implement the LDP specification which caters for RDF read-write operations via RESTful Web Application Programming Interfaces (APIs).
-Solid also allows non-RDF data, such as plain text or images, to be stored in data pods,
-however these can only be managed through the usual HyperText Transfer Protocol (HTTP) methods such as GET and PUT.
-The LDN specification, which defines how messages can be sent between two agents as Linked Data, is used to enable pods to communicate with each other.
-Finally using WebID, everyone has a personal online identifier that they can use to <em>authenticate</em> against a data pod. While, in turn WAC is used to specify rules that determine if agents and applications are <em>authorised</em> to read, write, append, or control RDF files.</p>
-
-        <p>The framework described in this paper discusses how Solid could be extended to enable efficient privacy-preserving federated query evaluation over many Solid data pods.</p>
-
-        <h3 id="federated-query-processing">Federated Query Processing</h3>
-
-        <p>In a truly decentralised Web, data is spread over multiple sources,
-which means that there is no single <a property="schema:citation http://purl.org/spar/cito/cites" href="https://www.w3.org/TR/2013/REC-sparql11-protocol-20130321/">endpoint</a> <span class="references">[<a href="#ref-10">10</a>]</span> through which all data can be retrieved.
-For this, <em>federated query processing</em> <span class="references">[<a href="#ref-11">11</a>]</span> is an active area of research
-in which techniques are investigated to intelligently delegate the execution of parts of a <a property="schema:citation http://purl.org/spar/cito/cites" href="https://www.w3.org/TR/2013/REC-sparql11-query-20130321/">SPARQL query</a> <span class="references">[<a href="#ref-12">12</a>]</span> to specific sources.
+        <p><br>
+<strong>Federated Query Processing.</strong>
+In a truly decentralised Web, data is spread over multiple sources,
+which means that there is no single endpoint through which all data can be retrieved.
+For this, federated query processing is an active area of research
+in which techniques are investigated to intelligently delegate the execution of parts of a SPARQL query to specific sources.
 In order to enable federations over many sources to scale more efficiently aggregation techniques whereby one or more independent <em>aggregators</em> continously <em>crawl</em> sources,
 and maintain <em>data summaries</em> <span class="references">[<a href="#ref-2">2</a>, <a href="#ref-3">3</a>]</span>, could be used to reduce the number of sources that need to be consulted.
 Query engines could use these summaries as an index structure that enables them to identify the sources that are needed to answer specific queries,
-which reduces the range of sources that need to be queried.</p>
+which reduces the range of sources that need to be queried.
+In the context of this work, we extend existing query optimisation approaches by introducing an framework for efficient privacy-preserving federated query execution.</p>
 
-        <p>In the context of this work, we extend existing query optimisation approaches by introducing an framework for efficient privacy-preserving federated query execution.</p>
-
-        <h3 id="approximate-membership-functions">Approximate Membership Functions</h3>
-
-        <p>Approximate Membership Functions (AMFs) are probabilistic data structures used to efficiently determine whether or not elements are part of a collection.
-Given that AMFs are probabilistic, they may produce false positives, but they always produce true negatives.
-Since AMFs are typically much smaller than a full dataset,
+        <p><br>
+<strong>Approximate Membership Functions.</strong>
+Approximate Membership Functions (AMFs) are probabilistic data structures used to efficiently determine whether or not elements are part of a collection. Given that AMFs are probabilistic, they may produce false positives, but they always produce true negatives. Since AMFs are typically much smaller than a full dataset,
 they are a valuable method for pre-filtering when querying.
-<a property="schema:citation http://purl.org/spar/cito/cites" href="http://crystal.uta.edu/~mcguigan/cse6350/papers/Bloom.pdf"><em>Bloom filters</em></a> <span class="references">[<a href="#ref-13">13</a>]</span> are one example of an AMF technique.
+<em>Bloom filters</em> <span class="references">[<a href="#ref-10">10</a>]</span> are one example of an AMF technique.
 A Bloom filter consists of a bitmap, and a predetermined set of hash functions.
-To construct a Bloom filter, each element is run through these hash functions to produce a bit vector,
-and all of these vectors are <code>OR</code>-ed into the bitmap.
-To test the membership of an element, the same hash functions are applied, and their binary membership is tested.
-Since Bloom filters are bitmaps, multiple Bloom filters can be merged together efficiently by <code>OR</code>-ing them.
 AMFs have been used in various of RDF querying scenarios,
-such as <a property="schema:citation http://purl.org/spar/cito/cites" href="https://dl.acm.org/citation.cfm?doid=2063576.2063988">reducing the number of expensive I/O operations</a> <span class="references">[<a href="#ref-14">14</a>]</span> during triple pattern query evaluation,
-<a property="schema:citation http://purl.org/spar/cito/cites" href="https://www.researchgate.net/profile/Thomas_Neumann2/publication/47863714_Scalable_Join_Processing_on_Very_Large_RDF_Graphs/links/00b7d51d1687cae740000000.pdf">improving the performance of join operations</a> <span class="references">[<a href="#ref-15">15</a>]</span>,
-and <a property="schema:citation http://purl.org/spar/cito/cites" href="http://linkeddatafragments.org/publications/iswc2015-amf.pdf">reducing the number of HTTP requests for Triple Pattern Fragments</a> <span class="references">[<a href="#ref-16">16</a>]</span>.
-In the context of federated querying, the <a property="schema:citation http://purl.org/spar/cito/cites" href="https://domino.mpi-inf.mpg.de/intranet/ag5/ag5publ.nsf/0/DAAD136B50B0C0ECC12579E6004D6582/%24file/p2-hose.pdf">SPARQL ASK response has been enhanced with Bloom filters to share a summary of the matching results</a> <span class="references">[<a href="#ref-17">17</a>]</span>, which allows overlaps between different sources to be identified.</p>
+such as reducing the number of expensive I/O operations <span class="references">[<a href="#ref-11">11</a>]</span> during triple pattern query evaluation,
+improving the performance of join operations <span class="references">[<a href="#ref-12">12</a>]</span>,
+and reducing the number of HTTP requests for Triple Pattern Fragments <span class="references">[<a href="#ref-13">13</a>]</span>.
+In the context of federated querying, the SPARQL ASK response has been enhanced with Bloom filters to share a summary of the matching results <span class="references">[<a href="#ref-14">14</a>]</span>, which allows overlaps between different sources to be identified.
+Herein, we use Bloom filters to encode encrypted triple components that are available within each source, and aggregators are responsible for aggregating privacy-preserving summaries for several Solid data pods.</p>
 
-        <p>In the proposed efficient privacy-preserving federated query execution framework, Bloom filters are used to encode encrypted triple components that are available within each source, and aggregators are responsible for aggregating privacy-preserving summaries for several Solid data pods.</p>
-
-        <h3 id="access-control">Access Control</h3>
-
-        <p>The decision to grant or deny access is based on two distinct processes, authentication and authorisation. Authentication involves the verification of identity (you are
-who you say you are). Whereas, authorisation is the process of granting or denying access to system resources based on identity.
-From an authentication perspective, <a property="schema:citation http://purl.org/spar/cito/cites" href="https://www.w3.org/2005/Incubator/webid/spec/identity/">Web Identity and Discovery (WebID)</a> <span class="references">[<a href="#ref-8">8</a>]</span> is a HTTP URI used to uniquely identify and authenticate an agent (i.e. person, company, organization, or other entity) <span class="references">[<a href="#ref-18">18</a>]</span>. A description of the agent is provided in an RDF document, known as a dereferencable WebID profile. The agent places the URI for their WebID profile document in the Subject Alternative Names field of their certificate. Once the certificate has been generated the user adds the public key details to their WebID profile document <span class="references">[<a href="#ref-19">19</a>]</span>. A service wishing to authenticate the user, needs to verify that the public key of the certificate it receives matches the public key specified in the WebID profile <span class="references">[<a href="#ref-20">20</a>]</span>. <a property="schema:citation http://purl.org/spar/cito/cites" href="https://openid.net/specs/openid-connect-core-1_0.html%20">OpenID Connect</a> <span class="references">[<a href="#ref-21">21</a>]</span> is an industry standard authentication protocol, which enables applications to delegate responsibility for authentication to third party identity providers. One of the primary benefits being the ability to connect to multiple sites using the same login credentials. A comprehensive security analysis of the protocol is provided by Fett et al. <span class="references">[<a href="#ref-22">22</a>]</span>.
-<a property="schema:citation http://purl.org/spar/cito/cites" href="https://github.com/solid/web-access-control-spec">Web Access Control (WAC)</a> <span class="references">[<a href="#ref-9">9</a>]</span> is an RDF vocabulary and an access control framework, which demonstrates how together WebID and access control policies specified using the WAC vocabulary, can be used to enforce distributed access control. Essentially WAC authorisations grant agents, access to resources. Villata et al. <span class="references">[<a href="#ref-23">23</a>]</span> and <a property="schema:citation http://purl.org/spar/cito/cites" href="http://ceur-ws.org/Vol-781/paper6.pdf">Sacco and Passant</a> <span class="references">[<a href="#ref-24">24</a>]</span> extend the WAC vocabulary to cater for context based access control policies and privacy preferences respectively. Alternatively, Encryption-Based Access Control <span class="references">[<a href="#ref-25">25</a>]</span> involves encrypting RDF fragments (i.e. subjects, predicates, objects, graphs or some combination thereof) with an encryption key, such that only those that have the key are permitted to access the data, thus serving as both an authentication and an authorisation mechanism. Existing proposals involve using symmetric encryption <span class="references">[<a href="#ref-26">26</a>]</span>, public-key encryption <span class="references">[<a href="#ref-27">27</a>]</span>, or functional encryption <span class="references">[<a href="#ref-25">25</a>]</span> to generate RDF ciphers.</p>
-
-        <p class="todo">WebID-TLS is still mentioned above, even though it is deprecated.
-It should be removed in favor of WebID-OIDC.</p>
-
-        <p>In this paper, encryption mechanisms are used to create privacy-preserving aggregations, whereas access control policies are used to restrict access to data at query time. Here, we assume that there is a one to one mapping between encryption keys and authorisations.</p>
+        <p><br>
+<strong>Access Control.</strong>
+<a property="schema:citation http://purl.org/spar/cito/cites" href="https://github.com/solid/web-access-control-spec">Web Access Control (WAC)</a> <span class="references">[<a href="#ref-9">9</a>]</span> is an RDF vocabulary and an access control framework, which demonstrates how together WebID and access control policies specified using the WAC vocabulary, can be used to enforce distributed access control. Villata et al. <span class="references">[<a href="#ref-15">15</a>]</span> and Sacco and Passant <span class="references">[<a href="#ref-16">16</a>]</span> extend the WAC vocabulary to cater for context based access control policies and privacy preferences respectively. Alternatively, Encryption-Based Access Control <span class="references">[<a href="#ref-17">17</a>]</span> involves encrypting RDF fragments (i.e. subjects, predicates, objects, graphs or some combination thereof) with an encryption key, such that only those that have the key are permitted to access the data, thus serving as both an authentication and an authorisation mechanism. Existing proposals involve using symmetric encryption <span class="references">[<a href="#ref-18">18</a>]</span>, public-key encryption <span class="references">[<a href="#ref-19">19</a>]</span>, or functional encryption <span class="references">[<a href="#ref-17">17</a>]</span> to generate RDF ciphers.
+In this paper, encryption mechanisms are used to create privacy-preserving aggregations, whereas access control policies are used to restrict access to data at query time.</p>
 
       </div>
 </section>
@@ -183,8 +149,7 @@ It should be removed in favor of WebID-OIDC.</p>
 <div datatype="rdf:HTML" property="schema:description">
         <h2 property="schema:name">Motivating Use Case Scenario</h2>
 
-        <p>Before presenting our privacy-preserving federated query execution framework we first provide a high level overview of a personalised address book use case scenario used to guide our work.
-Following the Solid design principles, address books are merely lists of WebIDs, and the actual contact details are stored in the respective contacts’ pod.
+        <p>Following the Solid design principles, in the personalised address book use case scenario used to guide our work, address books are merely lists of WebIDs, and the actual contact details are stored in the respective contacts’ pod.
 To keep this use case simple, we assume an address book of Alice that contains two contacts: Bob and Carol.
 In practise, such an address book could contain many more contacts.
 Alice has chosen to make this address book public,
@@ -193,79 +158,36 @@ albeit without necessarily having access to everyone’s private contact details
 We also consider Dave as a fourth person that has no relationship with anyone else.</p>
 
         <p>For the sake of simplicity, we consider three hierarchical subject access groups per pod,
-where the members of each group can be configured for each pod:</p>
-
-        <ul>
-          <li>
-<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>S</mi><mi>E</mi></msub></mrow><annotation encoding="application/x-tex">S_E</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.05764em;">S</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.05764em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.05764em;">E</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>: Everyone (without authentication)</li>
-          <li>
-<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>S</mi><mi>A</mi></msub></mrow><annotation encoding="application/x-tex">S_A</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.05764em;">S</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.05764em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">A</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>: Acquaintances (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>S</mi><mi>A</mi></msub><mo>⊆</mo><msub><mi>S</mi><mi>E</mi></msub></mrow><annotation encoding="application/x-tex">S_A \subseteq S_E</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.05764em;">S</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.05764em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">A</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">⊆</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.05764em;">S</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.05764em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.05764em;">E</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>)</li>
-          <li>
-<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>S</mi><mi>F</mi></msub></mrow><annotation encoding="application/x-tex">S_F</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.05764em;">S</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.05764em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.13889em;">F</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>: Friends (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>S</mi><mi>F</mi></msub><mo>⊆</mo><msub><mi>S</mi><mi>A</mi></msub></mrow><annotation encoding="application/x-tex">S_F \subseteq S_A</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.05764em;">S</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.05764em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.13889em;">F</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">⊆</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.05764em;">S</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.05764em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">A</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>)</li>
-        </ul>
+where the members of each group can be configured for each pod:
+<em>S<sub>E</sub> : Everyone (without authentication)</em>,
+<em>S<sub>A</sub> : Acquaintances (S<sub>A</sub> <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>⊆</mo></mrow><annotation encoding="application/x-tex">\subseteq</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7719400000000001em;vertical-align:-0.13597em;"></span><span class="mrel">⊆</span></span></span></span> S<sub>E</sub>)</em>, and
+<em>S<sub>F</sub> : Friends (S<sub>F</sub> <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>⊆</mo></mrow><annotation encoding="application/x-tex">\subseteq</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7719400000000001em;vertical-align:-0.13597em;"></span><span class="mrel">⊆</span></span></span></span> S<sub>A</sub>)</em>.</p>
 
         <p>Assertions, of the following form, could be used to indicate that Carol considers Alice to be an acquaintance, and Bob considers Alice as a friend:</p>
 
-        <p style="text-align: center"><em><code>&lt;https://alice.pods.org/profile#me&gt;</code> ∈ S<sub>A</sub> ⊆ S<sub>E</sub></em></p>
-
-        <p style="text-align: center"><em><code>&lt;https://alice.pods.org/profile#me&gt;</code> ∈ S<sub>F</sub> ⊆ S<sub>A</sub> ⊆ S<sub>E</sub></em></p>
+        <p style="text-align: left"><em><code>&lt;https://alice.pods.org/profile#me&gt;</code> ∈ S<sub>A</sub> ⊆ S<sub>E</sub></em></p>
+        <p style="text-align: left"><em><code>&lt;https://alice.pods.org/profile#me&gt;</code> ∈ S<sub>F</sub> ⊆ S<sub>A</sub> ⊆ S<sub>E</sub></em></p>
 
         <p>The data stored in Alices, Bobs and Carols pods, and the various access control rules are depicted in <a href="#figure-use-case">Fig. 1</a>.</p>
 
         <figure id="figure-use-case">
 <img src="img/use-case.svg" alt="[Personal Address Book]" class="figure-width-twothird">
 <figcaption>
-            <p><span class="label">Fig. 1:</span> An overview of the proposed personalised address book use case scenario,
-in which Alice and Bob attempt to query over Alices address book.</p>
+            <p><span class="label">Fig. 1:</span> An overview of the proposed personalised address book use case scenario.</p>
           </figcaption>
 </figure>
 
         <p>Alice uses the <code>/contacts</code> file in her pod to list everyone that she knows using WebIDs that point to the profiles of the respective people.
 The profiles of Bob and Carol both contain their name, email and telephone number, which are readable for select people. Access control rules in the form of <em>&lt;subject, access rights, resource&gt;</em> tuples can be used by Bob and Carol to restrict access to data stored in their respective pods:</p>
 
-        <p id="r1">Bob is quite liberal, and allows everyone (<em>S<sub>E</sub></em>) to read both his name and email:</p>
-        <p style="text-align: center"><em>r<sub>1</sub> = ⟨{s | s ∈ S<sub>E</sub>}, read, {q | q ∈ Profile<sub>B</sub> ∧ q.predicate ∈ {:name,:email}}⟩</em></p>
+        <p id="r1">Bob is quite liberal, and allows everyone (<em>S<sub>E</sub></em>) to read both his name and email, however his telephone number can only be accessed by friends:</p>
+        <p style="text-align: left" id="r2"><em>r<sub>1</sub> = ⟨{s | s ∈ S<sub>E</sub>}, read, {q | q ∈ Profile<sub>B</sub> ∧ q.predicate ∈ {:name,:email}}⟩</em></p>
+        <p style="text-align: left"><em>r<sub>2</sub> = ⟨{s | s ∈ S<sub>F</sub>}, read, {q | q ∈ Profile<sub>B</sub> ∧ q.predicate ∈ {:telephone}}⟩</em></p>
 
-        <p id="r2">Bobs telephone number can only be accessed by friends:</p>
-        <p style="text-align: center"><em>r<sub>2</sub> = ⟨{s | s ∈ S<sub>F</sub>}, read, {q | q ∈ Profile<sub>B</sub> ∧ q.predicate ∈ {:telephone}}⟩</em></p>
-
-        <p id="r3">Carol only allows her name to be read by the public:</p>
-        <p style="text-align: center"><em>r<sub>3</sub> = ⟨{ s | s ∈ S<sub>E</sub>}, read, {q | q ∈ Profile<sub>C</sub> ∧ q.predicate ∈ {:name}}⟩</em></p>
-
-        <p id="r4">Carols email is readable by acquaintances:</p>
-        <p style="text-align: center"><em>r<sub>4</sub> = ⟨{ s | s ∈ S<sub>A</sub>}, read, {q | q ∈ Profile<sub>C</sub> ∧ q.predicate ∈ {:email}}⟩</em></p>
-
-        <p id="r5">Carols telephone number can only be accessed by friends:</p>
-        <p style="text-align: center"><em>r<sub>5</sub> = ⟨{ s | s ∈ S<sub>F</sub> }, read, { q | q ∈ Profile<sub>C</sub> ∧ q.predicate ∈ {:telephone}}⟩</em></p>
-
-        <p>For this use case, we consider the following example queries:</p>
-
-        <ol>
-          <li>
-<strong>Alice wants to send an email to everyone she knows.</strong>
-<br>
-Alice is able to read the email of both Bob and Carol.
-Because Bob’s email is readable for everyone (<a href="#r1"><em>r1</em></a>),
-and Carol’s email is readable for acquaintances (<a href="#r4"><em>r4</em></a>).</li>
-          <li>
-<strong>Alice wants to call everyone she knows.</strong>
-<br>
-Alice is able to read the telephone number of Bob, but not Carol.
-Because Bob’s telephone number is readable for friends (<a href="#r2"><em>r2</em></a>),
-but Carol’s telephone number is only readable for her friends (<a href="#r5"><em>r5</em></a>).</li>
-          <li>
-<strong>Dave wants to send an email to everyone Alice knows.</strong>
-<br>
-Dave is able to read the email of Bob, but not Carol.
-Because Bob’s email is readable for everyone (<a href="#r1"><em>r1</em></a>),
-but Carol’s email is only readable for acquaintances (<a href="#r4"><em>r4</em></a>).</li>
-          <li>
-<strong>Dave wants to call everyone Alice knows.</strong>
-<br>
-Dave is not able to read the telephone number of Bob or Carol.
-Because Bob’s telephone number is readable for friends (<a href="#r2"><em>r2</em></a>),
-and Carol’s telephone number is only readable for her friends (<a href="#r5"><em>r5</em></a>).</li>
-        </ol>
+        <p id="r3">Carol only allows her name to be read by the public, her email can be read by acquaintance, however her telephone number can only be accessed by friends:</p>
+        <p style="text-align: left" id="r4"><em>r<sub>3</sub> = ⟨{ s | s ∈ S<sub>E</sub>}, read, {q | q ∈ Profile<sub>C</sub> ∧ q.predicate ∈ {:name}}⟩</em></p>
+        <p style="text-align: left" id="r5"><em>r<sub>4</sub> = ⟨{ s | s ∈ S<sub>A</sub>}, read, {q | q ∈ Profile<sub>C</sub> ∧ q.predicate ∈ {:email}}⟩</em></p>
+        <p style="text-align: left"><em>r<sub>5</sub> = ⟨{ s | s ∈ S<sub>F</sub> }, read, { q | q ∈ Profile<sub>C</sub> ∧ q.predicate ∈ {:telephone}}⟩</em></p>
 
       </div>
 </section>
@@ -274,27 +196,23 @@ and Carol’s telephone number is only readable for her friends (<a href="#r5"><
 <div datatype="rdf:HTML" property="schema:description">
         <h2 property="schema:name">Efficient Privacy-Preserving Federated Querying</h2>
 
-        <p>The goal of the proposed efficient privacy-preserving federated query execution framework, which is depicted in <a href="#overall-architecture">Fig. 2</a>, is to provide a high level overview of the components needed to support privacy-preserving querying within decentralised environments.</p>
+        <p>The goal of the proposed efficient privacy-preserving federated query execution framework, depicted in <a href="#overall-architecture">Fig. 2</a>, is to provide a high level overview of the components needed to support privacy-preserving querying within decentralised environments.</p>
 
         <figure id="overall-architecture">
 <img src="img/overall-architecture.svg" alt="[Privacy-Preserving Federated Querying Architecture]" class="figure-width-twothird">
 <figcaption>
-            <p><span class="label">Fig. 2:</span> The proposed efficient privacy-preserving federated query execution framework is composed of four core entities, namely requesters, query engines, aggregators, and pods.</p>
+            <p><span class="label">Fig. 2:</span> Our efficient privacy-preserving federated query execution framework.</p>
           </figcaption>
 </figure>
 
         <h3 id="using-data-summaries-for-efficient-querying">Using Data Summaries for Efficient Querying</h3>
 
-        <p>Based on the use case scenario presented in <a href="#use-case">Section 3</a>, we assume that multiple data pods exist, each potentially containing multiple privacy-constrained files.
-If clients want to read the contents of these files,
-they have to authenticate themselves to the respective data pod servers. Depending on each file’s access control policy, the client may be authorised to read the full file contents, parts of it, or not at all.</p>
-
-        <p>Since realistic decentralised environments could easily contain hundreds or thousands of files,
+        <p>Based on the use case scenario presented in <a href="#use-case">Section 3</a>, we assume that multiple data pods exist, each potentially containing multiple privacy-constrained files and, clients need to authenticate themselves to the respective data pod servers. Depending on each file’s access control policy, the client may be authorised to read the full file contents, parts of it, or not at all.
+Since realistic decentralised environments could easily contain hundreds or thousands of files,
 it would be inefficient for the client to query each of them.
 For this reason, we make make use of the <em>data summaries</em> <span class="references">[<a href="#ref-2">2</a>]</span> concept
 in order to reduce the number of sources that need to be queried by the client.
-We assume that each data pod exposes a data summary for each separate file, which is subsequently aggregated by third-party aggregators, as depicted in <a href="#figure-privacy-federation-architecture">Fig. 3</a>. The figure provides an overview of a privacy-preserving federation with six access restricted sources and privacy-preserving summaries,
-and a third-party aggregator that combines these summaries in a privacy-preserving manner, together with a list of all sources it summarizes. Client-side query engines can use this combined summary to derive which sources are relevant for any given query.</p>
+We assume that each data pod exposes a data summary for each separate file, which is subsequently aggregated by third-party aggregators, as depicted in <a href="#figure-privacy-federation-architecture">Fig. 3</a>.</p>
 
         <figure id="figure-privacy-federation-architecture">
 <img src="img/privacy-federation-architecture.svg" alt="[Privacy-Preserving Federation]" class="figure-width-twothird">
@@ -303,72 +221,61 @@ and a third-party aggregator that combines these summaries in a privacy-preservi
           </figcaption>
 </figure>
 
-        <p>Since files may contain private data, these data summaries must be <em>privacy-preserving</em>,
-i.e., they must not allow access restricted data to be leaked to unauthorised individuals. In the proposed framework, access policies are represented as access keys and these keys are taken into account by the summary generation algorithm.
-Pods could generate these summaries lazily on demand, periodically or upon file changes.
-Following the approach from <a property="schema:citation http://purl.org/spar/cito/cites" href="http://linkeddatafragments.org/publications/iswc2015-amf.pdf">Vander Sande et al.</a> <span class="references">[<a href="#ref-16">16</a>]</span>,
-each summary consists of 4 parts, corresponding to the 4 components in RDF quads (subjects, predicates, objects and graphs),
-as illustrated in <a href="#figure-summary-components">Fig. 4</a>.
-<em>Note: The example summary values are not necessarily an exact representation of the way the summary is stored,
-these values are merely an indication of what information is used to construct the summary.</em></p>
-
-        <figure id="figure-summary-components">
-<img src="img/summary-components.svg" alt="[Summarization of a file]" height="150px" class="figure-width-half">
-<figcaption>
-            <p><span class="label">Fig. 4:</span> Summarization of all RDF quads within a file.</p>
-          </figcaption>
-</figure>
-
-        <p>Using the summaries of these files, third-party aggregators can create <em>combined summaries</em>.
+        <p>The figure provides an overview of a privacy-preserving federation with six access restricted sources and privacy-preserving summaries, and a third-party aggregator that combines these summaries in a privacy-preserving manner, together with a list of all sources it summarizes. Client-side query engines can use this combined summary to derive which sources are relevant for any given query. Since files may contain private data, these data summaries must be <em>privacy-preserving</em>,
+i.e., they must not allow access restricted data to be leaked to unauthorised individuals.
+In the proposed framework, access policies are represented as access keys that are taken into account by the summary generation algorithm. Pods could generate these summaries lazily on demand, periodically or upon file changes.
+Following the approach from Vander Sande et al. <span class="references">[<a href="#ref-13">13</a>]</span>, each summary consists of 4 parts, corresponding to the 4 components in RDF quads (subjects, predicates, objects and graphs).
+Using the summaries of these files, third-party aggregators can create <em>combined summaries</em>.
 Since the separate summaries are expected to be privacy-preserving, the combined summaries will also be privacy-preserving,
 which means that third-party aggregators will not be able to know the actual contents of the data,
 and they need not necessarily be trusted parties.
 In addition to exposing the combined summary,
 an aggregator also needs to maintain and expose the list of sources it aggregates over,
 such that clients know which pods could potentially contribute query results.
-Although in our example we consider one aggregator, in practise multiple aggregators can exist with different source ranges.</p>
-
-        <p>A client-side query engine can make use of the combined summary provided by the aggregator to perform source selection before query execution, i.e., reduce the number of sources to be queried. Thus the combined summaries serve to determine the pods that contain <em>relevant</em> and <em>accessible</em> data.
-Finally, the pods take care of the access control enforcement at query time, by taking into account permissions specified in terms of authorisation rules.</p>
+Although in our example we consider one aggregator, in practise multiple aggregators can exist with different source ranges.
+A client-side query engine can make use of the combined summary provided by the aggregator to perform source selection before query execution, i.e., reduce the number of sources to be queried. Thus the combined summaries serve to determine the pods that contain <em>relevant</em> and <em>accessible</em> data.
+While, the pods take care of the access control enforcement at query time, by taking into account permissions specified in terms of authorisation rules.</p>
 
         <h3 id="technical-requirements">Technical Requirements</h3>
 
         <p>The main technical requirements are derived from the fact that our architecture needs to support efficient privacy-preserving query execution over personal data that is distributed across many sources.</p>
 
-        <ol>
+        <ul>
           <li>
 <strong>No data leaking.</strong>
-Access restricted data must not be available to those who are not authorised to access it.</li>
+ Access restricted data must not be available to those who are not authorised to access it.</li>
           <li>
 <strong>Privacy-preserving summary creation.</strong>
-It must be possible to add values to summaries by access key and file URI.</li>
+ It must be possible to add values to summaries by access key and file URI.</li>
           <li>
 <strong>Summary combinations.</strong>
-It must be possible to combine two summaries,
-where the combined summary is identical to a summary where all of the entries were added directly.</li>
+ It must be possible to combine two summaries,
+ where the combined summary is identical to a summary where all of the entries were added directly.</li>
           <li>
 <strong>Authorized membership checking.</strong>
-Probabilistic membership checking must be possible for a given value, access key and file URI.
-False positives are allowed, but true negatives are required.</li>
+ Probabilistic membership checking must be possible for a given value, access key and file URI.
+ False positives are allowed, but true negatives are required.</li>
           <li>
 <strong>Query Execution with Access control.</strong>
-It must be possible for the pod to limit query results based on a set of access policies.</li>
-        </ol>
+ It must be possible for the pod to limit query results based on a set of access policies.</li>
+        </ul>
 
         <h3 id="core-functions-of-the-framework">Core Functions of the Framework</h3>
 
         <p>The proposed framework is composed of a set of abstract algorithms that are needed in order to realise the proposed privacy-preserving federation framework. The abstract nature of the framework is reflective of the fact that each algorithm could be implemented in a variety of ways.</p>
 
-        <h4 id="access-key-creation-algorithm">Access Key Creation Algorithm</h4>
+        <p><br></p>
+
+        <h4 id="framework-key-creation">Access Key Creation Algorithm.</h4>
 
         <p>As a prerequisite for encoding access into summaries,
 the first step is to create a map of access keys to quads based on existing access policies, using the algorithm outlined in <a href="#key-generation-algorithm">Listing 1</a>. Here we assume that pod owners already have a set of access control policies that govern access to quads stored in theirs pods. Although there is a many to many mapping between quads and policies, there is a one to one mapping between access policies that are used for policy enforcement at query time, and access keys that are used to create privacy-preserving summaries that are needed to optimise federated querying.</p>
 
-        <figure id="key-generation-algorithm" class="listing">
+        <font size="1">
+<figure id="key-generation-algorithm" class="listing">
 <pre><code>FUNCTION CreateAccessKeys(Q, P)
 </code><code>  INPUT:
-</code><code>    Q: set of quads
-</code><code>    P: set of policies
+</code><code>    Q: set of quads, P: set of policies
 </code><code>  OUTPUT:
 </code><code>    QPK: hashmap of quads to policies and keys
 </code><code>QPK = new Map()
@@ -379,11 +286,12 @@ the first step is to create a map of access keys to quads based on existing acce
 </code><code>RETURN QPK
 </code></pre>
 <figcaption>
-            <p><span class="label">Listing 1:</span> Algorithm for generating keys for quads based on existing access policies, with <code>GenerateKey</code> that generates a key for a quad based on a policy, and <code>AddKey</code> that adds a key to a map.</p>
-          </figcaption>
+              <p><span class="label">Listing 1:</span> Algorithm for generating keys for quads based on existing access policies.</p>
+            </figcaption>
 </figure>
+</font>
 
-        <h4 id="framework-summary-creation">Summary Creation Algorithm</h4>
+        <h4 id="framework-summary-creation">Summary Creation Algorithm.</h4>
 
         <p>In the proposed framework, data pods expose a separate summary for each file,
 and aggregators create combined summaries using these separate summaries;
@@ -395,14 +303,13 @@ and the access key that are applicable for each quad.
 For each of these combinations, we add the quad component to the summary,
 for the given key and file source URI.
 The <code>SummaryInitialize</code> and <code>SummaryAdd</code> functions that are used in the algorithm depend on the type of summary that is being used.
-A high-level example of this summarization algorithm can be seen in <a href="#figure-summary-components-privacy">Fig. 5</a>.</p>
+A high-level example of this summarization algorithm can be seen in <a href="#figure-summary-components-privacy">Fig. 4</a>.</p>
 
-        <figure id="summarization-algorithm" class="listing">
+        <font size="1">
+<figure id="summarization-algorithm" class="listing">
 <pre><code>FUNCTION CreatePrivacyPreservingSummary(Q, u, QPK)
 </code><code>  INPUT:
-</code><code>    Q: set of quads
-</code><code>    u: URI of the file
-</code><code>    QPK: hashmap relating quads to policies and keys
+</code><code>    Q: set of quads, u: URI of the file, QPK: hashmap relating quads to policies and keys
 </code><code>  OUTPUT:
 </code><code>    Σ: summary containing: Σ.subject, Σ.predicate, Σ.object, Σ.graph
 </code><code>FOREACH c in [subject, predicate, object, graph]
@@ -414,31 +321,35 @@ A high-level example of this summarization algorithm can be seen in <a href="#fi
 </code><code>RETURN Σ
 </code></pre>
 <figcaption>
-            <p><span class="label">Listing 2:</span> Algorithm for creating a summary over a file within a data pod,
-with <code>SummaryAdd</code> a summary-type-dependent function for adding a quad component, key, and file URI to summary,
-and <code>SummaryInitialize</code> a summary-type-dependent function for initializing a new summary.</p>
-          </figcaption>
+              <p><span class="label">Listing 2:</span> Algorithm for creating a summary over a file within a data pod.</p>
+            </figcaption>
 </figure>
+</font>
 
         <figure id="figure-summary-components-privacy">
 <img src="img/summary-components-privacy.svg" alt="[Privacy-preserving summarization of a file]" class="figure-width-twothird">
 <figcaption>
-            <p><span class="label">Fig. 5:</span> Privacy-preserving summarization of all RDF quads (<code>Q</code>) within a file (<code>u</code>),
-based on a set of quad-dependent keys that are derived using a mapping function <code>QPK</code>.
-<em>Note: The summary values are not necessarily an exact representation of the way the summary is stored,
-these values are merely an indication of what information is used to construct the summary.</em></p>
+            <p><span class="label">Fig. 4:</span> Privacy-preserving summarization of all RDF quads within a file.</p>
           </figcaption>
 </figure>
 
-        <h4 id="framework-summary-aggregation">Summary Combination Algorithm</h4>
+        <h4 id="framework-summary-aggregation">Summary Combination Algorithm.</h4>
 
         <p>Based on the resulting file summaries,
 the aggregator can create a combined summary using the algorithm from <a href="#aggregation-algorithm">Listing 3</a>.
 As before, the <code>SummaryInitialize</code> and <code>SummaryCombine</code> functions that are used in these algorithms
 depend on the type of summary that is being used.
-<a href="#figure-summary-components-privacy-aggregated">Fig. 6</a> shows a high-level example of how this aggregation can happen in practise.</p>
+<a href="#figure-summary-components-privacy-aggregated"></a> shows a high-level example of how this aggregation can happen in practise.
+It is worth noting that both summaries and combined summaries require some bookkeeping.
+Each file summary must remain up-to-date with respect to the file’s contents.
+This could be done by either immediately invalidating the summary upon file changes,
+or by periodically regenerating the summary.
+The combined summary requires similar actions to avoid going stale.
+This can be achieved through immediate notifications from the pod to the aggregator upon file changes,
+or the aggregator can periodically scan the files or its summaries for changes.</p>
 
-        <figure id="aggregation-algorithm" class="listing">
+        <font size="1">
+<figure id="aggregation-algorithm" class="listing">
 <pre><code>FUNCTION CreateAggregatedSummary(U)
 </code><code>  INPUT:
 </code><code>    U: set of sources
@@ -453,37 +364,19 @@ depend on the type of summary that is being used.
 </code><code>RETURN Σ
 </code></pre>
 <figcaption>
-            <p><span class="label">Listing 3:</span> Algorithm for creating a combined summary over a set of sources,
-with <code>SummaryCombine</code> a summary-type-dependent function for combining two summaries,
-and <code>SummaryInitialize</code> a summary-type-dependent function for initializing a new summary.</p>
-          </figcaption>
+              <p><span class="label">Listing 3:</span> Algorithm for creating a combined summary over a set of sources.</p>
+            </figcaption>
 </figure>
+</font>
 
-        <figure id="figure-summary-components-privacy-aggregated">
-<img src="img/summary-components-privacy-aggregated.svg" alt="[Privacy-preserving aggregated summarization]">
-<figcaption>
-            <p><span class="label">Fig. 6:</span> Privacy-preserving aggregation of multiple summaries.
-<em>Note: The summary values are not necessarily an exact representation of the way the summary is stored,
-these values are merely an indication of what information is used to construct the summary.</em></p>
-          </figcaption>
-</figure>
-
-        <p>It is worth noting that both summaries and combined summaries require some bookkeeping.
-Each file summary must remain up-to-date with respect to the file’s contents.
-This could be done by either immediately invalidating the summary upon file changes,
-or by periodically regenerating the summary.
-The combined summary requires similar actions to avoid going stale.
-This can be achieved through immediate notifications from the pod to the aggregator upon file changes,
-or the aggregator can periodically scan the files or its summaries for changes.</p>
-
-        <h4 id="framework-client">Client-side Source Selection Algorithm</h4>
+        <h4 id="framework-client">Client-side Source Selection Algorithm.</h4>
 
         <p>Assuming we have an aggregator exposing a summary over a set of sources,
 we introduce the algorithm in <a href="#client-algorithm">Listing 4</a> where a client-side query engine can make use of an aggregator’s summary
 to reduce the number of sources the client should query over, i.e., to perform <em>source selection</em>.
 In this case, we only consider quad pattern queries,
 because they form the foundation of more expressive SPARQL queries,
-and <a property="schema:citation http://purl.org/spar/cito/cites" href="https://comunica.github.io/Article-ISWC2018-Resource/">query engines typically decompose SPARQL query into several smaller quad pattern queries through a query planner</a> <span class="references">[<a href="#ref-28">28</a>]</span>.
+and query engines typically decompose SPARQL query into several smaller quad pattern queries through a query planner <span class="references">[<a href="#ref-20">20</a>]</span>.
 As input, our algorithm assumes a quad pattern query,
 the list of access keys provided by the user,
 and the summary and list of sources it obtained from an aggregator.
@@ -502,15 +395,20 @@ When a true negative is found for a source, this source is removed from the list
 Finally, the remaining list of sources is returned,
 which can be used by the query engine to execute the quad pattern query over.
 In this algorithm, the <code>SummaryContains</code> also depends on the type of summary that is being used.
-<a href="#figure-query-execution">Fig. 7</a> shows an example of how this source selection algorithm can be used in client-side query engines.</p>
+<a href="#figure-query-execution">Fig. 5</a> shows an example of how this source selection algorithm can be used in client-side query engines.
+The presented algorithm should be seen as a basis for federated querying over decentralized environments with private data,
+where there is a single aggregator, and all sources we want to query over are considered by the aggregator.
+In practise, multiple aggregators can exist,
+they may apply to overlapping sources,
+and some sources may not be aggregated at all.
+For these cases, extensions to this algorithm will be needed,
+which we consider out-of-scope for this work.</p>
 
-        <figure id="client-algorithm" class="listing">
+        <font size="1">
+<figure id="client-algorithm" class="listing">
 <pre><code>FUNCTION SelectSources(q, K, Σ, U)
 </code><code>  INPUT:
-</code><code>    q: quad pattern query
-</code><code>    K: access keys
-</code><code>    Σ: summary containing: Σ.subject, Σ.predicate, Σ.object, Σ.graph
-</code><code>    U: set of sources
+</code><code>    q: quad pattern query, K: access keys, Σ: summary containing: Σ.subject, Σ.predicate, Σ.object, Σ.graph, U: set of sources
 </code><code>  OUTPUT:
 </code><code>    U&#39;: list of selected sources
 </code><code>U&#39; = []
@@ -525,42 +423,29 @@ In this algorithm, the <code>SummaryContains</code> also depends on the type of 
 </code><code>RETURN U&#39;
 </code></pre>
 <figcaption>
-            <p><span class="label">Listing 4:</span> Client-side algorithm for selecting query-relevant sources for a quad pattern query
-based on a given privacy-preserving summary.
-<code>SummaryContains</code> is a summary-type-dependent function for checking if a summary contains a given quad component
-for a given key and source URI.</p>
-          </figcaption>
+              <p><span class="label">Listing 4:</span> Client-side algorithm for selecting query-relevant sources.</p>
+            </figcaption>
 </figure>
+</font>
 
         <figure id="figure-query-execution">
-<img src="img/query-execution.svg" alt="[Query execution over privacy-preserving summaries]">
+<img src="img/query-execution.svg" alt="[Query execution over privacy-preserving summaries]" class="figure-width-twothird">
 <figcaption>
-            <p><span class="label">Fig. 7:</span> Federated query execution using a privacy-preserving summary.
-<em>Note: The summary values are not necessarily an exact representation of the way the summary is stored,
-these values are merely an indication of what information is used to construct the summary.</em></p>
+            <p><span class="label">Fig. 5:</span> Federated query execution using a privacy-preserving summary.</p>
           </figcaption>
 </figure>
 
-        <p>The presented algorithm should be seen as a basis for federated querying over decentralized environments with private data,
-where there is a single aggregator, and all sources we want to query over are considered by the aggregator.
-In practise, multiple aggregators can exist,
-they may apply to overlapping sources,
-and some sources may not be aggregated at all.
-For these cases, extensions to this algorithm will be needed,
-which we consider out-of-scope for this work.</p>
-
-        <h4 id="framework-access-control-client">Client-side Query Execution Algorithm</h4>
+        <h4 id="framework-access-control-client">Client-side Query Execution Algorithm.</h4>
 
         <p>Once the client has obtained the list of sources that it needs to query for a given quad pattern, the next step is to execute the query against each source.
 The client uses the sources returned by the aggregator to execute queries against the various pods using the algorithm outlined in <a href="#client-query-algorithm">Listing 5</a>.
 The algorithm takes as input a client identification (e.g., WebID), a quad pattern query, and the set of sources returned by the source selection algorithm. Individual queries are executed against each of the sources and the aggregated results are returned to the client.</p>
 
-        <figure id="client-query-algorithm" class="listing">
+        <font size="1">
+<figure id="client-query-algorithm" class="listing">
 <pre><code>FUNCTION QuerySources(i, q, U)
 </code><code>  INPUT:
-</code><code>    i: client identification
-</code><code>    q: quad pattern query
-</code><code>    U: list of sources
+</code><code>    i: client identification, q: quad pattern query, U: list of sources
 </code><code>  OUTPUT:
 </code><code>    R: query results
 </code><code>R = {}
@@ -569,22 +454,21 @@ The algorithm takes as input a client identification (e.g., WebID), a quad patte
 </code><code>RETURN R
 </code></pre>
 <figcaption>
-            <p><span class="label">Listing 5:</span> Client-side algorithm for querying query-relevant sources.
-<code>ExecuteQuery</code> is a function that executes a query (i.e. request) against a particular source.</p>
-          </figcaption>
+              <p><span class="label">Listing 5:</span> Client-side algorithm for querying query-relevant sources.</p>
+            </figcaption>
 </figure>
+</font>
 
-        <h4 id="framework-access-control-server">Server-side Query Execution Algorithm</h4>
+        <h4 id="framework-access-control-server">Server-side Query Execution Algorithm.</h4>
 
         <p>On receipt of a query the server uses the algorithm outlined in <a href="#server-query-algorithm">Listing 6</a> to ensure that only authorised query results are returned to the client.
 In the proposed algorithm a map relating quads to policies and keys is used to identify access policies that govern a particular query. We assume that there may be multiple policies that govern a particular quad and thus envisage a simple conflict resolution strategy whereby either prohibitions override permissions or visa versa. The algorithm stops as soon as it finds a policy that permits the given query to be executed and returns the results of the query execution.</p>
 
-        <figure id="server-query-algorithm" class="listing">
+        <font size="1">
+<figure id="server-query-algorithm" class="listing">
 <pre><code>FUNCTION ExecuteQuery(i, q, QPK)
 </code><code>  INPUT:
-</code><code>    i: client identification
-</code><code>    q: quad pattern query
-</code><code>    QPK: hashmap relating quads to policies and keys
+</code><code>    i: client identification, q: quad pattern query, QPK: hashmap relating quads to policies and keys
 </code><code>  OUTPUT:
 </code><code>    R: query results
 </code><code>R = {}
@@ -598,9 +482,10 @@ In the proposed algorithm a map relating quads to policies and keys is used to i
 </code><code>RETURN R
 </code></pre>
 <figcaption>
-            <p><span class="label">Listing 6:</span> An algorithm that takes the requesters credentials, a quad pattern, and a policy, and returns the query execution results. The algorithm is composed of an <code>AllowedAccess</code> function that checks if access is permitted, and an <code>ExecuteQueryWithAccessControl</code> function that executes a query and adds the result to the result list.</p>
-          </figcaption>
+              <p><span class="label">Listing 6:</span> Querying with access control algorithm.</p>
+            </figcaption>
 </figure>
+</font>
 
       </div>
 </section>
@@ -611,224 +496,50 @@ In the proposed algorithm a map relating quads to policies and keys is used to i
 
         <p>When it comes to access policy specification, summarisation generation and maintenance, source selection, and access control enforcement there are several open challenges and opportunities, which we discuss hereafter.</p>
 
-        <h3 id="policy_spec">Access Policy Specification</h3>
+        <p><br>
+<strong>Access Policy Specification.</strong>
+We assume that pod owners need to be able to specify access control policies that can be enforced both from an indexing and also a query processing perspective, taking into consideration the <strong>no data leaking</strong> requirement.
+Considering our use case scenario, in order to support privacy-preserving summaries, there is a need to generate access keys for both the <em>acquaintances</em> and the <em>friends</em> files, such that the summary generation process does not work with plain text attributes but rather cipher text. In the case where data is public by default, for instance in the case of the <em>everybody</em> file, no key is needed.
+In this paper, we assume that there is a many to many mapping between quads and policies and a one to one mapping between access policies (enforced at query time) and access keys (used to create privacy preserving data summaries). Our initial proposal makes use of simple symmetric keys, however for more complex scenarios both attribute-based encryption and/or key derivation algorithms could be use to provide support for more complex access policies. When to comes to policy management, there is a need to ensure that (i) access keys are tightly bound to access policies, and (ii) said keys are distributed to authorised individuals (i.e. acquaintances and friends). In order to revoke access to a particular individual one would need to regenerate the keys and redistribute them to authorised individuals.</p>
 
-        <p>We assume that pod owners need to be able to specify access control policies that can be enforced both from an indexing and also a query processing perspective, taking into consideration the following core requirement:</p>
-
-        <ul>
-          <li>
-<strong>No data leaking</strong>: Access restricted data must not be available to those who are not authorised to access it.</li>
-        </ul>
-
-        <p>In order to support privacy-preserving summaries, there is a need to generate access keys for both the acquaintances and the friends files, such that the summary generation process does not work with plain text attributes but rather cipher text. Given that data in the everyone file is public by default, no key is needed.</p>
-
-        <p class="todo">What is the <em>the everyone file</em>? Typo?</p>
-
-        <p>In this paper, we propose that there is a many to many mapping between quads and policies and a one to one mapping between access policies (enforced at query time) and access keys (used to create privacy preserving data summaries). Our initial proposal makes use of simple symmetric keys, however for more complex scenarios both attribute-based encryption and/or key derivation algorithms could be use to provide support for more complex access policies.</p>
-
-        <p>When to comes to policy management, there is a need to ensure that (i) access keys are tightly bound to access policies, and (ii) said keys are distributed to authorised individuals (i.e. acquaintances and friends). In order to revoke access to a particular individual one would need to regenerate the keys and redistribute them to authorised individuals.</p>
-
-        <h3 id="summary-generation-and-maintenance">Summary Generation and Maintenance</h3>
-
-        <p>The technical requirements for enabling federated querying in an efficient manner through privacy-preserving aggregators are mainly driven by the summarisation technology. In this context symmetric keys are used to create privacy-preserving summaries that do not leak access restricted data.</p>
-
-        <p>We consider Approximate Membership Functions (AMFs), such as Bloom filters, being
-one possible candidate for such summaries that meet the following requirements:</p>
-
-        <ul>
-          <li>
-            <p><strong>No data leaking.</strong>
-Values in Bloom filters are hashed, which can not be reversed.</p>
-          </li>
-          <li>
-            <p><strong>Value additions.</strong>
-Additions to Bloom filters are possible by inserting a bit string.
-<code>SummaryInitialize() = 0</code> and
-<code>SummaryAdd(Σ.c, q.c, k, u) = Σ.c | (q.c &amp; k) | u</code></p>
-          </li>
-          <li>
-            <p><strong>Summary combinations.</strong>
-Bloom filters can be combined by <code>OR</code>-ing them.
-<code>SummaryCombine(Σ.c, Σ'.c) = Σ.c | Σ'.c</code>.</p>
-          </li>
-        </ul>
-
-        <p>The main advantage of using AMFs such as Bloom filters is that all of the performance-critical operations on summaries (adding, combining, membership checking) can happen very efficiently, as these are essentially just bitwise operations.</p>
-
-        <h4 id="parameter-handling">Parameter Handling</h4>
-
-        <p>When using AMFs, it is important to consider that certain parameters need to be configured,
-and that all operations must be known before they can be operationalised.
-For example, for Bloom filters the parameters are the number of hashes and bits.
-These parameters and the number of entries all impact the false positive error rate.
-Concretely, the parameters used to setup individual summaries need to be identical such that they can be combined by an aggregator.</p>
-
-        <p>In a decentralised environment, it is however difficult to reach a consensus between all parties with respect to fixed parameters.
+        <p><br>
+<strong>Summary Generation and Maintenance.</strong>
+The technical requirements for enabling federated querying in an efficient manner through privacy-preserving aggregators are mainly driven by the summarisation technology. In this context symmetric keys are used to create privacy-preserving summaries that do not leak access restricted data. We consider AMFs, such as Bloom filters, as being one possible candidate for such summaries that meet the <strong>privacy-preserving summary creation.</strong> and <strong>summary combinations</strong> requirements.
+The main advantage of using AMFs, such as Bloom filters, is that all of the performance-critical operations on summaries (adding, combining, membership checking) can happen very efficiently, as these are essentially just bitwise operations.
+However, when using AMFs, it is important to consider that certain parameters need to be configured, and that all operations must be known before they can be operationalised. For example, for Bloom filters the parameters are the number of hashes and bits. These parameters and the number of entries all impact the false positive error rate. Concretely, the parameters used to setup individual summaries need to be identical such that they can be combined by an aggregator. In a decentralised environment, it is however difficult to reach a consensus between all parties with respect to fixed parameters.
 Furthermore, since the number of values within an AMF has an impact on the error rate,
 it is sometimes even required to use different parameters for different numbers of entries.
 As such, no single set of AMF parameters should be used.
-This does however mean that a parameter determination mechanism is needed for aggregators
-that want to combine multiple AMFs.
-This mechanism is driven by the file sizes within each data pod,
-and by the number of sources the aggregator works over.
-Once the aggregator has determined these numbers,
-it can determine an appropriate set of AMF parameters,
-which must then be sent to each data pod to trigger an AMF creation for the requested file under the given set of parameters.
-In cases where many aggregators request such AMFs,
-the data pods may decide to only support a fixed set of parameters to reduce the load on them, and to enable caching of AMFs.
-For this, some kind of parameter negotiation may be required between the aggregator and all data pods.</p>
+This means that a parameter determination mechanism is needed for aggregators
+that want to combine multiple AMFs. Also, since the creation of an AMF for a file can become expensive,
+sources may decide to adopt different maintenance strategies.</p>
 
-        <h4 id="maintenance-of-summaries-within-sources">Maintenance of Summaries within Sources</h4>
-
-        <p>Since the creation of an AMF for a file can become expensive,
-sources may decide to adopt different maintenance strategies.
-Within this work, we discuss four approaches:</p>
-
-        <ol>
-          <li>
-<strong>Eager AMF creation.</strong>
-<br>
-For each file, an AMF is created as soon as a change occurs in the file.
-This ensures that the AMFs are always synchronised with the state of the files,
-and requests for AMFs will always return instantly.
-The downside of this approach is that frequently changing files may cause more AMF updates than needed,
-even when certain AMFs may not be used that often.</li>
-          <li>
-<strong>Transient AMF creation.</strong>
-<br>
-When the AMF of a file is requested, it is created on-the-fly.
-This means that the server does not store any AMFs physically,
-but only constructs them when needed.
-The advantages of this is that AMFs are always synchronised with the state of the files.
-The main disadvantage is that requests for AMFs are slowed down by AMF creation time,
-which may be significant for larger files.</li>
-          <li>
-<strong>Lazy AMF creation.</strong>
-<br>
-This approach combines the two previous approaches.
-Each AMF will only be created and stored from the moment that it is requested.
-From the moment that a file change is detected, the stored AMF is invalidated,
-which will cause a recalculation when it will be requested again.
-The advantages of this approach are that AMFs are always synchronised with the state of the files,
-and that even when files change frequently, no unneeded AMF creations will occur.
-The downside is that requests for AMFs are sometimes slowed down by AMF creation time.</li>
-          <li>
-<strong>Periodic AMF creation.</strong>
-<br>
-This approach involves creating AMFs for files at a following a certain frequency,
-for example each hour, or each day.
-The advantage of this approach is that requests for AMFs will always return instantly.
-The downsides are that AMFs may not always be synchronised with the state of the files,
-and that more AMF updates occur than needed.</li>
-        </ol>
-
-        <p>In practise, we expect that different approaches may be valuable for different types of use cases.
-For example, for sources that contain static or slowly changing files,
-the eager and periodic approaches may be beneficial.
-But for sources that contain very volatile files,
-the transient and lazy approaches may work better.
-Furthermore, some of these approaches may be combined with each other.
-For example, the lazy approach could be combined with the periodic approach
-so that for small files the regular lazy approach is followed,
-but for larger files, AMFs are periodically created to avoid slowing down requests for these AMFs.
-One open challenge for volatile files is to investigate incremental AMF creation approaches
-where only small parts of the data is added or removed.
-For instance, Bloom filters allow data to be appended, but not removed.</p>
-
-        <h4 id="source-aggregator-communication">Source-Aggregator Communication</h4>
-
-        <p>Different <em>push</em> and <em>pull</em> based techniques can be used to trigger aggregated summary creation.
-Push based techniques require the aggregators to <em>subscribe</em> to the sources, and the sources could <em>notify</em> the aggregators upon any change, at which point the aggregators could restart the aggregated summary creation process.
-Pull based techniques require the aggregator to periodically poll the applicable sources,
-which could be done efficiently by sending <code>HEAD</code> requests and checking the last modification date of the files or summaries in the response headers.
-Once the aggregator detects a change in one of the sources, the aggregated summary creation could restart.
-<a property="schema:citation http://purl.org/spar/cito/cites" href="https://www.w3.org/TR/ldn/">Linked Data Notifications</a> <span class="references">[<a href="#ref-7">7</a>]</span> is one possible technique for sending such notifications. In practise, there is a need to support both push and pull based techniques, for instance when only some sources support change subscriptions, which means that other sources will require polling.</p>
-
-        <h3 id="source-selection">Source Selection</h3>
-
-        <p>In the proposed framework, a client-side query engine can make use of the aggregator’s summary to perform source selection,
-in order to reduce the number of sources that are being consulted by this engine.
+        <p><br>
+<strong>Source Selection.</strong>
+In the proposed framework, a client-side query engine can make use of the aggregator’s summary to perform source selection,
+in order to reduce the number of sources that are being consulted by this engine. From a source selection perspective, we address the <strong>authorized membership checking.</strong> requirement.
 As these summaries allow source selection based on quad patterns instead of full SPARQL queries,
 source selection can be pushed down into the query plan,
 which allows quad patterns in the query to be executed over a different range of sources.
 Furthermore, instead of applying source selection before query execution,
 this allows source selection to optionally happen adaptively during query execution,
-following the federation algorithm of <span property="schema:citation http://purl.org/spar/cito/cites" resource="https://dx.doi.org/10.1016/j.websem.2016.03.003"><a href="http://linkeddatafragments.org/publications/jws2016.pdf">Triple Pattern Fragments</a></span> <span class="references">[<a href="#ref-29">29</a>]</span>.
-A hybrid approach where source selection happens both before and during query execution could be investigated.</p>
+following the federation algorithm of Triple Pattern Fragments <span class="references">[<a href="#ref-21">21</a>]</span>.
+A hybrid approach where source selection happens both before and during query execution could be investigated.
+One open challenge will be to investigate how this file-based source selection method could be combined and enhanced
+by existing source selection methods for SPARQL endpoints. Another open challenge is the automatic discovery of applicable aggregators by clients.</p>
 
-        <p>From a source selection perspective, we address the following core requirement:</p>
-
-        <ul>
-          <li>
-<strong>Authorized membership checking.</strong>
-Membership in Bloom filters can be tested by hashing the value,
-and checking its membership inside the filter.
-<code>SummaryContains(Σ.c, q.c, k, u) = Σ.c[(q.c &amp; k) | u]</code>.</li>
-        </ul>
-
-        <p>One open challenge will be to investigate how this file-based source selection method could be combined and enhanced
-by existing source selection methods for SPARQL endpoints, such as Hibiscus <span class="references">[<a href="#ref-30">30</a>]</span> and Splendid <span class="references">[<a href="#ref-31">31</a>]</span>.
-Another open challenge is the automatic discovery of applicable aggregators by clients.
-For now, we assume that clients will have zero or more preconfigured links to certain aggregators,
-such as an aggregator for a person’s family, or an employee’s company. More elaborate aggregator discovery mechanisms should be investigated, where for example an aggregator is discovered based on the topic of a certain query,
-or based on the current location of the user.</p>
-
-        <h3 id="query-execution">Query Execution</h3>
-
-        <p>Since file-based APIs are the basis for data retrieval on the Web as prescribed by the HTTP protocol,
+        <p><br>
+<strong>Query Execution with Access control.</strong>
+Since file-based APIs are the basis for data retrieval on the Web as prescribed by the HTTP protocol,
 we assume this as a starting point for federated querying in decentralised environments.
-Furthermore, we consider quad pattern-based access to file sources instead of more complex <a property="schema:citation http://purl.org/spar/cito/cites" href="https://www.w3.org/TR/2013/REC-sparql11-query-20130321/">SPARQL queries</a> <span class="references">[<a href="#ref-12">12</a>]</span>.
+Furthermore, we consider quad pattern-based access to file sources instead of more complex SPARQL queries.
 This is because triple and quad patterns are the fundamental elements of SPARQL queries,
 and any SPARQL query can be decomposed into multiple smaller quad pattern queries.
-For example, client-side query engines such as <a property="schema:citation http://purl.org/spar/cito/cites" href="https://comunica.github.io/Article-ISWC2018-Resource/">Comunica</a> <span class="references">[<a href="#ref-28">28</a>]</span> decompose any SPARQL query
+For example, client-side query engines such as Comunica <span class="references">[<a href="#ref-20">20</a>]</span> decompose any SPARQL query
 into a sequence of quad pattern queries for evaluation against heterogeneous sources,
 where the results of these quad pattern queries are joined together locally.
 More complex SPARQL features such as <code>FILTER</code> and aggregates are fully handled client-side.
-Although intelligent clients could detect more expressive interfaces such as
-<a property="schema:citation http://purl.org/spar/cito/cites" href="https://www.w3.org/TR/2013/REC-sparql11-protocol-20130321/">SPARQL endpoints</a> <span class="references">[<a href="#ref-10">10</a>]</span> and <span property="schema:citation http://purl.org/spar/cito/cites" resource="https://dx.doi.org/10.1016/j.websem.2016.03.003"><a href="http://linkeddatafragments.org/publications/jws2016.pdf">Triple Pattern Fragments</a></span> <span class="references">[<a href="#ref-29">29</a>]</span> interfaces,
-and make use of them during query execution, we consider this out-of-scope for this work.</p>
-
-        <p>Once the query engine has identified the data sources that could potentially contribute results to their query, the query engine needs to authenticate the user to the server(s) and execute the query or parts thereof. In turn the server is responsible for authenticating the request, enforcing access control, and executing the query or parts thereof. Concretely, we address the following core requirement:</p>
-
-        <ul>
-          <li>
-<strong>Query Execution with Access control.</strong> It must be possible for the data source to verify the integrity of the requesting party and for the data source to limit query results based on a set of access policies.</li>
-        </ul>
-
-        <h4 id="authentication">Authentication</h4>
-
-        <p>WebID, is a mechanism used to uniquely identify and authenticate a person, company, organisation or other entity, by means of a URI. Essentially a WebID is a HTTP URI that should: (i) be under the control of the entity it describes; (ii) be linkable on the web; (iii) describe the entity is represents; (iv) enable authentication and access control; (v) respect the privacy of the entity it describes; (v) rely solely on HTTP and semantic Web technologies. A description of the agent is provided in an RDF document, known as a WebID profile, which can be dereferenced using 303 or Hash URIs. The WebID-TLS protocol (where TLS stands for Transport Layer Security) specifies how together the WebID profile and public key certificates, can be used to authenticate users. The user places their WebID profile document URI in the <em>Subject Alternative Names</em> field of their certificate. Once the certificate has been generated the user adds the public key details to their WebID profile document. A service wishing to authenticate the user, needs to verify that the public key of the certificate it receives matches the public key specified in the WebID profile.</p>
-
-        <p class="todo">Can the paragraph above be removed? It seems to exist in the background section already.</p>
-
-        <h3 id="policy-enforcement">Policy Enforcement</h3>
-
-        <p>One of the key challenges with respect to Access and Usage Control relates to the <strong>enforcement</strong> of authorisations, i.e., policies (cf., <a href="#policy_spec">Subsection 5.1</a>) which govern <em>who</em> can do <em>what</em> with <em>which</em> resources under <em>what</em> conditions. Enforcing authorisations means to ensure that data is accessed and used in a manner
-which is compliant with the conditions defined in said policies.</p>
-
-        <p>For access control purposes, we envision a mechanism that translates access policies (i.e. sets of authorisations) into constraints (e.g., data shapes like <a property="schema:citation http://purl.org/spar/cito/cites" href="https://www.w3.org/TR/shacl/">SHACL</a> <span class="references">[<a href="#ref-32">32</a>]</span>) which requests and respective query results can then be validated against.</p>
-
-        <p>Subsequently, the trade-off between granularity of policies (e.g., file-based, pattern-based, quad-based, …) and associated computational overhead needs to be thoroughly investigated.</p>
-
-        <!-- The following policy could be used to allow read access to all _public_ URIs of `<http://alice.pod/share/photoAnnotations/>` -->
-
-        <!--
-~~~ turtle
-<http://alice.pod/policy:88>
-    a odrl:Policy ;
-    odrl:permission [
-        odrl:target [
-            a odrl:AssetCollection ;
-            odrl:source <http://alice.pod/share/photoAnnotations/> ;
-            odrl:refinement [
-                a sh:NodeShape ;
-                sh:pattern "public" ;
-                sh:flags   "i" .
-            ]
-        ]
-        odrl:action acl:Read;
-    ] .
-~~~ -->
+Once the query engine has identified the data sources that could potentially contribute results to their query, the query engine needs to authenticate the user to the server(s) and execute the query or parts thereof. In turn the server is responsible for enforcing access control, and executing the query or parts thereof. Here, we address the <strong>query execution with access control</strong> requirements. One of the key challenges with respect to access and usage Control relates to the enforcement of authorisations, i.e., policies (cf., <a href="#policy_spec"></a>) which govern <em>who</em> can do <em>what</em> with <em>which</em> resources under <em>what</em> conditions. Here, we envision a mechanism that translates access policies (i.e. sets of authorisations) into constraints (e.g., data shapes like SHACL <span class="references">[<a href="#ref-22">22</a>]</span>) which requests and respective query results can then be validated against. However, the trade-off between granularity of policies (e.g., file-based, pattern-based, quad-based, …) and associated computational overhead needs to be thoroughly investigated.</p>
 
       </div>
 </section>
@@ -837,9 +548,8 @@ which is compliant with the conditions defined in said policies.</p>
 <div datatype="rdf:HTML" property="schema:description">
         <h2 property="schema:name">Conclusions</h2>
 
-        <p>In this paper, we propose a framework for privacy-preserving querying within decentralised environments where distributed data sources are governed by one or more access control policies. The proposed framework, which is built around the notion of privacy-preserving summaries, serves as a basis for exploring and comparing alternative strategies for efficient querying with access control. As a first step, we discuss a possible instantiation of this framework which uses Bloom filters for creating privacy-preserving summaries over encrypted data, and highlight several open research challenges and opportunities.</p>
-
-        <p>In future work, we will evaluate the use of Bloom filters for privacy-preserving federated querying both in terms of performance and privacy preservation. Additionally, we will investigate how access control policies and access keys can be managed effectively and efficiently in a decentralised Web based ecosystem such as Solid.</p>
+        <p>In this paper, we propose a framework for efficent privacy-preserving querying within decentralised environments where distributed data sources are governed by one or more access control policies. The proposed framework, which is built around the notion of privacy-preserving summaries, serves as a basis for exploring and comparing alternative strategies for efficient querying with access control. As a first step, we discuss a possible instantiation of this framework which uses Bloom filters for creating privacy-preserving summaries over encrypted data, and highlight several open research challenges and opportunities.
+In future work, we will evaluate the use of Bloom filters for privacy-preserving federated querying both in terms of performance and privacy preservation. Additionally, we will investigate how access control policies and access keys can be managed effectively and efficiently in a decentralised Web based ecosystem such as Solid.</p>
 
       </div>
 </section>
@@ -850,69 +560,49 @@ which is compliant with the conditions defined in said policies.</p>
 <h2 id="references">References</h2>
 <dl class="references">
   <dt id="ref-1">[1]</dt>
-  <dd resource="#solid" typeof="schema:Article">Mansour, E., Sambra, A.V., Hawke, S., Zereba, M., Capadisli, S., Ghanem, A., Aboulnaga, A., Berners-Lee, T.: A demonstration of the solid platform for social web applications. In: Proceedings of the 25th International Conference Companion on World Wide Web. pp. 223–226. International World Wide Web Conferences Steering Committee (2016).</dd>
+  <dd resource="#solid" typeof="schema:Article">Mansour, E., Sambra, A.V., Hawke, S., Zereba, M., Capadisli, S., Ghanem, A., Aboulnaga, A., Berners-Lee, T.: A demonstration of the solid platform for social web applications. In: The 25th International Conference Companion on World Wide Web (2016).</dd>
   <dt id="ref-2">[2]</dt>
-  <dd resource="#summaries" typeof="schema:Article">Umbrich, J., Hose, K., Karnstedt, M., Harth, A., Polleres, A.: Comparing data summaries for processing live queries over linked data. World Wide Web. 14, 495–544 (2011).</dd>
+  <dd resource="#summaries" typeof="schema:Article">Umbrich, J., Hose, K., Karnstedt, M., Harth, A., Polleres, A.: Comparing data summaries for processing live queries over linked data. World Wide Web. 14, (2011).</dd>
   <dt id="ref-3">[3]</dt>
-  <dd resource="http://ceur-ws.org/Vol-2451/paper-28.pdf" typeof="schema:Article">Vander Sande, M., de Valk, S., Meijers, E., Taelman, R., Van de Sompel, H., Verborgh, R.: Discovering Data Sources in a Distributed Network of Heritage Information. Proceedings of the Posters and Demo Track of the 15th International Conference on Semantic Systems. (2019).</dd>
+  <dd resource="#summaries_heritage" typeof="schema:Article">Vander Sande, M., de Valk, S., Meijers, E., Taelman, R., Van de Sompel, H., Verborgh, R.: Discovering Data Sources in a Distributed Network of Heritage Information. The 15th International Conference on Semantic Systems. (2019).</dd>
   <dt id="ref-4">[4]</dt>
-  <dd resource="https://www.w3.org/TR/2014/REC-rdf11-concepts-20140225/" typeof="schema:CreativeWork">Cyganiak, R., Wood, D., Lanthaler, M.: RDF 1.1: Concepts and Abstract Syntax. W3C, <a href="https://www.w3.org/TR/2014/REC-rdf11-concepts-20140225/">https:/​/​www.w3.org/TR/2014/REC-rdf11-concepts-20140225/</a> (2014).</dd>
+  <dd resource="#spec:rdf" typeof="schema:CreativeWork">Cyganiak, R., Wood, D., Lanthaler, M.: RDF 1.1: Concepts and Abstract Syntax. W3C (2014).</dd>
   <dt id="ref-5">[5]</dt>
   <dd resource="https://www.w3.org/DesignIssues/LinkedData.html" typeof="schema:CreativeWork">Berners-Lee, T.: Linked Data. <a href="https://www.w3.org/DesignIssues/LinkedData.html">https:/​/​www.w3.org/DesignIssues/LinkedData.html</a> (2009).</dd>
   <dt id="ref-6">[6]</dt>
-  <dd resource="https://www.w3.org/TR/ldp/" typeof="schema:CreativeWork">Speicher, J.A., Steve, Malhotra, A.: Linked Data Platform 1.0. W3C, <a href="https://www.w3.org/TR/ldp/">https:/​/​www.w3.org/TR/ldp/</a> (2015).</dd>
+  <dd resource="#spec:ldp" typeof="schema:CreativeWork">Speicher, J.A., Steve, Malhotra, A.: Linked Data Platform 1.0. W3C (2015).</dd>
   <dt id="ref-7">[7]</dt>
-  <dd resource="https://www.w3.org/TR/ldn/" typeof="schema:CreativeWork">Capadisli, S., Guy, A.: Linked Data Notifications. W3C, <a href="https://www.w3.org/TR/ldn/">https:/​/​www.w3.org/TR/ldn/</a> (2017).</dd>
+  <dd resource="#spec:ldn" typeof="schema:CreativeWork">Capadisli, S., Guy, A.: Linked Data Notifications. W3C (2017).</dd>
   <dt id="ref-8">[8]</dt>
-  <dd resource="https://www.w3.org/2005/Incubator/webid/spec/identity/" typeof="schema:CreativeWork">Sporny, M., Inkster, T., Story, H., Harbulot, B., Bachmann-Gmür, R.: WebID 1.0 Web Identity and Discovery. W3C, <a href="https://www.w3.org/2005/Incubator/webid/spec/identity/">https:/​/​www.w3.org/2005/Incubator/webid/spec/identity/</a> (2014).</dd>
+  <dd resource="#spec:webid" typeof="schema:CreativeWork">Sporny, M., Inkster, T., Story, H., Harbulot, B., Bachmann-Gmür, R.: WebID 1.0 Web Identity and Discovery. W3C (2014).</dd>
   <dt id="ref-9">[9]</dt>
   <dd resource="https://github.com/solid/web-access-control-spec" typeof="schema:CreativeWork">Web Access Control (WAC). <a href="https://github.com/solid/web-access-control-spec">https:/​/​github.com/solid/web-access-control-spec</a> (2019).</dd>
   <dt id="ref-10">[10]</dt>
-  <dd resource="https://www.w3.org/TR/2013/REC-sparql11-protocol-20130321/" typeof="schema:CreativeWork">Feigenbaum, L., Todd Williams, G., Grant Clark, K., Torres, E.: SPARQL 1.1 Protocol. W3C, <a href="https://www.w3.org/TR/2013/REC-sparql11-protocol-20130321/">https:/​/​www.w3.org/TR/2013/REC-sparql11-protocol-20130321/</a> (2013).</dd>
+  <dd resource="#bloomfilter" typeof="schema:Article">Bloom, B.H.: Space/time trade-offs in hash coding with allowable errors. Communications of the ACM. 13, (1970).</dd>
   <dt id="ref-11">[11]</dt>
-  <dd resource="#sparqlfederation" typeof="schema:Article">Saleem, M., Khan, Y., Hasnain, A., Ermilov, I., Ngonga Ngomo, A.-C.: A fine-grained evaluation of SPARQL endpoint federation systems. Semantic Web. 7, 493–518 (2016).</dd>
+  <dd resource="#bloomIO" typeof="schema:Article">Pu, X., Wang, J., Luo, P., Wang, M.: AWETO: efficient incremental update and querying in RDF storage system. In: The 20th ACM international conference on Information and knowledge management (2011).</dd>
   <dt id="ref-12">[12]</dt>
-  <dd resource="https://www.w3.org/TR/2013/REC-sparql11-query-20130321/" typeof="schema:CreativeWork">Harris, S., Seaborne, A., Prud’hommeaux, E.: SPARQL 1.1 Query Language. W3C, <a href="https://www.w3.org/TR/2013/REC-sparql11-query-20130321/">https:/​/​www.w3.org/TR/2013/REC-sparql11-query-20130321/</a> (2013).</dd>
+  <dd resource="#bloomjoinslarge" typeof="schema:Article">Neumann, T., Weikum, G.: Scalable join processing on very large RDF graphs. In: The 2009 ACM SIGMOD International Conference on Management of data (2009).</dd>
   <dt id="ref-13">[13]</dt>
-  <dd resource="http://crystal.uta.edu/~mcguigan/cse6350/papers/Bloom.pdf" typeof="schema:Article">Bloom, B.H.: Space/time trade-offs in hash coding with allowable errors. Communications of the ACM. 13, 422–426 (1970).</dd>
+  <dd resource="#tpf_amf" typeof="schema:Article">Vander Sande, M., Verborgh, R., Van Herwegen, J., Mannens, E., Van de Walle, R.: Opportunistic Linked Data querying through approximate membership metadata. In: International Semantic Web Conference (2015).</dd>
   <dt id="ref-14">[14]</dt>
-  <dd resource="https://dl.acm.org/citation.cfm?doid=2063576.2063988" typeof="schema:Article">Pu, X., Wang, J., Luo, P., Wang, M.: AWETO: efficient incremental update and querying in RDF storage system. In: Proceedings of the 20th ACM international conference on Information and knowledge management (2011).</dd>
+  <dd resource="#bloomsparqlask" typeof="schema:Article">Hose, K., Schenkel, R.: Towards benefit-based RDF source selection for SPARQL queries. In: The 4th International Workshop on Semantic Web Information Management (2012).</dd>
   <dt id="ref-15">[15]</dt>
-  <dd resource="https://www.researchgate.net/profile/Thomas_Neumann2/publication/47863714_Scalable_Join_Processing_on_Very_Large_RDF_Graphs/links/00b7d51d1687cae740000000.pdf" typeof="schema:Article">Neumann, T., Weikum, G.: Scalable join processing on very large RDF graphs. In: Proceedings of the 2009 ACM SIGMOD International Conference on Management of data. pp. 627–640. ACM (2009).</dd>
+  <dd resource="#Villata2011" typeof="schema:Article">Villata, S., Delaforge, N., Gandon, F., Gyrard, A.: An Access Control Model for Linked Data. In: On the Move to Meaningful Internet Systems: OTM 2011 Workshops (2011).</dd>
   <dt id="ref-16">[16]</dt>
-  <dd resource="http://linkeddatafragments.org/publications/iswc2015-amf.pdf" typeof="schema:Article">Vander Sande, M., Verborgh, R., Van Herwegen, J., Mannens, E., Van de Walle, R.: Opportunistic Linked Data querying through approximate membership metadata. In: International Semantic Web Conference. pp. 92–110. Springer (2015).</dd>
+  <dd resource="#Sacco2011b" typeof="schema:Article">Sacco, O., Passant, A.: A Privacy Preference Manager for the Social Semantic Web. In: Semantic Personalized Information Management: Retrieval and Recommendation (2011).</dd>
   <dt id="ref-17">[17]</dt>
-  <dd resource="https://domino.mpi-inf.mpg.de/intranet/ag5/ag5publ.nsf/0/DAAD136B50B0C0ECC12579E6004D6582/$file/p2-hose.pdf" typeof="schema:Article">Hose, K., Schenkel, R.: Towards benefit-based RDF source selection for SPARQL queries. In: Proceedings of the 4th International Workshop on Semantic Web Information Management. p. 2. ACM (2012).</dd>
+  <dd resource="#fernandez2017self" typeof="schema:Article">Fernández, J.D., Kirrane, S., Polleres, A., Steyskal, S.: Self-Enforcing Access Control for Encrypted RDF. In: European Semantic Web Conference (2017).</dd>
   <dt id="ref-18">[18]</dt>
-  <dd resource="#Sambra2014" typeof="schema:CreativeWork">Sambra, A., Story, H., Berners-Lee, T.: Web Identity and Discovery. W3C (2014).</dd>
+  <dd resource="#kasten2013towards" typeof="schema:Article">Kasten, A., Scherp, A., Armknecht, F., Krause, M.: Towards search on encrypted graph data. In: Proc. of the International Conference on Society, Privacy and the Semantic Web-Policy and Technology (2013).</dd>
   <dt id="ref-19">[19]</dt>
-  <dd resource="#Inkster2014" typeof="schema:CreativeWork">Inkster, T., Story, H., Harbulot, B.: WebID Authentication over TLS. W3C (2014).</dd>
+  <dd resource="#giereth2005partial" typeof="schema:Article">Giereth, M.: On Partial Encryption of RDF-Graphs. In: Proc. of International Semantic Web Conference (2005).</dd>
   <dt id="ref-20">[20]</dt>
-  <dd resource="#Hollenbach2009" typeof="schema:Article">Hollenbach, J., Presbrey, J., Berners-Lee, T.: Using rdf metadata to enable access control on the social semantic web. In: Proceedings of the Workshop on Collaborative Construction, Management and Linking of Structured Knowledge (CK2009) (2009).</dd>
+  <dd resource="#comunica" typeof="schema:Article">Taelman, R., Van Herwegen, J., Vander Sande, M., Verborgh, R.: Comunica: a Modular SPARQL Query Engine for the Web. In: The 17th International Semantic Web Conference (2018).</dd>
   <dt id="ref-21">[21]</dt>
-  <dd resource="https://openid.net/specs/openid-connect-core-1_0.html " typeof="schema:CreativeWork">Sakimura, N., Bradley, J., Jones, M., de Medeiros, B., Mortimore, C.: OpenID Connect Core 1.0. OpenID Foundation, <a href="https://openid.net/specs/openid-connect-core-1_0.html">https:/​/​openid.net/specs/openid-connect-core-1_0.html</a> (2014).</dd>
+  <dd resource="#ldf" typeof="schema:Article">Verborgh, R., Vander Sande, M., Hartig, O., Van Herwegen, J., De Vocht, L., De Meester, B., Haesendonck, G., Colpaert, P.: Triple Pattern Fragments: a Low-cost Knowledge Graph Interface for the Web. Journal of Web Semantics. 37–38, (2016).</dd>
   <dt id="ref-22">[22]</dt>
-  <dd resource="#fett2017web" typeof="schema:Article">Fett, D., Küsters, R., Schmitz, G.: The web SSO standard openid connect: In-depth formal security analysis and security guidelines. In: 2017 IEEE 30th Computer Security Foundations Symposium (CSF). pp. 189–202. IEEE (2017).</dd>
-  <dt id="ref-23">[23]</dt>
-  <dd resource="#Villata2011" typeof="schema:Article">Villata, S., Delaforge, N., Gandon, F., Gyrard, A.: An Access Control Model for Linked Data. In: On the Move to Meaningful Internet Systems: OTM 2011 Workshops. pp. 454–463 (2011).</dd>
-  <dt id="ref-24">[24]</dt>
-  <dd resource="http://ceur-ws.org/Vol-781/paper6.pdf" typeof="schema:Article">Sacco, O., Passant, A.: A Privacy Preference Manager for the Social Semantic Web. In: Semantic Personalized Information Management: Retrieval and Recommendation. CEUR-WS (2011).</dd>
-  <dt id="ref-25">[25]</dt>
-  <dd resource="#fernandez2017self" typeof="schema:Article">Fernández, J.D., Kirrane, S., Polleres, A., Steyskal, S.: Self-Enforcing Access Control for Encrypted RDF. In: European Semantic Web Conference. pp. 607–622. Springer (2017).</dd>
-  <dt id="ref-26">[26]</dt>
-  <dd resource="#kasten2013towards" typeof="schema:Article">Kasten, A., Scherp, A., Armknecht, F., Krause, M.: Towards search on encrypted graph data. In: Proc. of the International Conference on Society, Privacy and the Semantic Web-Policy and Technology. pp. 46–57 (2013).</dd>
-  <dt id="ref-27">[27]</dt>
-  <dd resource="#giereth2005partial" typeof="schema:Article">Giereth, M.: On Partial Encryption of RDF-Graphs. In: Proc. of International Semantic Web Conference. pp. 308–322 (2005).</dd>
-  <dt id="ref-28">[28]</dt>
-  <dd resource="https://comunica.github.io/Article-ISWC2018-Resource/" typeof="schema:Article">Taelman, R., Van Herwegen, J., Vander Sande, M., Verborgh, R.: Comunica: a Modular SPARQL Query Engine for the Web. In: Proceedings of the 17th International Semantic Web Conference (2018).</dd>
-  <dt id="ref-29">[29]</dt>
-  <dd resource="https://dx.doi.org/10.1016/j.websem.2016.03.003" typeof="schema:Article">Verborgh, R., Vander Sande, M., Hartig, O., Van Herwegen, J., De Vocht, L., De Meester, B., Haesendonck, G., Colpaert, P.: Triple Pattern Fragments: a Low-cost Knowledge Graph Interface for the Web. Journal of Web Semantics. 37–38, (2016).</dd>
-  <dt id="ref-30">[30]</dt>
-  <dd resource="#hibiscus" typeof="schema:Article">Saleem, M., Ngomo, A.-C.N.: Hibiscus: Hypergraph-based source selection for sparql endpoint federation. In: European semantic web conference. pp. 176–191. Springer (2014).</dd>
-  <dt id="ref-31">[31]</dt>
-  <dd resource="#splendid" typeof="schema:Article">Görlitz, O., Staab, S.: Splendid: Sparql endpoint federation exploiting void descriptions. In: Proceedings of the Second International Conference on Consuming Linked Data-Volume 782. pp. 13–24. CEUR-WS. org (2011).</dd>
-  <dt id="ref-32">[32]</dt>
-  <dd resource="https://www.w3.org/TR/shacl/" typeof="schema:CreativeWork">Knublauch, H., Kontokostas, D.: Shapes Constraint Language (SHACL). W3C, <a href="https://www.w3.org/TR/shacl/">https:/​/​www.w3.org/TR/shacl/</a> (2017).</dd>
+  <dd resource="#spec:shacl" typeof="schema:CreativeWork">Knublauch, H., Kontokostas, D.: Shapes Constraint Language (SHACL). W3C (2017).</dd>
 </dl>
 </section>
 </footer>

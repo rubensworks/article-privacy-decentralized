@@ -1,7 +1,6 @@
 FUNCTION CreateAccessKeys(Q, P)
   INPUT:
-    Q: set of quads
-    P: set of policies
+    Q: set of quads, P: set of policies
   OUTPUT:
     QPK: hashmap of quads to policies and keys
 QPK = new Map()

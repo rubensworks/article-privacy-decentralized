@@ -1,8 +1,6 @@
 FUNCTION QuerySources(i, q, U)
   INPUT:
-    i: client identification
-    q: quad pattern query
-    U: list of sources
+    i: client identification, q: quad pattern query, U: list of sources
   OUTPUT:
     R: query results
 R = {}
