@@ -12,23 +12,19 @@ Our efficient privacy-preserving federated query execution framework.
 
 ### Using Data Summaries for Efficient Querying
 
-Based on the use case scenario presented in [](#use-case), we assume that multiple data pods exist, each potentially containing multiple privacy-constrained files and, clients need to authenticate themselves to the respective data pod servers. Depending on each file's access control policy, the client may be authorised to read the full file contents, parts of it, or not at all.
+Based on the use case scenario presented in [](#use-case), we assume that many data pods exist, each potentially containing multiple privacy-constrained files and, clients need to authenticate themselves to the respective data pod servers. Depending on each file's access control policy, the client may be authorised to read the full file contents, parts of it, or not at all.
 Since realistic decentralised environments could easily contain hundreds or thousands of files,
 it would be inefficient for the client to query each of them.
 For this reason, we make make use of the [_data summaries_](cite:cites summaries) concept
 in order to reduce the number of sources that need to be queried by the client.
 We assume that each data pod exposes a data summary for each separate file, which is subsequently aggregated by third-party aggregators, as depicted in [](#figure-privacy-federation-architecture).
-
-
-
-The figure provides an overview of a privacy-preserving federation with six access restricted sources and privacy-preserving summaries, and a third-party aggregator that combines these summaries in a privacy-preserving manner, together with a list of all sources it summarizes. Client-side query engines can use this combined summary to derive which sources are relevant for any given query. Since files may contain private data, these data summaries must be _privacy-preserving_,
+The figure provides an overview of a privacy-preserving federation with six access restricted sources and privacy-preserving summaries, and a third-party aggregator that combines these summaries in a privacy-preserving manner, together with a list of all sources it summarises. Client-side query engines can use this combined summary to derive which sources are relevant for any given query. Since files may contain private data, these data summaries must be _privacy-preserving_,
 i.e., they must not allow access restricted data to be leaked to unauthorised individuals.
 In the proposed framework, access policies are represented as access keys that are taken into account by the summary generation algorithm. Pods could generate these summaries lazily on demand, periodically or upon file changes.
 Following the approach from [Vander Sande et al.](cite:cites tpf_amf), each summary consists of 4 parts, corresponding to the 4 components in RDF quads (subjects, predicates, objects and graphs).
 Using the summaries of these files, third-party aggregators can create _combined summaries_.
 Since the separate summaries are expected to be privacy-preserving, the combined summaries will also be privacy-preserving,
-which means that third-party aggregators will not be able to know the actual contents of the data,
-and they need not necessarily be trusted parties.
+which means that third-party aggregators need not necessarily be trusted parties.
 In addition to exposing the combined summary,
 an aggregator also needs to maintain and expose the list of sources it aggregates over,
 such that clients know which pods could potentially contribute query results.
@@ -57,6 +53,7 @@ The main technical requirements are derived from the fact that our architecture 
 
 The proposed framework is composed of a set of abstract algorithms that are needed in order to realise the proposed privacy-preserving federation framework. The abstract nature of the framework is reflective of the fact that each algorithm could be implemented in a variety of ways.
 
+<br/>
 #### Access Key Creation Algorithm.
 {:#framework-key-creation}
 
@@ -199,11 +196,10 @@ Querying with access control algorithm.
 </figure>
 </font>
 
-#### Query Execution Over Privacy-Preserving Summaries.
+### Query Execution Over Privacy-Preserving Summaries
 
-[](#figure-query-execution) shows an example of how this source selection algorithm can be used in client-side query engines.
-The presented algorithm should be seen as a basis for federated querying over decentralized environments with private data,
-where there is a single aggregator, and all sources we want to query over are considered by the aggregator.
+[](#figure-query-execution) shows an example of how our privacy preserving summaries can be used in client-side query engines.
+The presented high level architecture should be seen as a basis for federated querying over decentralized environments with private data, where there is a single aggregator, and all sources we want to query over are considered by the aggregator.
 In practise, multiple aggregators can exist,
 they may apply to overlapping sources,
 and some sources may not be aggregated at all.
