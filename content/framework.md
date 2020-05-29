@@ -43,7 +43,7 @@ The main technical requirements are derived from the fact that our architecture 
 - **Summary combinations.**
    It must be possible to combine two summaries,
    where the combined summary is identical to a summary where all of the entries were added directly.
-- **Authorized membership checking.**
+- **Authorised membership checking.**
    Probabilistic membership checking must be possible for a given value, access key and file URI.
    False positives are allowed, but true negatives are required.
 - **Query Execution with Access control.**
@@ -51,7 +51,8 @@ The main technical requirements are derived from the fact that our architecture 
 
 ### Core Functions of the Framework
 
-The proposed framework is composed of a set of abstract algorithms that are needed in order to realise the proposed privacy-preserving federation framework. The abstract nature of the framework is reflective of the fact that each algorithm could be implemented in a variety of ways.
+We also propose a set of abstract algorithms that are needed in order to realise the proposed privacy-preserving federation framework. The proposed abstraction is benefical as each algorithm could be implemented in a variety of ways.
+
 
 <br/>
 
@@ -77,18 +78,18 @@ Algorithm for generating keys for quads based on existing access policies.
 In the proposed framework, data pods expose a separate summary for each file,
 and aggregators create combined summaries using these separate summaries;
 and maintain a list of all source URIs that they aggregate over.
-We assume that pods expose summaries that are created according to the algorithm presented in [](#summarization-algorithm).
+We assume that pods expose summaries that are created according to the algorithm presented in [](#summarisation-algorithm).
 In this algorithm, a file summary is created for each quad component,
 where we iterate over all the file's quads,
 and the access key that are applicable for each quad.
 For each of these combinations, we add the quad component to the summary,
 for the given key and file source URI.
 The `SummaryInitialize` and `SummaryAdd` functions that are used in the algorithm depend on the type of summary that is being used.
-A high-level example of this summarization algorithm can be seen in [](#figure-summary-components-privacy).
+A high-level example of this summarisation algorithm can be seen in [](#figure-summary-components-privacy).
 
 
 <font size="1">
-<figure id="summarization-algorithm" class="listing">
+<figure id="summarisation-algorithm" class="listing">
 ````/code/summarization-algorithm.txt````
 <figcaption markdown="block">
 Algorithm for creating a summary over a file within a data pod.
@@ -98,9 +99,9 @@ Algorithm for creating a summary over a file within a data pod.
 
 
 <figure id="figure-summary-components-privacy">
-<img src="img/summary-components-privacy.svg" alt="[Privacy-preserving summarization of a file]" class="figure-width-twothird">
+<img src="img/summary-components-privacy.svg" alt="[Privacy-preserving summarisation of a file]" class="figure-width-twothird">
 <figcaption markdown="block">
-Privacy-preserving summarization of all RDF quads within a file.
+Privacy-preserving summarisation of all RDF quads within a file.
 </figcaption>
 </figure>
 
@@ -200,7 +201,7 @@ Querying with access control algorithm.
 ### Query Execution Over Privacy-Preserving Summaries
 
 [](#figure-query-execution) shows an example of how our privacy preserving summaries can be used in client-side query engines.
-The presented high level architecture should be seen as a basis for federated querying over decentralized environments with private data, where there is a single aggregator, and all sources we want to query over are considered by the aggregator.
+The presented high level architecture should be seen as a basis for federated querying over decentralised environments with private data, where there is a single aggregator, and all sources we want to query over are considered by the aggregator.
 In practise, multiple aggregators can exist,
 they may apply to overlapping sources,
 and some sources may not be aggregated at all.
@@ -213,3 +214,5 @@ which we consider out-of-scope for this work.
 Federated query execution using a privacy-preserving summary.
 </figcaption>
 </figure>
+
+<br/><br/>

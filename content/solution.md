@@ -11,10 +11,9 @@ We assume that there is a many to many mapping between quads and policies and a 
 
 <br/>
 **Summary Generation and Maintenance.**
-The technical requirements for enabling federated querying in an efficient manner through privacy-preserving aggregators are mainly driven by the summarisation technology. In this context symmetric keys are used to create privacy-preserving summaries that do not leak access restricted data. We consider AMFs, such as Bloom filters, as being one possible candidate for such summaries that meet the **privacy-preserving summary creation.** and **summary combinations** requirements.
-The main advantage of using AMFs, such as Bloom filters, is that all of the performance-critical operations on summaries (adding, combining, membership checking) can happen very efficiently, as these are essentially just bitwise operations.
-However, when using AMFs, it is important to consider that certain parameters need to be configured, and that all operations must be known before they can be operationalised. For example, for Bloom filters the parameters are the number of hashes and bits. These parameters and the number of entries all impact the false positive error rate. Concretely, the parameters used to setup individual summaries need to be identical such that they can be combined by an aggregator. In a decentralised environment, it is however difficult to reach a consensus with respect to fixed parameters.
-As such, no single set of AMF parameters should be used.
+The requirements for enabling federated querying in an efficient manner through privacy-preserving aggregators are mainly driven by the summarisation technology. In this context symmetric keys are used to create privacy-preserving summaries that do not leak access restricted data. We consider AMFs, such as Bloom filters, as being one possible candidate for such summaries that meet the **privacy-preserving summary creation.** and **summary combinations** requirements.
+The main advantage of using AMFs is that all of the performance-critical operations on summaries (adding, combining, membership checking) can happen very efficiently, as these are essentially just bitwise operations.
+However, it is important to highlight that certain parameters need to be configured, and that all operations must be known before they can be operationalised. For example, for Bloom filters the parameters are the number of hashes and bits. These parameters and the number of entries all impact the false positive error rate. Concretely, the parameters used to setup individual summaries need to be identical such that they can be combined by an aggregator. In a decentralised environment, it is however difficult to reach a consensus with respect to fixed parameters.
 This means that a parameter determination mechanism is needed for aggregators
 that want to combine multiple AMFs. Also, since the creation of an AMF for a file can become expensive,
 sources may decide to adopt different maintenance strategies.
@@ -22,7 +21,7 @@ sources may decide to adopt different maintenance strategies.
 <br/>
 **Source Selection.**
 In the proposed framework, a client-side query engine can make use of the aggregator's summary to perform source selection,
-in order to reduce the number of sources that are being consulted by this engine. From a source selection perspective, we address the **authorized membership checking.** requirement.
+in order to reduce the number of sources that are being consulted by this engine. From a source selection perspective, we address the **authorised membership checking.** requirement.
 As these summaries allow source selection based on quad patterns instead of full SPARQL queries,
 source selection can be pushed down into the query plan,
 which allows quad patterns in the query to be executed over a different range of sources.
