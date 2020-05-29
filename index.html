@@ -255,8 +255,9 @@ While, the pods take care of the access control enforcement at query time, by ta
 
         <p>The proposed framework is composed of a set of abstract algorithms that are needed in order to realise the proposed privacy-preserving federation framework. The abstract nature of the framework is reflective of the fact that each algorithm could be implemented in a variety of ways.</p>
 
-        <p id="framework-key-creation"><br>
-#### Access Key Creation Algorithm.</p>
+        <p><br></p>
+
+        <h4 id="framework-key-creation">Access Key Creation Algorithm.</h4>
 
         <p>As a prerequisite for encoding access into summaries,
 the first step is to create a map of access keys to quads based on existing access policies, using the algorithm outlined in <a href="#key-generation-algorithm">Listing 1</a>. Here we assume that pod owners already have a set of access control policies that govern access to quads stored in theirs pods. Although there is a many to many mapping between quads and policies, there is a one to one mapping between access policies that are used for policy enforcement at query time, and access keys that are used to create privacy-preserving summaries that are needed to optimise federated querying.</p>
