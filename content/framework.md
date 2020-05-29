@@ -54,6 +54,7 @@ The main technical requirements are derived from the fact that our architecture 
 The proposed framework is composed of a set of abstract algorithms that are needed in order to realise the proposed privacy-preserving federation framework. The abstract nature of the framework is reflective of the fact that each algorithm could be implemented in a variety of ways.
 
 <br/>
+
 #### Access Key Creation Algorithm.
 {:#framework-key-creation}
 
