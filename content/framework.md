@@ -1,10 +1,10 @@
 ## Efficient Privacy-Preserving Federated Querying
 {:#framework}
 
-The goal of the proposed efficient privacy-preserving federated query execution framework, depicted in [](#overall-architecture), is to provide a high level overview of the components needed to support privacy-preserving querying within decentralised environments.
+The goal of the proposed efficient privacy-preserving federated query execution framework, depicted in [](#figure-privacy-federation-architecture), is to provide a high level overview of the components needed to support privacy-preserving querying within decentralised environments.
 
-<figure id="overall-architecture">
-<img src="img/overall-architecture.svg" alt="[Privacy-Preserving Federated Querying Architecture]" class="figure-width-twothird">
+<figure id="figure-privacy-federation-architecture">
+<img src="img/privacy-federation-architecture.svg" alt="[Privacy-Preserving Federation]" class="figure-width-twothird">
 <figcaption markdown="block">
 Our efficient privacy-preserving federated query execution framework.
 </figcaption>
@@ -19,12 +19,7 @@ For this reason, we make make use of the [_data summaries_](cite:cites summaries
 in order to reduce the number of sources that need to be queried by the client.
 We assume that each data pod exposes a data summary for each separate file, which is subsequently aggregated by third-party aggregators, as depicted in [](#figure-privacy-federation-architecture).
 
-<figure id="figure-privacy-federation-architecture">
-<img src="img/privacy-federation-architecture.svg" alt="[Privacy-Preserving Federation]" class="figure-width-twothird">
-<figcaption markdown="block">
-High level overview of individual and combined data summaries.
-</figcaption>
-</figure>
+
 
 The figure provides an overview of a privacy-preserving federation with six access restricted sources and privacy-preserving summaries, and a third-party aggregator that combines these summaries in a privacy-preserving manner, together with a list of all sources it summarizes. Client-side query engines can use this combined summary to derive which sources are relevant for any given query. Since files may contain private data, these data summaries must be _privacy-preserving_,
 i.e., they must not allow access restricted data to be leaked to unauthorised individuals.
@@ -61,8 +56,6 @@ The main technical requirements are derived from the fact that our architecture 
 ### Core Functions of the Framework
 
 The proposed framework is composed of a set of abstract algorithms that are needed in order to realise the proposed privacy-preserving federation framework. The abstract nature of the framework is reflective of the fact that each algorithm could be implemented in a variety of ways.
-
-<br/>
 
 #### Access Key Creation Algorithm.
 {:#framework-key-creation}
@@ -165,14 +158,6 @@ When a true negative is found for a source, this source is removed from the list
 Finally, the remaining list of sources is returned,
 which can be used by the query engine to execute the quad pattern query over.
 In this algorithm, the `SummaryContains` also depends on the type of summary that is being used.
-[](#figure-query-execution) shows an example of how this source selection algorithm can be used in client-side query engines.
-The presented algorithm should be seen as a basis for federated querying over decentralized environments with private data,
-where there is a single aggregator, and all sources we want to query over are considered by the aggregator.
-In practise, multiple aggregators can exist,
-they may apply to overlapping sources,
-and some sources may not be aggregated at all.
-For these cases, extensions to this algorithm will be needed,
-which we consider out-of-scope for this work.
 
 <font size="1">
 <figure id="client-algorithm" class="listing">
@@ -182,13 +167,6 @@ Client-side algorithm for selecting query-relevant sources.
 </figcaption>
 </figure>
 </font>
-
-<figure id="figure-query-execution">
-<img src="img/query-execution.svg" alt="[Query execution over privacy-preserving summaries]" class="figure-width-twothird">
-<figcaption markdown="block">
-Federated query execution using a privacy-preserving summary.
-</figcaption>
-</figure>
 
 #### Client-side Query Execution Algorithm.
 {:#framework-access-control-client}
@@ -220,3 +198,21 @@ Querying with access control algorithm.
 </figcaption>
 </figure>
 </font>
+
+#### Query Execution Over Privacy-Preserving Summaries.
+
+[](#figure-query-execution) shows an example of how this source selection algorithm can be used in client-side query engines.
+The presented algorithm should be seen as a basis for federated querying over decentralized environments with private data,
+where there is a single aggregator, and all sources we want to query over are considered by the aggregator.
+In practise, multiple aggregators can exist,
+they may apply to overlapping sources,
+and some sources may not be aggregated at all.
+For these cases, extensions to this algorithm will be needed,
+which we consider out-of-scope for this work.
+
+<figure id="figure-query-execution">
+<img src="img/query-execution.svg" alt="[Query execution over privacy-preserving summaries]" class="figure-width-twothird">
+<figcaption markdown="block">
+Federated query execution using a privacy-preserving summary.
+</figcaption>
+</figure>

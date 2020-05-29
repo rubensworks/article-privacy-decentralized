@@ -1,7 +1,7 @@
 ## Challenges and Opportunities
 {:#solution}
 
-When it comes to access policy specification, summarisation generation and maintenance, source selection, and access control enforcement there are several open challenges and opportunities, which we discuss hereafter.
+When it comes to efficient privacy-preserving federated query evaluation over many Solid data pods there are several open challenges and opportunities that still need to be addressed.
 
 <br/>
 **Access Policy Specification.**
