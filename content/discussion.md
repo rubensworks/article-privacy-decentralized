@@ -1,5 +1,5 @@
 ## Challenges and Opportunities
-{:#solution}
+{:#discussion}
 
 When it comes to efficient privacy-preserving federated query evaluation over many Solid data pods there are several open challenges and opportunities.
 

@@ -1,7 +1,7 @@
-## Background and Related Work
+## Background & Related Work
 {:#background}
 
-We start by presenting background and related work on the Solid platform, federated query processing, approximate membership functions, and access control.
+We start by presenting the necessary background information with respect to the Solid platform, approximate membership functions, and secure indexes.
 
 <br/>
 **Social Linked Data.**
@@ -11,18 +11,6 @@ Concretely, Solid makes use of a collection of Web standards and technical speci
 The RDF data model together with the Linked Data principles are used to give data a universal meaning, and to allow data to be linked across multiple data pods.
 Solid data pods implement the LDP specification which caters for RDF read-write operations via RESTful Web Application Programming Interfaces (APIs). The LDN specification is used to enable pods to communicate with each other.
 Using WebID, everyone has a personal online identifier that they can use to _authenticate_ against a data pod. While, in turn WAC is used to specify rules that determine if agents and applications are _authorised_ to read, write, append, or control RDF files. The framework described in this paper discusses how Solid could be extended to enable efficient privacy-preserving federated query evaluation over many Solid data pods.
-
-<br/>
-**Federated Query Processing.**
-In a truly decentralised Web, data is spread over multiple sources,
-which means that there is no single endpoint through which all data can be retrieved.
-For this, federated query processing is an active area of research
-in which techniques are investigated to intelligently delegate the execution of parts of a SPARQL query to specific sources.
-In order to enable federations over many sources to scale more efficiently aggregation techniques whereby one or more independent _aggregators_ continously _crawl_ sources,
-and maintain [_data summaries_](cite:cites summaries,summaries_heritage), could be used to reduce the number of sources that need to be consulted.
-Query engines could use these summaries as an index structure that enables them to identify the sources that are needed to answer specific queries,
-which reduces the range of sources that need to be queried.
-In the context of this work, we extend existing query optimisation approaches by introducing an framework for efficient privacy-preserving federated query execution.
 
 <br/>
 **Approximate Membership Functions.**
@@ -38,6 +26,13 @@ In the context of federated querying, the [SPARQL ASK response has been enhanced
 Herein, we use Bloom filters to encode encrypted triple components that are available within each source, and aggregators are responsible for aggregating privacy-preserving summaries for several Solid data pods.
 
 <br/>
-**Access Control.**
-[Web Access Control (WAC)](cite:cites spec:wac) is an RDF vocabulary and an access control framework, which demonstrates how together WebID and access control policies specified using the WAC vocabulary, can be used to enforce distributed access control. [Villata et al.](cite:cites Villata2011) and [Sacco and Passant](cite:cites Sacco2011b) extend the WAC vocabulary to cater for context based access control policies and privacy preferences respectively. Alternatively, [Encryption-Based Access Control](cite:cites fernandez2017self) involves encrypting RDF fragments (i.e. subjects, predicates, objects, graphs or some combination thereof) with an encryption key, such that only those that have the key are permitted to access the data, thus serving as both an authentication and an authorisation mechanism. Existing proposals involve using [symmetric encryption](cite:cites kasten2013towards), [public-key encryption](cite:cites giereth2005partial), or [functional encryption](cite:cites fernandez2017self) to generate RDF ciphers.
-In this paper, encryption mechanisms are used to create privacy-preserving aggregations, whereas access control policies are used to restrict access to data at query time.
+**Secure Indexes.**
+[Secure Indexes](cite:cites goh2003secure) are data structures whereby membership can be tested in constant time without revealing any information about the contents of the index. The proposed secure indexes, which are build using pseudo-random functions and bloom filters, can be used to facilitate searches on encrypted data. A secure index scheme is defined as a tuple of four distinct algorithms (_Keygen_, _Trapdoor_, _BuildIndex_, _SearchIndex_) such that:
+
+- _Keygen(s)_ a randomized algorithm that takes as input a security parameter s and outputs a master private key kpriv.
+- _Trapdoor(kpriv,w)_ takes as inputs a master private key kpriv and a word w and outputs a trapdoor tw for w.
+- _BuildIndex(d,kpriv)_ takes as input a document d and the master key kpriv and outputs the index idxd.
+- _SearchIndex(tw, idxd)_ takes as input the trapdoor tw and the index idxd and outputs 1 if the w is possibly in d and 0 otherwise.
+
+The proposed scheme is secure against adaptive chosen keyword attacks, i.e., given two documents containing an unequal number of words and an index it is not possible for an adversary to determine which document is encoded in the index with a probability greater than random guessing.
+In this paper we demonstrate how secure indexes can be used to generate privacy-preserving index for Solid data pods.
