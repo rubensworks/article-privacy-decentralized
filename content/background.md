@@ -18,8 +18,8 @@ In a truly decentralised Web, data is spread over multiple sources,
 which means that there is no single endpoint through which all data can be retrieved.
 For this, federated query processing is an active area of research
 in which techniques are investigated to intelligently delegate the execution of parts of a SPARQL query to specific sources.
-In order to enable federations over many sources to scale more efficiently aggregation techniques whereby one or more independent _aggregators_ continously _crawl_ sources,
-and maintain [_data summaries_](cite:cites summaries,summaries_heritage), could be used to reduce the number of sources that need to be consulted.
+In order to enable federations over many sources to scale more efficiently aggregation techniques whereby one or more independent _aggregators_ continously _crawl_ sources (i.e., by dereferencing Uniform Resource Identifiers)  
+and _maintain_ [_data summaries_](cite:cites summaries,summaries_heritage), could be used to reduce the number of sources that need to be consulted.
 Query engines could use these summaries as an index structure that enables them to identify the sources that are needed to answer specific queries,
 which reduces the range of sources that need to be queried.
 In the context of this work, we extend existing query optimisation approaches by introducing an framework for efficient privacy-preserving federated query execution.
@@ -36,6 +36,11 @@ such as [reducing the number of expensive I/O operations](cite:cites bloomIO) du
 and [reducing the number of HTTP requests for Triple Pattern Fragments](cite:cites tpf_amf).
 In the context of federated querying, the [SPARQL ASK response has been enhanced with Bloom filters to share a summary of the matching results](cite:cites bloomsparqlask), which allows overlaps between different sources to be identified.
 Herein, we use Bloom filters to encode encrypted triple components that are available within each source, and aggregators are responsible for aggregating privacy-preserving summaries for several Solid data pods.
+
+<br/>
+**Secure Indexes.**
+[Secure Indexes](cite:cites goh2003secure) are data structures whereby membership can be tested in constant time without revealing any information about the contents of the index. The proposed secure indexes, which are build using pseudo-random functions and bloom filters, can be used to facilitate searches on encrypted data. The proposed scheme is secure against adaptive chosen keyword attacks, i.e., given two documents containing an unequal number of words and an index it is not possible for an adversary to determine which document is encoded in the index with a probability greater than random guessing.
+In this paper we demonstrate how secure indexes can be used to generate privacy-preserving index for Solid data pods.
 
 <br/>
 **Access Control.**

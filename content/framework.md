@@ -28,7 +28,7 @@ which means that third-party aggregators need not necessarily be trusted parties
 In addition to exposing the combined summary,
 an aggregator also needs to maintain and expose the list of sources it aggregates over,
 such that clients know which pods could potentially contribute query results.
-Although in our example we consider one aggregator, in practise multiple aggregators can exist with different source ranges.
+Although in our example we consider one aggregator, in practice multiple aggregators can exist with different source ranges.
 A client-side query engine can make use of the combined summary provided by the aggregator to perform source selection before query execution, i.e., reduce the number of sources to be queried. Thus the combined summaries serve to determine the pods that contain _relevant_ and _accessible_ data.
 While, the pods take care of the access control enforcement at query time, by taking into account permissions specified in terms of authorisation rules.
 
@@ -112,7 +112,7 @@ Based on the resulting file summaries,
 the aggregator can create a combined summary using the algorithm from [](#aggregation-algorithm).
 As before, the `SummaryInitialize` and `SummaryCombine` functions that are used in these algorithms
 depend on the type of summary that is being used.
-[](#figure-summary-components-privacy-aggregated) shows a high-level example of how this aggregation can happen in practise.
+[](#figure-summary-components-privacy-aggregated) shows a high-level example of how this aggregation could be performed.
 It is worth noting that both summaries and combined summaries require some bookkeeping.
 Each file summary must remain up-to-date with respect to the file's contents.
 This could be done by either immediately invalidating the summary upon file changes,
@@ -202,7 +202,7 @@ Querying with access control algorithm.
 
 [](#figure-query-execution) shows an example of how our privacy preserving summaries can be used in client-side query engines.
 The presented high level architecture should be seen as a basis for federated querying over decentralised environments with private data, where there is a single aggregator, and all sources we want to query over are considered by the aggregator.
-In practise, multiple aggregators can exist,
+In practice, multiple aggregators can exist,
 they may apply to overlapping sources,
 and some sources may not be aggregated at all.
 For these cases, extensions to this algorithm will be needed,

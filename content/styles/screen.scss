@@ -18,6 +18,27 @@
   display: none;
 }
 
+.supsub {
+    display: inline-block;
+}
+
+.supsub sup,
+.supsub sub {
+    position: relative;
+    display: block;
+    font-size: .7em;
+    line-height: 1.2;
+}
+
+.supsub sub {
+    top: .3em;
+}
+
+.supsub sup {
+    top: .3em;
+}
+
+
 img.plot {
   width: auto;
   height: 16em;
@@ -397,6 +418,8 @@ caption {
 tbody th {
   text-align:left;
 }
+
+
 
 // Hide table of contents in screen-mode
 ol.index-entries {
