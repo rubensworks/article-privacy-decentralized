@@ -63,7 +63,7 @@ As a prerequisite for encoding access into summaries,
 the first step is to create a map of access keys to quads based on existing access policies, using the algorithm outlined in [](#key-generation-algorithm). Here we assume that pod owners already have a set of access control policies that govern access to quads stored in theirs pods. Although there is a many to many mapping between quads and policies, there is a one to one mapping between access policies that are used for policy enforcement at query time, and access keys that are used to create privacy-preserving summaries that are needed to optimise federated querying.
 
 
-<font size="1">
+<font size="2">
 <figure id="key-generation-algorithm" class="listing">
 ````/code/key-generation-algorithm.txt````
 <figcaption markdown="block">
@@ -88,7 +88,7 @@ The `SummaryInitialize` and `SummaryAdd` functions that are used in the algorith
 A high-level example of this summarisation algorithm can be seen in [](#figure-summary-components-privacy).
 
 
-<font size="1">
+<font size="2">
 <figure id="summarisation-algorithm" class="listing">
 ````/code/summarization-algorithm.txt````
 <figcaption markdown="block">
@@ -121,7 +121,7 @@ The combined summary requires similar actions to avoid going stale.
 This can be achieved through immediate notifications from the pod to the aggregator upon file changes,
 or the aggregator can periodically scan the files or its summaries for changes.
 
-<font size="1">
+<font size="2">
 <figure id="aggregation-algorithm" class="listing">
 ````/code/aggregation-algorithm.txt````
 <figcaption markdown="block">
@@ -158,7 +158,7 @@ Finally, the remaining list of sources is returned,
 which can be used by the query engine to execute the quad pattern query over.
 In this algorithm, the `SummaryContains` also depends on the type of summary that is being used.
 
-<font size="1">
+<font size="2">
 <figure id="client-algorithm" class="listing">
 ````/code/client-algorithm.txt````
 <figcaption markdown="block">
@@ -174,7 +174,7 @@ Once the client has obtained the list of sources that it needs to query for a gi
 The client uses the sources returned by the aggregator to execute queries against the various pods using the algorithm outlined in [](#client-query-algorithm).
 The algorithm takes as input a client identification (e.g., WebID), a quad pattern query, and the set of sources returned by the source selection algorithm. Individual queries are executed against each of the sources and the aggregated results are returned to the client.
 
-<font size="1">
+<font size="2">
 <figure id="client-query-algorithm" class="listing">
 ````/code/request-algorithm.txt````
 <figcaption markdown="block">
@@ -189,7 +189,7 @@ Client-side algorithm for querying query-relevant sources.
 On receipt of a query the server uses the algorithm outlined in [](#server-query-algorithm) to ensure that only authorised query results are returned to the client.
 In the proposed algorithm a map relating quads to policies and keys is used to identify access policies that govern a particular query. We assume that there may be multiple policies that govern a particular quad and thus envisage a simple conflict resolution strategy whereby either prohibitions override permissions or visa versa. The algorithm stops as soon as it finds a policy that permits the given query to be executed and returns the results of the query execution.
 
-<font size="1">
+<font size="2">
 <figure id="server-query-algorithm" class="listing">
 ````/code/access-control-algorithm.txt````
 <figcaption markdown="block">

@@ -1,7 +1,6 @@
 ## Motivating Use Case Scenario
 {: #use-case}
 
-Generally speaking, a policy is composed of one or more authorisations that are used to state that a given subject (e.g. a user, role, group) is permitted to perform an action (e.g. read, write, share) on a certain object (e.g. dataset, file, graph). Policies are often composed of both positive authorisations (permissions) of the form <em>&lt;subject, action+, object&gt;</em> and negative authorisations (prohibitions) of the form <em>&lt;subject, action-, object&gt;</em>.
 
 Following the Solid design principles, in the personalised address book use case scenario used to guide our work, address books are merely lists of WebIDs, and the actual contact details are stored in the respective contacts' pod.
 To keep this use case simple, we assume an address book of Alice that contains two contacts: Bob and Carol.
@@ -11,25 +10,8 @@ so that everyone is able to see everyone she knows,
 albeit without necessarily having access to everyone's private contact details as these are controlled via separate access control policies.
 We also consider Dave as a fourth person that has no relationship with anyone else.
 
-For the sake of simplicity, we consider three hierarchical subject access groups (i.e., Everyone, Acquaintances, Friends) per pod (identified  by a unique id), where the members of each group can be configured for each pod:
-<!--
-<em>S<sub>E</sub> : Everyone (without authentication)</em>,
-<em>S<sub>A</sub> : Acquaintances (S<sub>A</sub> $$\subseteq$$ S<sub>E</sub>)</em>, and
-<em>S<sub>F</sub> : Friends (S<sub>F</sub> $$\subseteq$$ S<sub>A</sub>)</em>.
--->
 
-<em>S<span class="supsub"><sup>E</sup><sub><i>id</i></sub></span> : Everyone (without authentication)</em>,
-<em>S<span class="supsub"><sup>A</sup><sub><i>id</i></sub></span> : Acquaintances (S<span class="supsub"><sup>A</sup><sub><i>id</i></sub></span> $$\subseteq$$ S<span class="supsub"><sup>E</sup><sub><i>id</i></sub></span>)</em>, and
-<em>S<span class="supsub"><sup>F</sup><sub><i>id</i></sub></span> : Friends (S<span class="supsub"><sup>F</sup><sub><i>id</i></sub></span> $$\subseteq$$ S<span class="supsub"><sup>A</sup><sub><i>id</i></sub></span>)</em>.
-
-An assertion, of the following form, could be used to indicate that Carol considers Alice to be an acquaintance:
-
-<!--
-_`<https://alice.pods.org/profile#me>` ∈ S<sub>A</sub> ⊆ S<sub>E</sub>_
-{: style="text-align: left"}
-_`<https://alice.pods.org/profile#me>` ∈ S<sub>F</sub> ⊆ S<sub>A</sub> ⊆ S<sub>E</sub>_
-{: style="text-align: left"}
--->
+For the sake of simplicity, we consider three hierarchical subject access groups (i.e., Everyone, Acquaintances, Friends) per pod (identified  by a unique id), where the members of each group can be configured for each pod. An assertion, of the following form, could be used to indicate that Carol considers Alice to be an acquaintance:
 
 _`<https://alice.pods.org/profile#me>` $$\in$$ S<span class="supsub"><sup>A</sup><sub><i>Carol</i></sub></span> $$\subseteq$$ S<span class="supsub"><sup>E</sup><sub><i>Carol</i></sub></span>_
 {: style="text-align: left"}
@@ -39,7 +21,7 @@ An assertion, of the following form, could be used to indicate that Bob consider
 _`<https://alice.pods.org/profile#me>` $$\in$$ S<span class="supsub"><sup>F</sup><sub><i>Bob</i></sub></span> $$\subseteq$$ S<span class="supsub"><sup>A</sup><sub><i>Bob</i></sub></span> $$\subseteq$$ S<span class="supsub"><sup>E</sup><sub><i>Bob</i></sub></span>_
 {: style="text-align: left"}
 
-The data stored in Alices, Bobs and Carols pods, and the various access control rules are depicted in [](#figure-use-case).
+The data stored in pods maintained by Alice, Bob and Carol, and the various access control rules are depicted in [](#figure-use-case).
 
 <figure id="figure-use-case">
 <img src="img/use-case.svg" alt="[Personal Address Book]" class="figure-width-twothird">
@@ -49,7 +31,9 @@ An overview of the proposed personalised address book use case scenario.
 </figure>
 
 Alice uses the `/contacts` file in her pod to list everyone that she knows using WebIDs that point to the profiles of the respective people.
-The profiles of Bob and Carol both contain their name, email and telephone number, which are readable for select people. Access control rules in the form of <em>&lt;subject, action+, object&gt;</em> tuples, can be used by Bob and Carol to restrict access to data stored in their respective pods:
+The profiles of Bob and Carol both contain their name, email and telephone number, which are readable for select people.
+
+Generally speaking, an access control policy is composed of one or more authorisations that are used to state that a given subject (e.g. a user, role, group) is permitted to perform an action (e.g. read, write, share) on a certain object (e.g. dataset, file, graph). Policies are often composed of sets of positive authorisations (permissions) of the form <em>&lt;subject, action, object&gt;</em>. Authorisations of this form could be used by Bob and Carol to restrict access to data stored in their respective pods:
 
 Bob is quite liberal, and allows everyone (_S<span class="supsub"><sup>E</sup><sub><i>Bob</i></sub></span>_) to read both his name and email, however his telephone number can only be accessed by friends (_S<span class="supsub"><sup>F</sup><sub><i>Bob</i></sub></span>_):
 {: #r1}
