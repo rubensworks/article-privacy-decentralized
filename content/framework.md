@@ -15,7 +15,7 @@ Our efficient privacy-preserving federated query execution framework.
 Based on the use case scenario presented in [](#use-case), we assume that many data pods exist, each potentially containing multiple privacy-constrained files and, clients need to authenticate themselves to the respective data pod servers. Depending on each file's access control policy, the client may be authorised to read the full file contents, parts of it, or not at all.
 Since realistic decentralised environments could easily contain hundreds or thousands of files,
 it would be inefficient for the client to query each of them.
-For this reason, we make make use of the [_data summaries_](cite:cites summaries) concept
+For this reason, we make use of the [_data summaries_](cite:cites summaries) concept
 in order to reduce the number of sources that need to be queried by the client.
 We assume that each data pod exposes a data summary for each separate file, which is subsequently aggregated by third-party aggregators, as depicted in [](#figure-privacy-federation-architecture).
 The figure provides an overview of a privacy-preserving federation with six access restricted sources and privacy-preserving summaries, and a third-party aggregator that combines these summaries in a privacy-preserving manner, together with a list of all sources it summarises. Client-side query engines can use this combined summary to derive which sources are relevant for any given query. Since files may contain private data, these data summaries must be _privacy-preserving_,
